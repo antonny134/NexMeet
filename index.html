@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexMeet</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0f0f13;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #18181f;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+.logo span:first-child { color: #007BFF; font-size: 1.5em; font-weight: bold; }
+.logo span:last-child  { color: #28A745; font-size: 1.5em; font-weight: bold; }
+
+.nav-btns { display: flex; gap: 10px; }
+
+.btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s, background 0.2s;
+}
+.btn:hover { opacity: 0.85; }
+.btn-blue  { background: #007BFF; color: #fff; }
+.btn-green { background: #28A745; color: #fff; }
+.btn-ghost { background: transparent; border: 2px solid #007BFF; color: #007BFF; }
+.btn-ghost:hover { background: #007BFF; color: #fff; }
+.btn-red   { background: #dc3545; color: #fff; }
+.btn-icon  { background: #2a2a3a; color: #ccc; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1em; transition: background 0.2s; border: none; }
+.btn-icon:hover { background: #3a3a4a; }
+.btn-icon.off { background: #dc3545; color: #fff; }
+
+/* PÁGINAS */
+.page { display: none; min-height: calc(100vh - 57px); }
+.page.active { display: flex; align-items: center; justify-content: center; }
+
+/* HOME */
+#page-home {
+  flex-direction: column;
+  text-align: center;
+  padding: 60px 20px;
+}
+#page-home h1 { font-size: 2.8em; margin-bottom: 12px; }
+#page-home p  { color: #aaa; font-size: 1.1em; margin-bottom: 40px; }
+.home-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+/* FORMULÁRIO */
+.form-card {
+  background: #18181f;
+  border: 1px solid #2a2a3a;
+  border-radius: 14px;
+  padding: 36px 32px;
+  width: 340px;
+}
+.form-card h2 { text-align: center; margin-bottom: 24px; font-size: 1.4em; }
+.form-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: #0f0f13;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95em;
+  outline: none;
+  transition: border 0.2s;
+}
+.form-card input:focus { border-color: #007BFF; }
+.form-card .btn { width: 100%; justify-content: center; padding: 12px; }
+.form-card .switch { text-align: center; margin-top: 14px; color: #aaa; font-size: 0.88em; }
+.form-card .switch a { color: #007BFF; cursor: pointer; text-decoration: underline; }
+
+/* MEET */
+#page-meet {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+}
+
+.meet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #18181f;
+  border-bottom: 1px solid #2a2a3a;
+}
+.meet-header .room-id { color: #aaa; font-size: 0.85em; }
+.meet-header .room-id span { color: #007BFF; font-weight: bold; }
+
+.videos-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  background: #0f0f13;
+  flex-wrap: wrap;
+  min-height: 400px;
+}
+
+.video-box {
+  position: relative;
+  background: #1a1a22;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #2a2a3a;
+  transition: border 0.3s;
+}
+.video-box.speaking { border-color: #28A745; }
+.video-box video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #111;
+}
+.video-box .label {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  background: rgba(0,0,0,0.65);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.82em;
+}
+.video-box .avatar {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: #555;
+  font-size: 0.9em;
+}
+.avatar-icon { font-size: 3em; color: #333; }
+
+/* tamanho dos vídeos */
+.video-box.local  { width: 300px; height: 220px; }
+.video-box.remote { width: 480px; height: 340px; }
+
+@media (max-width: 700px) {
+  .video-box.local  { width: 140px; height: 110px; }
+  .video-box.remote { width: 100%; height: 240px; }
+  .videos-area { padding: 12px; }
+}
+
+/* STATUS */
+.status-bar {
+  text-align: center;
+  padding: 10px;
+  font-size: 0.85em;
+  color: #aaa;
+  background: #0f0f13;
+}
+.status-bar.waiting { color: #f0ad4e; }
+.status-bar.connected { color: #28A745; }
+
+/* CONTROLES */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px;
+  background: #18181f;
+  border-top: 1px solid #2a2a3a;
+  flex-wrap: wrap;
+}
+
+/* LINK BOX */
+.link-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f0f13;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 8px 14px;
+  max-width: 320px;
+}
+.link-box input {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 0.82em;
+  outline: none;
+  width: 200px;
+}
+.link-box button {
+  background: transparent;
+  border: none;
+  color: #007BFF;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+/* ALERT */
+.alert {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28A745;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 0.95em;
+  z-index: 999;
+  animation: fadeup 0.3s ease;
+}
+@keyframes fadeup {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* WAITING OVERLAY */
+.waiting-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+  flex-direction: column;
+  gap: 8px;
+  color: #aaa;
+  font-size: 0.85em;
+}
+.spinner {
+  width: 28px; height: 28px;
+  border: 3px solid #333;
+  border-top-color: #007BFF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <span>Nex</span><span>Meet</span>
+  </div>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="showPage('login')"><i class="bi bi-box-arrow-in-right"></i> Login</button>
+    <button class="btn btn-green" onclick="showPage('cadastro')"><i class="bi bi-person-plus"></i> Cadastro</button>
+    <button class="btn btn-blue" onclick="initMeet()"><i class="bi bi-camera-video"></i> Entrar na reunião</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <h1><span style="color:#007BFF">Nex</span><span style="color:#28A745">Meet</span></h1>
+  <p>Reuniões de vídeo simples, rápidas e seguras.</p>
+  <div class="home-actions">
+    <button class="btn btn-blue" style="font-size:1em;padding:14px 28px" onclick="initMeet()">
+      <i class="bi bi-camera-video-fill"></i> Criar reunião
+    </button>
+    <button class="btn btn-ghost" style="font-size:1em;padding:14px 28px" onclick="showPage('login')">
+      <i class="bi bi-box-arrow-in-right"></i> Entrar com conta
+    </button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="page-login">
+  <div class="form-card">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Email" required>
+    <input type="password" id="login-senha" placeholder="Senha" required>
+    <button class="btn btn-blue" onclick="fakeLogin()"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
+    <p class="switch">Não tem conta? <a onclick="showPage('cadastro')">Cadastre-se</a></p>
+  </div>
+</div>
+
+<!-- CADASTRO -->
+<div class="page" id="page-cadastro">
+  <div class="form-card">
+    <h2>Cadastro</h2>
+    <input type="text" id="cad-nome" placeholder="Nome Completo" required>
+    <input type="email" id="cad-email" placeholder="Email" required>
+    <input type="password" id="cad-senha" placeholder="Senha" required>
+    <button class="btn btn-green" onclick="fakeCadastro()"><i class="bi bi-person-plus"></i> Registrar</button>
+    <p class="switch">Já tem conta? <a onclick="showPage('login')">Faça login</a></p>
+  </div>
+</div>
+
+<!-- MEET -->
+<div class="page" id="page-meet" style="min-height:calc(100vh - 57px); flex-direction:column;">
+
+  <div class="meet-header">
+    <div class="logo"><span>Nex</span><span>Meet</span></div>
+    <div class="room-id">Sala: <span id="room-label">—</span></div>
+    <div class="link-box">
+      <i class="bi bi-link-45deg" style="color:#007BFF"></i>
+      <input type="text" id="meet-link" readonly>
+      <button onclick="copyLink()" title="Copiar link"><i class="bi bi-clipboard"></i></button>
+    </div>
+  </div>
+
+  <div class="status-bar waiting" id="status-bar">
+    <i class="bi bi-hourglass-split"></i> Aguardando outro participante...
+  </div>
+
+  <div class="videos-area" id="videos-area">
+
+    <!-- REMOTO (maior) -->
+    <div class="video-box remote" id="box-remote">
+      <video id="video-remote" autoplay playsinline></video>
+      <div class="avatar" id="avatar-remote">
+        <i class="bi bi-person-circle avatar-icon"></i>
+        <span>Aguardando participante...</span>
+      </div>
+      <div class="waiting-overlay" id="wait-overlay">
+        <div class="spinner"></div>
+        <span>Conectando...</span>
+      </div>
+      <div class="label">Participante</div>
+    </div>
+
+    <!-- LOCAL (menor) -->
+    <div class="video-box local" id="box-local">
+      <video id="video-local" autoplay playsinline muted></video>
+      <div class="avatar" id="avatar-local">
+        <i class="bi bi-camera-video-off avatar-icon"></i>
+        <span>Câmera desligada</span>
+      </div>
+      <div class="label">Você</div>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button class="btn-icon" id="btn-mic" title="Microfone" onclick="toggleMic()">
+      <i class="bi bi-mic-fill" id="icon-mic"></i>
+    </button>
+    <button class="btn-icon" id="btn-cam" title="Câmera" onclick="toggleCam()">
+      <i class="bi bi-camera-video-fill" id="icon-cam"></i>
+    </button>
+    <button class="btn btn-blue" onclick="startCamera()" id="btn-start">
+      <i class="bi bi-camera-video-fill"></i> Ativar câmera
+    </button>
+    <button class="btn btn-red" onclick="leaveCall()">
+      <i class="bi bi-telephone-x-fill"></i> Encerrar
+    </button>
+  </div>
+</div>
+
+<!-- ALERT TOAST -->
+<div class="alert" id="toast"></div>
+
+<script>
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+}
+
+function toast(msg, color) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color || '#28A745';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+function fakeLogin() {
+  const e = document.getElementById('login-email').value;
+  if (!e) return alert('Preencha o email');
+  toast('Login realizado! Bem-vindo(a).');
+  showPage('home');
+}
+
+function fakeCadastro() {
+  const n = document.getElementById('cad-nome').value;
+  if (!n) return alert('Preencha o nome');
+  toast('Conta criada! Faça login para entrar.');
+  showPage('login');
+}
+
+// ─── MEET ─────────────────────────────────────────────────────
+let localStream = null;
+let peer = null;
+let currentCall = null;
+let micOn = true;
+let camOn = true;
+let roomId = null;
+
+function initMeet() {
+  // Pegar ou criar sala pelo hash da URL
+  const params = new URLSearchParams(window.location.search);
+  roomId = params.get('room');
+
+  if (!roomId) {
+    roomId = Math.random().toString(36).substring(2, 10);
+    history.replaceState(null, '', '?room=' + roomId);
+  }
+
+  document.getElementById('room-label').textContent = roomId;
+  const link = window.location.href;
+  document.getElementById('meet-link').value = link;
+
+  showPage('meet');
+  setupPeer();
+}
+
+function setupPeer() {
+  if (peer) { peer.destroy(); peer = null; }
+
+  peer = new Peer(undefined, {
+    host: '0.peerjs.com',
+    port: 443,
+    secure: true,
+    path: '/'
+  });
+
+  peer.on('open', (myId) => {
+    console.log('Meu peer ID:', myId);
+    // Registrar no canal da sala via BroadcastChannel (funciona na mesma aba/página)
+    // Para conexão real entre dispositivos usamos localStorage + polling ou sinalização
+    signaling_join(myId);
+  });
+
+  peer.on('call', (call) => {
+    console.log('Recebendo chamada...');
+    if (!localStream) {
+      // aceitar sem stream (pode ativar câmera depois)
+      call.answer(localStream || new MediaStream());
+    } else {
+      call.answer(localStream);
+    }
+    currentCall = call;
+    call.on('stream', remoteStream => {
+      showRemoteStream(remoteStream);
+    });
+    call.on('close', () => remoteDisconnected());
+    call.on('error', () => remoteDisconnected());
+  });
+
+  peer.on('error', (err) => {
+    console.error('PeerJS erro:', err);
+  });
+}
+
+// ─── SINALIZAÇÃO SIMPLES via localStorage + polling ──────────
+// Funciona entre abas/janelas do mesmo navegador e também
+// entre dispositivos se hospedado em servidor (ex: GitHub Pages)
+// Para produção real: usar Firebase/Supabase/WebSocket como sinalização.
+
+const SIG_KEY = () => 'nexmeet_room_' + roomId;
+
+function signaling_join(myId) {
+  const key = SIG_KEY();
+  const data = JSON.parse(localStorage.getItem(key) || '{}');
+
+  if (!data.host) {
+    // Sou o host
+    data.host = myId;
+    data.guest = null;
+    data.ts = Date.now();
+    localStorage.setItem(key, JSON.stringify(data));
+    console.log('Sou HOST, aguardando guest...');
+    pollForGuest(myId);
+  } else if (data.host !== myId && !data.guest) {
+    // Sou o guest
+    data.guest = myId;
+    data.ts = Date.now();
+    localStorage.setItem(key, JSON.stringify(data));
+    console.log('Sou GUEST, chamando host:', data.host);
+    callPeer(data.host);
+  } else if (data.host === myId) {
+    // Recarregou como host, aguarda
+    console.log('Host reconectado, aguardando...');
+    pollForGuest(myId);
+  } else {
+    // Sala cheia ou já conectado
+    toast('Sala ocupada ou você já está conectado.', '#dc3545');
+  }
+}
+
+function pollForGuest(myId) {
+  const interval = setInterval(() => {
+    const data = JSON.parse(localStorage.getItem(SIG_KEY()) || '{}');
+    if (data.guest && data.guest !== myId) {
+      clearInterval(interval);
+      console.log('Guest encontrado:', data.guest);
+      // Não chama: o guest chama o host
+      // Mas podemos sinalizar reconexão aqui se necessário
+    }
+    // Limpar sala antiga (> 2h)
+    if (data.ts && Date.now() - data.ts > 7200000) {
+      localStorage.removeItem(SIG_KEY());
+      clearInterval(interval);
+    }
+  }, 1500);
+}
+
+function callPeer(hostId) {
+  showWaiting(true);
+  // Se tiver stream, chama direto; senão espera o usuário ativar câmera
+  if (localStream) {
+    doCall(hostId);
+  } else {
+    // Guarda o host para chamar quando ativar câmera
+    window._pendingHost = hostId;
+  }
+}
+
+function doCall(hostId) {
+  showWaiting(true);
+  const stream = localStream || new MediaStream();
+  const call = peer.call(hostId, stream);
+  currentCall = call;
+  call.on('stream', remoteStream => {
+    showWaiting(false);
+    showRemoteStream(remoteStream);
+  });
+  call.on('close', () => remoteDisconnected());
+  call.on('error', () => remoteDisconnected());
+}
+
+// ─── CÂMERA ───────────────────────────────────────────────────
+async function startCamera() {
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    const vl = document.getElementById('video-local');
+    vl.srcObject = localStream;
+    document.getElementById('avatar-local').style.display = 'none';
+    document.getElementById('btn-start').style.display = 'none';
+
+    // Se havia host aguardando chamada
+    if (window._pendingHost) {
+      doCall(window._pendingHost);
+      window._pendingHost = null;
+    }
+
+    // Substituir stream na chamada atual (se conectado)
+    if (currentCall && currentCall.peerConnection) {
+      const senders = currentCall.peerConnection.getSenders();
+      const vTrack = localStream.getVideoTracks()[0];
+      const aTrack = localStream.getAudioTracks()[0];
+      senders.forEach(s => {
+        if (s.track && s.track.kind === 'video' && vTrack) s.replaceTrack(vTrack);
+        if (s.track && s.track.kind === 'audio' && aTrack) s.replaceTrack(aTrack);
+      });
+    }
+
+    toast('Câmera ativada!');
+  } catch (e) {
+    toast('Erro ao acessar câmera: ' + e.message, '#dc3545');
+  }
+}
+
+function toggleMic() {
+  if (!localStream) return;
+  micOn = !micOn;
+  localStream.getAudioTracks().forEach(t => t.enabled = micOn);
+  document.getElementById('icon-mic').className = micOn ? 'bi bi-mic-fill' : 'bi bi-mic-mute-fill';
+  document.getElementById('btn-mic').classList.toggle('off', !micOn);
+}
+
+function toggleCam() {
+  if (!localStream) return;
+  camOn = !camOn;
+  localStream.getVideoTracks().forEach(t => t.enabled = camOn);
+  document.getElementById('icon-cam').className = camOn ? 'bi bi-camera-video-fill' : 'bi bi-camera-video-off-fill';
+  document.getElementById('btn-cam').classList.toggle('off', !camOn);
+  document.getElementById('avatar-local').style.display = camOn ? 'none' : 'flex';
+}
+
+function showRemoteStream(stream) {
+  const vr = document.getElementById('video-remote');
+  vr.srcObject = stream;
+  document.getElementById('avatar-remote').style.display = 'none';
+  showWaiting(false);
+  const sb = document.getElementById('status-bar');
+  sb.textContent = '✅ Participante conectado';
+  sb.className = 'status-bar connected';
+  toast('Participante entrou na reunião!');
+}
+
+function showWaiting(show) {
+  document.getElementById('wait-overlay').style.display = show ? 'flex' : 'none';
+}
+
+function remoteDisconnected() {
+  document.getElementById('video-remote').srcObject = null;
+  document.getElementById('avatar-remote').style.display = 'flex';
+  const sb = document.getElementById('status-bar');
+  sb.textContent = '⏳ Participante saiu. Aguardando...';
+  sb.className = 'status-bar waiting';
+  currentCall = null;
+  toast('Participante desconectado.', '#f0ad4e');
+}
+
+function leaveCall() {
+  if (currentCall) currentCall.close();
+  if (localStream) localStream.getTracks().forEach(t => t.stop());
+  if (peer) peer.destroy();
+  localStorage.removeItem(SIG_KEY());
+  history.replaceState(null, '', window.location.pathname);
+  localStream = null; peer = null; currentCall = null;
+  showPage('home');
+}
+
+function copyLink() {
+  const link = document.getElementById('meet-link').value;
+  navigator.clipboard.writeText(link).then(() => toast('Link copiado! Compartilhe para convidar.'));
+}
+
+// ─── AUTO-ENTRAR SE VIER COM ?room= ──────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('room')) {
+    initMeet();
+  }
+});
+</script>
+</body>
+</html>
