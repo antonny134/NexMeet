@@ -17,21 +17,34 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .btn-blue{background:#007BFF;color:#fff;}
 .btn-green{background:#28A745;color:#fff;}
 .btn-red{background:#dc3545;color:#fff;}
-.btn-orange{background:#fd7e14;color:#fff;}
 .btn-ghost{background:transparent;border:2px solid #007BFF;color:#007BFF;}
 .btn-ghost:hover{background:#007BFF;color:#fff;}
+.btn-gray{background:#2a2a3a;color:#ccc;}
+.btn-gray:hover{background:#3a3a4a;}
 .page{display:none;min-height:calc(100vh - 57px);}
 .page.active{display:flex;align-items:center;justify-content:center;}
 #page-home{flex-direction:column;text-align:center;padding:60px 20px;}
 #page-home h1{font-size:2.6em;margin-bottom:10px;}
 #page-home p{color:#aaa;margin-bottom:36px;}
-.fcard{background:#18181f;border:1px solid #2a2a3a;border-radius:14px;padding:36px 32px;width:340px;}
-.fcard h2{text-align:center;margin-bottom:22px;}
-.fcard input{width:100%;padding:12px;margin-bottom:12px;background:#0f0f13;border:1px solid #2a2a3a;border-radius:8px;color:#fff;outline:none;font-size:.95em;}
+
+/* CARD DE FORMULÁRIO */
+.fcard{background:#18181f;border:1px solid #2a2a3a;border-radius:14px;padding:36px 32px;width:360px;max-width:calc(100vw - 32px);}
+.fcard h2{text-align:center;margin-bottom:6px;}
+.fcard .sub{text-align:center;color:#666;font-size:.85em;margin-bottom:22px;}
+.fcard label{display:block;font-size:.8em;color:#aaa;margin-bottom:4px;margin-top:4px;}
+.fcard input{width:100%;padding:12px;margin-bottom:4px;background:#0f0f13;border:1px solid #2a2a3a;border-radius:8px;color:#fff;outline:none;font-size:.95em;transition:border-color .2s;}
 .fcard input:focus{border-color:#007BFF;}
-.fcard .btn{width:100%;justify-content:center;}
-.fcard .sw{text-align:center;margin-top:12px;color:#aaa;font-size:.85em;}
+.fcard input.err{border-color:#dc3545;}
+.field-err{color:#dc3545;font-size:.78em;min-height:18px;margin-bottom:6px;display:block;}
+.fcard .btn{width:100%;justify-content:center;margin-top:8px;}
+.fcard .sw{text-align:center;margin-top:14px;color:#aaa;font-size:.85em;}
 .fcard .sw a{color:#007BFF;cursor:pointer;text-decoration:underline;}
+
+/* AVATAR NO NAV */
+nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
+.nav-user{display:flex;align-items:center;gap:8px;background:#2a2a3a;border-radius:30px;padding:6px 14px 6px 8px;font-size:.85em;cursor:default;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;color:#fff;flex-shrink:0;}
+.nav-user-name{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 /* MEET */
 #page-meet{flex-direction:column;align-items:stretch;}
@@ -44,111 +57,51 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .statusbar.connected{color:#28A745;}
 .statusbar.error{color:#dc3545;}
 
-/* GRID DE VÍDEOS DINÂMICO */
-.videos{
-  flex:1;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:12px;
-  padding:16px;
-  background:#0f0f13;
-  align-items:start;
-  min-height:360px;
-}
-/* Quando há só 1 vídeo (local), centraliza */
-.videos.solo{
-  grid-template-columns:1fr;
-  justify-items:center;
-}
-/* 2 participantes: lado a lado */
-.videos.duo{
-  grid-template-columns:1fr 1fr;
-}
-/* 3-4: 2 colunas */
-.videos.quad{
-  grid-template-columns:repeat(2,1fr);
-}
-/* 5+: 3 colunas */
-.videos.multi{
-  grid-template-columns:repeat(3,1fr);
-}
-
-.vbox{
-  position:relative;
-  background:#1a1a22;
-  border-radius:14px;
-  overflow:hidden;
-  border:2px solid #2a2a3a;
-  width:100%;
-  aspect-ratio:16/9;
-  transition:border-color .2s;
-}
-.vbox.speaking{
-  border-color:#28A745;
-  box-shadow:0 0 0 2px rgba(40,167,69,.35);
-}
+/* GRADE DE VÍDEOS */
+.videos{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;padding:16px;background:#0f0f13;align-items:start;min-height:360px;}
+.videos.solo{grid-template-columns:1fr;justify-items:center;}
+.videos.duo{grid-template-columns:1fr 1fr;}
+.videos.quad{grid-template-columns:repeat(2,1fr);}
+.videos.multi{grid-template-columns:repeat(3,1fr);}
+.vbox{position:relative;background:#1a1a22;border-radius:14px;overflow:hidden;border:2px solid #2a2a3a;width:100%;aspect-ratio:16/9;transition:border-color .2s;}
+.vbox.speaking{border-color:#28A745;box-shadow:0 0 0 2px rgba(40,167,69,.35);}
 .vbox video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
 .vbox .lbl{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.65);padding:3px 10px;border-radius:6px;font-size:.8em;display:flex;align-items:center;gap:5px;z-index:5;}
 .vbox .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#555;font-size:.85em;z-index:2;}
+.vbox .av-circle{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4em;font-weight:700;color:#fff;}
 .vbox.local-box{border-color:#007BFF33;}
-
-/* BADGE MUTADO */
 .badge-muted{background:#dc3545;color:#fff;font-size:.7em;padding:2px 7px;border-radius:6px;display:none;}
 .badge-muted.show{display:inline-block;}
-
-/* CONTROLES HOST sobre o participante */
-.host-controls{
-  position:absolute;top:8px;right:8px;
-  display:none;flex-direction:column;gap:5px;z-index:10;
-}
+.host-controls{position:absolute;top:8px;right:8px;display:none;flex-direction:column;gap:5px;z-index:10;}
 .vbox:hover .host-controls{display:flex;}
 .hbtn{padding:5px 10px;border:none;border-radius:7px;font-size:.75em;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;opacity:.92;transition:opacity .2s;}
 .hbtn:hover{opacity:1;}
 .hbtn-mute{background:#fd7e14;color:#fff;}
 .hbtn-kick{background:#dc3545;color:#fff;}
-
-/* Spinner */
 .spinner{width:28px;height:28px;border:3px solid #333;border-top-color:#007BFF;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* CONTROLES INFERIORES */
 .controls{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 20px;background:#18181f;border-top:1px solid #2a2a3a;flex-wrap:wrap;}
 .cicon{width:44px;height:44px;border-radius:50%;background:#2a2a3a;border:none;color:#ccc;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .cicon:hover{background:#3a3a4a;}
 .cicon.off{background:#dc3545;color:#fff;}
 .cicon.active-screen{background:#007BFF;color:#fff;}
-
-/* PREVIEW DA TELA */
-#screenPreview{
-  display:none;position:fixed;bottom:100px;right:20px;width:240px;height:140px;
-  background:#0a0a10;border-radius:10px;border:2px solid #007BFF;overflow:hidden;
-  z-index:500;box-shadow:0 4px 20px rgba(0,123,255,.35);cursor:move;user-select:none;
-}
+#screenPreview{display:none;position:fixed;bottom:100px;right:20px;width:240px;height:140px;background:#0a0a10;border-radius:10px;border:2px solid #007BFF;overflow:hidden;z-index:500;box-shadow:0 4px 20px rgba(0,123,255,.35);cursor:move;user-select:none;}
 #screenPreview video{width:100%;height:100%;object-fit:contain;background:#000;}
 #screenPreview .prev-label{position:absolute;top:6px;left:8px;background:rgba(0,123,255,.85);color:#fff;font-size:.7em;font-weight:600;padding:2px 8px;border-radius:5px;pointer-events:none;}
 #screenPreview .prev-close{position:absolute;top:5px;right:6px;background:rgba(220,53,69,.85);color:#fff;border:none;border-radius:5px;font-size:.75em;padding:2px 7px;cursor:pointer;font-weight:600;}
-
 .toast-el{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#28A745;color:#fff;padding:10px 22px;border-radius:10px;font-size:.9em;z-index:999;white-space:nowrap;}
-
 .host-badge{background:#007BFF;color:#fff;font-size:.7em;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle;}
-
-/* Contador de participantes */
 .part-count{background:#2a2a3a;border-radius:20px;padding:5px 14px;font-size:.82em;color:#aaa;display:flex;align-items:center;gap:6px;}
 .part-count span{color:#fff;font-weight:700;}
-
-@media(max-width:680px){
-  .videos{grid-template-columns:1fr!important;padding:8px;gap:8px;}
-}
+@media(max-width:680px){.videos{grid-template-columns:1fr!important;padding:8px;gap:8px;}}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="logo"><span class="a">Nex</span><span class="b">Meet</span></div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;">
-    <button class="btn btn-ghost" onclick="showPage('login')"><i class="bi bi-box-arrow-in-right"></i> Login</button>
-    <button class="btn btn-green" onclick="showPage('cadastro')"><i class="bi bi-person-plus"></i> Cadastro</button>
-    <button class="btn btn-blue" onclick="criarSala()"><i class="bi bi-camera-video"></i> Nova reunião</button>
+  <div id="navBtns" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <!-- Preenchido pelo JS conforme estado de login -->
   </div>
 </nav>
 
@@ -166,23 +119,38 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 <!-- LOGIN -->
 <div class="page" id="page-login">
   <div class="fcard">
-    <h2>Login</h2>
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Senha">
-    <button class="btn btn-blue" onclick="showToast('Login realizado!');showPage('home')"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
-    <p class="sw">Sem conta? <a onclick="showPage('cadastro')">Cadastre-se</a></p>
+    <h2>Entrar</h2>
+    <p class="sub">Bem-vindo de volta ao NexMeet</p>
+    <label for="loginEmail">Email</label>
+    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email">
+    <span class="field-err" id="errLoginEmail"></span>
+    <label for="loginSenha">Senha</label>
+    <input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password">
+    <span class="field-err" id="errLoginSenha"></span>
+    <button class="btn btn-blue" onclick="fazerLogin()"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
+    <p class="sw">Sem conta? <a onclick="showPage('cadastro')">Cadastre-se grátis</a></p>
   </div>
 </div>
 
 <!-- CADASTRO -->
 <div class="page" id="page-cadastro">
   <div class="fcard">
-    <h2>Cadastro</h2>
-    <input type="text" placeholder="Nome Completo">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Senha">
-    <button class="btn btn-green" onclick="showToast('Conta criada!');showPage('login')"><i class="bi bi-person-plus"></i> Registrar</button>
-    <p class="sw">Já tem conta? <a onclick="showPage('login')">Login</a></p>
+    <h2>Criar conta</h2>
+    <p class="sub">Comece a usar o NexMeet gratuitamente</p>
+    <label for="cadNome">Nome completo</label>
+    <input type="text" id="cadNome" placeholder="Seu nome" autocomplete="name">
+    <span class="field-err" id="errCadNome"></span>
+    <label for="cadEmail">Email</label>
+    <input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email">
+    <span class="field-err" id="errCadEmail"></span>
+    <label for="cadSenha">Senha</label>
+    <input type="password" id="cadSenha" placeholder="Mín. 6 caracteres" autocomplete="new-password">
+    <span class="field-err" id="errCadSenha"></span>
+    <label for="cadSenha2">Confirmar senha</label>
+    <input type="password" id="cadSenha2" placeholder="Repita a senha" autocomplete="new-password">
+    <span class="field-err" id="errCadSenha2"></span>
+    <button class="btn btn-green" onclick="fazerCadastro()"><i class="bi bi-person-plus"></i> Criar conta</button>
+    <p class="sw">Já tem conta? <a onclick="showPage('login')">Fazer login</a></p>
   </div>
 </div>
 
@@ -203,34 +171,17 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
     </div>
     <button class="btn btn-red" onclick="sair()"><i class="bi bi-telephone-x-fill"></i> Sair</button>
   </div>
-
-  <div class="statusbar waiting" id="statusBar">
-    <span id="statusTxt">A conectar...</span>
-  </div>
-
-  <!-- GRADE DE VÍDEOS (preenchida dinamicamente) -->
+  <div class="statusbar waiting" id="statusBar"><span id="statusTxt">A conectar...</span></div>
   <div class="videos solo" id="videosArea"></div>
-
-  <!-- BARRA DE CONTROLES -->
   <div class="controls">
-    <button class="cicon" id="btnMic" onclick="toggleMic()" title="Microfone">
-      <i class="bi bi-mic-fill" id="icoMic"></i>
-    </button>
-    <button class="cicon" id="btnCam" onclick="toggleCam()" title="Câmera">
-      <i class="bi bi-camera-video-fill" id="icoCam"></i>
-    </button>
-    <button class="cicon" id="btnTela" onclick="toggleTela()" title="Compartilhar tela" style="display:none">
-      <i class="bi bi-display" id="icoTela"></i>
-    </button>
-    <button class="btn btn-blue" id="btnAtiv" onclick="ativarCamera()">
-      <i class="bi bi-camera-video-fill"></i> Ativar câmera
-    </button>
+    <button class="cicon" id="btnMic" onclick="toggleMic()" title="Microfone"><i class="bi bi-mic-fill" id="icoMic"></i></button>
+    <button class="cicon" id="btnCam" onclick="toggleCam()" title="Câmera"><i class="bi bi-camera-video-fill" id="icoCam"></i></button>
+    <button class="cicon" id="btnTela" onclick="toggleTela()" title="Compartilhar tela" style="display:none"><i class="bi bi-display" id="icoTela"></i></button>
+    <button class="btn btn-blue" id="btnAtiv" onclick="ativarCamera()"><i class="bi bi-camera-video-fill"></i> Ativar câmera</button>
   </div>
 </div>
 
 <div class="toast-el" id="toastEl"></div>
-
-<!-- PREVIEW FLUTUANTE (compartilhamento de tela) -->
 <div id="screenPreview">
   <video id="screenPreviewVideo" autoplay playsinline></video>
   <div class="prev-label"><i class="bi bi-display-fill"></i> Sua tela</div>
@@ -238,38 +189,178 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 </div>
 
 <script>
-/*
-  ╔══════════════════════════════════════════════════════╗
-  ║  NexMeet — arquitetura mesh para N participantes     ║
-  ║                                                      ║
-  ║  Topologia:                                          ║
-  ║  • Host registra-se como "nexmeet-<ROOM>-host"       ║
-  ║  • Cada guest recebe ID aleatório do PeerJS          ║
-  ║  • Host mantém lista de todos os IDs (via DataConn)  ║
-  ║  • Quando um novo guest entra, host envia a lista    ║
-  ║    de peers existentes para todos → cada um liga     ║
-  ║    peer-to-peer (mesh completo)                      ║
-  ║  • Suporte a até ~6 participantes (WebRTC P2P)       ║
-  ╚══════════════════════════════════════════════════════╝
-*/
+// ═══════════════════════════════════════════════════════════════
+//  AUTH — localStorage simples (sem servidor)
+//  Estrutura: nexmeet_users = [ { nome, email, senha, cor } ]
+//             nexmeet_session = { email, nome, cor }
+// ═══════════════════════════════════════════════════════════════
 
-var peer = null;
-var localStream = null;
-var screenStream = null;
-var myPeerId = null;
-var souHost = false;
-var roomId = null;
-var hostId = null;
-var micOn = true;
-var camOn = true;
-var compartilhandoTela = false;
+var USERS_KEY = 'nexmeet_users';
+var SESSION_KEY = 'nexmeet_session';
 
-// Mapa de conexões ativas: peerId → { call, dataConn, stream, muted }
-var peers = {};
+// Cores de avatar para novos usuários
+var AVATAR_COLORS = ['#007BFF','#28A745','#e91e63','#9c27b0','#ff5722','#009688','#f44336','#3f51b5'];
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch(e) { return []; }
+}
+function saveUsers(arr) {
+  localStorage.setItem(USERS_KEY, JSON.stringify(arr));
+}
+function getSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch(e) { return null; }
+}
+function saveSession(user) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+}
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+function currentUser() {
+  return getSession();
+}
+
+// ─── Validação ────────────────────────────────────────────────
+
+function validarEmail(e) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
+}
+function clearErrors() {
+  document.querySelectorAll('.field-err').forEach(function(el){ el.textContent = ''; });
+  document.querySelectorAll('.fcard input').forEach(function(el){ el.classList.remove('err'); });
+}
+function setErr(id, msg, inputId) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = msg;
+  if (inputId) { var inp = document.getElementById(inputId); if (inp) inp.classList.add('err'); }
+}
+
+// ─── Cadastro ────────────────────────────────────────────────
+
+function fazerCadastro() {
+  clearErrors();
+  var nome   = document.getElementById('cadNome').value.trim();
+  var email  = document.getElementById('cadEmail').value.trim().toLowerCase();
+  var senha  = document.getElementById('cadSenha').value;
+  var senha2 = document.getElementById('cadSenha2').value;
+  var ok = true;
+
+  if (!nome) { setErr('errCadNome','Nome é obrigatório','cadNome'); ok=false; }
+  else if (nome.length < 2) { setErr('errCadNome','Nome muito curto','cadNome'); ok=false; }
+
+  if (!email) { setErr('errCadEmail','Email é obrigatório','cadEmail'); ok=false; }
+  else if (!validarEmail(email)) { setErr('errCadEmail','Email inválido','cadEmail'); ok=false; }
+
+  if (!senha) { setErr('errCadSenha','Senha é obrigatória','cadSenha'); ok=false; }
+  else if (senha.length < 6) { setErr('errCadSenha','Mínimo 6 caracteres','cadSenha'); ok=false; }
+
+  if (!senha2) { setErr('errCadSenha2','Confirme a senha','cadSenha2'); ok=false; }
+  else if (senha !== senha2) { setErr('errCadSenha2','As senhas não coincidem','cadSenha2'); ok=false; }
+
+  if (!ok) return;
+
+  var users = getUsers();
+  if (users.find(function(u){ return u.email === email; })) {
+    setErr('errCadEmail','Este email já está cadastrado','cadEmail');
+    return;
+  }
+
+  var cor = AVATAR_COLORS[users.length % AVATAR_COLORS.length];
+  var novoUser = { nome: nome, email: email, senha: senha, cor: cor };
+  users.push(novoUser);
+  saveUsers(users);
+  saveSession({ nome: nome, email: email, cor: cor });
+
+  // Limpa campos
+  ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){ document.getElementById(id).value=''; });
+
+  showToast('Conta criada! Bem-vindo, ' + nome.split(' ')[0] + '!');
+  renderNav();
+  showPage('home');
+}
+
+// ─── Login ────────────────────────────────────────────────────
+
+function fazerLogin() {
+  clearErrors();
+  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  var senha = document.getElementById('loginSenha').value;
+  var ok = true;
+
+  if (!email) { setErr('errLoginEmail','Email é obrigatório','loginEmail'); ok=false; }
+  else if (!validarEmail(email)) { setErr('errLoginEmail','Email inválido','loginEmail'); ok=false; }
+  if (!senha) { setErr('errLoginSenha','Senha é obrigatória','loginSenha'); ok=false; }
+  if (!ok) return;
+
+  var users = getUsers();
+  var user = users.find(function(u){ return u.email === email && u.senha === senha; });
+
+  if (!user) {
+    // Distingue email não encontrado vs senha errada (UX melhor)
+    var existe = users.find(function(u){ return u.email === email; });
+    if (!existe) {
+      setErr('errLoginEmail','Nenhuma conta com este email','loginEmail');
+    } else {
+      setErr('errLoginSenha','Senha incorreta','loginSenha');
+    }
+    return;
+  }
+
+  saveSession({ nome: user.nome, email: user.email, cor: user.cor });
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginSenha').value = '';
+  showToast('Bem-vindo de volta, ' + user.nome.split(' ')[0] + '!');
+  renderNav();
+  showPage('home');
+}
+
+// ─── Logout ───────────────────────────────────────────────────
+
+function fazerLogout() {
+  clearSession();
+  showToast('Até logo!', '#666');
+  renderNav();
+  showPage('home');
+}
+
+// ─── NAV dinâmica ────────────────────────────────────────────
+
+function inicialNome(nome) {
+  var partes = nome.trim().split(' ');
+  if (partes.length >= 2) return (partes[0][0] + partes[partes.length-1][0]).toUpperCase();
+  return partes[0].substring(0,2).toUpperCase();
+}
+
+function renderNav() {
+  var nav = document.getElementById('navBtns');
+  var user = currentUser();
+  if (user) {
+    // Logado: mostra avatar + nome + botão sair
+    nav.innerHTML =
+      '<div class="nav-user">' +
+        '<div class="nav-avatar" style="background:' + (user.cor||'#007BFF') + '">' + inicialNome(user.nome) + '</div>' +
+        '<span class="nav-user-name">' + user.nome.split(' ')[0] + '</span>' +
+      '</div>' +
+      '<button class="btn btn-gray" onclick="fazerLogout()"><i class="bi bi-box-arrow-right"></i> Sair</button>' +
+      '<button class="btn btn-blue" onclick="criarSala()"><i class="bi bi-camera-video"></i> Nova reunião</button>';
+  } else {
+    // Deslogado: login, cadastro, nova reunião
+    nav.innerHTML =
+      '<button class="btn btn-ghost" onclick="showPage(\'login\')"><i class="bi bi-box-arrow-in-right"></i> Login</button>' +
+      '<button class="btn btn-green" onclick="showPage(\'cadastro\')"><i class="bi bi-person-plus"></i> Cadastro</button>' +
+      '<button class="btn btn-blue" onclick="criarSala()"><i class="bi bi-camera-video"></i> Nova reunião</button>';
+  }
+}
 
 // ─── UI ──────────────────────────────────────────────────────
 
 function showPage(n) {
+  // Se tentar ir para login/cadastro estando logado → redireciona para home
+  var user = currentUser();
+  if (user && (n === 'login' || n === 'cadastro')) {
+    showToast('Você já está logado como ' + user.nome.split(' ')[0], '#007BFF');
+    n = 'home';
+  }
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('page-' + n).classList.add('active');
 }
@@ -280,7 +371,7 @@ function showToast(msg, color) {
   t.style.background = color || '#28A745';
   t.style.display = 'block';
   clearTimeout(t._t);
-  t._t = setTimeout(function(){ t.style.display = 'none'; }, 3000);
+  t._t = setTimeout(function(){ t.style.display = 'none'; }, 3200);
 }
 
 function setStatus(msg, cls) {
@@ -288,8 +379,26 @@ function setStatus(msg, cls) {
   document.getElementById('statusBar').className = 'statusbar ' + cls;
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  WEBRTC / MEET
+// ═══════════════════════════════════════════════════════════════
+
+var peer = null, localStream = null, screenStream = null;
+var myPeerId = null, souHost = false, roomId = null, hostId = null;
+var micOn = true, camOn = true, compartilhandoTela = false;
+var peers = {};
+
+function nomeLocal() {
+  var u = currentUser();
+  return u ? u.nome.split(' ')[0] : 'Você';
+}
+function corLocal() {
+  var u = currentUser();
+  return u ? (u.cor || '#007BFF') : '#007BFF';
+}
+
 function atualizarContador() {
-  var total = Object.keys(peers).length + 1; // +1 = eu mesmo
+  var total = Object.keys(peers).filter(function(k){ return peers[k] !== null; }).length + 1;
   document.getElementById('partCount').textContent = total;
   var area = document.getElementById('videosArea');
   area.className = 'videos';
@@ -299,22 +408,21 @@ function atualizarContador() {
   else area.classList.add('multi');
 }
 
-// ─── VÍDEO LOCAL ─────────────────────────────────────────────
-
 function criarVboxLocal() {
   var area = document.getElementById('videosArea');
-  // Evita duplicar
   if (document.getElementById('vbox-local')) return;
+  var ini = inicialNome(nomeLocal());
+  var cor = corLocal();
   var div = document.createElement('div');
   div.className = 'vbox local-box';
   div.id = 'vbox-local';
   div.innerHTML =
     '<video id="videoLocal" autoplay playsinline muted></video>' +
     '<div class="placeholder" id="placeholderLocal">' +
-      '<i class="bi bi-camera-video-off" style="font-size:2.5em;color:#333"></i>' +
-      '<span>Câmera off</span>' +
+      '<div class="av-circle" style="background:' + cor + '">' + ini + '</div>' +
+      '<span style="margin-top:4px">' + nomeLocal() + '</span>' +
     '</div>' +
-    '<div class="lbl"><i class="bi bi-person-fill"></i> Você' +
+    '<div class="lbl"><i class="bi bi-person-fill"></i> ' + nomeLocal() +
       (souHost ? ' <span class="host-badge" style="font-size:.65em">HOST</span>' : '') +
     '</div>';
   area.appendChild(div);
@@ -324,29 +432,30 @@ function criarVboxLocal() {
   }
 }
 
-// ─── VÍDEO REMOTO ─────────────────────────────────────────────
-
-function criarVboxRemoto(pid, nome) {
+function criarVboxRemoto(pid, nome, cor) {
   if (document.getElementById('vbox-' + pid)) return;
   var area = document.getElementById('videosArea');
   var isHost = (pid === hostId);
+  var nomeExib = nome || (isHost ? 'Host' : 'Participante');
+  var bgCor = cor || '#555';
+  var ini = inicialNome(nomeExib);
   var div = document.createElement('div');
   div.className = 'vbox';
   div.id = 'vbox-' + pid;
   div.innerHTML =
     '<video autoplay playsinline id="vid-' + pid + '"></video>' +
     '<div class="placeholder" id="ph-' + pid + '">' +
-      '<div class="spinner"></div>' +
-      '<span>Conectando...</span>' +
+      '<div class="av-circle" style="background:' + bgCor + '">' + ini + '</div>' +
+      '<span style="margin-top:4px;color:#aaa">' + nomeExib + '</span>' +
     '</div>' +
     '<div class="lbl">' +
-      '<span id="lblnome-' + pid + '">' + (nome || 'Participante') + (isHost ? ' <span class="host-badge" style="font-size:.65em">HOST</span>' : '') + '</span>' +
+      '<span id="lblnome-' + pid + '">' + nomeExib + (isHost ? ' <span class="host-badge" style="font-size:.65em">HOST</span>' : '') + '</span>' +
       '<span class="badge-muted" id="bm-' + pid + '"><i class="bi bi-mic-mute-fill"></i></span>' +
     '</div>' +
     (souHost ? '<div class="host-controls" id="hc-' + pid + '">' +
       '<button class="hbtn hbtn-mute" onclick="toggleMuteGuest(\'' + pid + '\')"><i class="bi bi-mic-mute-fill"></i> Mutar</button>' +
       '<button class="hbtn hbtn-kick" onclick="kickGuest(\'' + pid + '\')"><i class="bi bi-person-x-fill"></i> Remover</button>' +
-    '</div>' : '') ;
+    '</div>' : '');
   area.appendChild(div);
   atualizarContador();
 }
@@ -382,12 +491,10 @@ function criarSala() {
 
 function pedirCameraEConectar() {
   setStatus('A conectar...', 'waiting');
-
   var pCamera = navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then(function(stream) {
       localStream = stream;
       document.getElementById('btnAtiv').style.display = 'none';
-      // Atualiza vídeo local se já existir
       var vl = document.getElementById('videoLocal');
       if (vl) { vl.srcObject = stream; document.getElementById('placeholderLocal').style.display = 'none'; }
     })
@@ -396,19 +503,10 @@ function pedirCameraEConectar() {
   var pPeer = new Promise(function(resolve) {
     if (peer) { peer.destroy(); peer = null; }
     peer = new Peer(hostId);
-    peer.on('open', function(id) {
-      myPeerId = id;
-      souHost = true;
-      resolve('host');
-    });
+    peer.on('open', function(id) { myPeerId = id; souHost = true; resolve('host'); });
     peer.on('error', function(err) {
-      if (err.type === 'unavailable-id') {
-        peer.destroy();
-        resolve('guest');
-      } else {
-        setStatus('Erro: ' + err.type, 'error');
-        resolve('error');
-      }
+      if (err.type === 'unavailable-id') { peer.destroy(); resolve('guest'); }
+      else { setStatus('Erro: ' + err.type, 'error'); resolve('error'); }
     });
   });
 
@@ -419,61 +517,63 @@ function pedirCameraEConectar() {
   });
 }
 
-// ─── HOST ─────────────────────────────────────────────────────
-
 function ativarModoHost() {
   document.getElementById('hostBadge').style.display = 'inline-block';
   document.getElementById('btnTela').style.display = 'flex';
   setStatus('Sala criada! Aguardando participantes...', 'waiting');
-  peers['__host_self__'] = null; // marcador para o host não contar a si mesmo
+  peers['__host_self__'] = null;
+}
+
+function infoLocal() {
+  var u = currentUser();
+  return { nome: u ? u.nome.split(' ')[0] : 'Usuário', cor: u ? (u.cor||'#007BFF') : '#007BFF' };
 }
 
 function escutarConexoes() {
-  // Escuta chamadas de vídeo de novos guests
   peer.on('call', function(call) {
     var pid = call.peer;
-    if (!peers[pid]) peers[pid] = { call: null, dataConn: null, stream: null, muted: false };
+    if (!peers[pid]) peers[pid] = { call: null, dataConn: null, stream: null, muted: false, nome: 'Participante', cor: '#555' };
     call.answer(localStream || new MediaStream());
     peers[pid].call = call;
-    call.on('stream', function(s) {
-      peers[pid].stream = s;
-      mostrarStreamRemoto(pid, s);
-    });
+    call.on('stream', function(s) { peers[pid].stream = s; mostrarStreamRemoto(pid, s); });
     call.on('close', function() { removerVboxRemoto(pid); showToast('Participante saiu', '#f0ad4e'); });
-    call.on('error', function(e) { console.error('call error', e); });
     setStatus('Participante(s) conectado(s)', 'connected');
   });
 
-  // Escuta canal de dados: novo guest se anuncia
   peer.on('connection', function(conn) {
     var pid = conn.peer;
-    if (!peers[pid]) peers[pid] = { call: null, dataConn: null, stream: null, muted: false };
+    if (!peers[pid]) peers[pid] = { call: null, dataConn: null, stream: null, muted: false, nome: 'Participante', cor: '#555' };
     peers[pid].dataConn = conn;
 
     conn.on('open', function() {
-      // Envia a lista de todos os peers ativos (exceto o próprio guest e o marcador)
       var lista = Object.keys(peers).filter(function(id) {
         return id !== pid && id !== '__host_self__' && peers[id] !== null;
+      }).map(function(id) {
+        return { id: id, nome: peers[id].nome || 'Participante', cor: peers[id].cor || '#555' };
       });
-      conn.send({ type: 'PEER_LIST', peers: lista, hostId: hostId });
-      criarVboxRemoto(pid, 'Participante');
+      var info = infoLocal();
+      conn.send({ type: 'PEER_LIST', peers: lista, hostId: hostId, hostNome: info.nome, hostCor: info.cor });
+      // Atualiza nome/cor deste guest quando ele enviar HELLO
       showToast('Novo participante entrou!');
-      // Notifica todos os outros sobre o novo participante
+      // Avisa os outros
       Object.keys(peers).forEach(function(otherId) {
         if (otherId !== pid && otherId !== '__host_self__' && peers[otherId] && peers[otherId].dataConn && peers[otherId].dataConn.open) {
-          peers[otherId].dataConn.send({ type: 'NEW_PEER', peerId: pid });
+          peers[otherId].dataConn.send({ type: 'NEW_PEER', peerId: pid, nome: peers[pid].nome, cor: peers[pid].cor });
         }
       });
     });
 
     conn.on('data', function(msg) {
-      processarMensagemHost(pid, msg);
+      if (msg && msg.type === 'HELLO') {
+        peers[pid].nome = msg.nome || 'Participante';
+        peers[pid].cor = msg.cor || '#555';
+        criarVboxRemoto(pid, peers[pid].nome, peers[pid].cor);
+      }
     });
 
     conn.on('close', function() {
       removerVboxRemoto(pid);
       showToast('Participante saiu', '#f0ad4e');
-      // Avisa os outros que ele saiu
       Object.keys(peers).forEach(function(otherId) {
         if (otherId !== '__host_self__' && peers[otherId] && peers[otherId].dataConn && peers[otherId].dataConn.open) {
           peers[otherId].dataConn.send({ type: 'PEER_LEFT', peerId: pid });
@@ -483,121 +583,79 @@ function escutarConexoes() {
   });
 }
 
-function processarMensagemHost(pid, msg) {
-  // Host pode receber mensagens dos guests (futuro: reações, chat, etc.)
-  console.log('Host recebeu de', pid, ':', msg);
-}
-
-// ─── GUEST ────────────────────────────────────────────────────
-
 function entrarComoGuest() {
-  peer = new Peer(); // ID aleatório
+  peer = new Peer();
   peer.on('open', function(id) {
     myPeerId = id;
     souHost = false;
     setStatus('Conectando...', 'waiting');
 
-    // Canal de dados com o host
     var dataConn = peer.connect(hostId);
-    if (!peers[hostId]) peers[hostId] = { call: null, dataConn: null, stream: null, muted: false };
+    if (!peers[hostId]) peers[hostId] = { call: null, dataConn: null, stream: null, muted: false, nome: 'Host', cor: '#007BFF' };
     peers[hostId].dataConn = dataConn;
 
     dataConn.on('open', function() {
-      // Anuncia-se ao host
-      dataConn.send({ type: 'HELLO', peerId: id });
-      criarVboxRemoto(hostId, 'Host');
-      // Liga para o host
+      var info = infoLocal();
+      dataConn.send({ type: 'HELLO', peerId: id, nome: info.nome, cor: info.cor });
       ligarPara(hostId);
     });
 
-    dataConn.on('data', function(msg) {
-      processarMensagemGuest(msg);
-    });
+    dataConn.on('data', function(msg) { processarMensagemGuest(msg); });
+    dataConn.on('close', function() { removerVboxRemoto(hostId); showToast('Host encerrou a sala', '#dc3545'); });
 
-    dataConn.on('close', function() {
-      removerVboxRemoto(hostId);
-      showToast('Host encerrou a sala', '#dc3545');
-    });
-
-    // Escuta chamadas de outros guests (mesh)
     peer.on('call', function(call) {
       var cpid = call.peer;
-      if (!peers[cpid]) peers[cpid] = { call: null, dataConn: null, stream: null, muted: false };
+      if (!peers[cpid]) peers[cpid] = { call: null, dataConn: null, stream: null, muted: false, nome: 'Participante', cor: '#555' };
       call.answer(localStream || new MediaStream());
       peers[cpid].call = call;
-      call.on('stream', function(s) {
-        peers[cpid].stream = s;
-        mostrarStreamRemoto(cpid, s);
-      });
+      call.on('stream', function(s) { peers[cpid].stream = s; mostrarStreamRemoto(cpid, s); });
       call.on('close', function() { removerVboxRemoto(cpid); });
     });
 
-    // Escuta canal de dados de outros guests
     peer.on('connection', function(conn) {
       var cpid = conn.peer;
       if (!peers[cpid]) peers[cpid] = { call: null, dataConn: null, stream: null, muted: false };
       peers[cpid].dataConn = conn;
-      conn.on('data', function(msg) {
-        processarMensagemGuest(msg);
-      });
+      conn.on('data', function(msg) { processarMensagemGuest(msg); });
     });
   });
 
-  peer.on('error', function(err) {
-    console.error('Guest error:', err.type, err);
-    setStatus('Erro: ' + err.type, 'error');
-  });
+  peer.on('error', function(err) { setStatus('Erro: ' + err.type, 'error'); });
 }
 
 function processarMensagemGuest(msg) {
   if (!msg || !msg.type) return;
   if (msg.type === 'PEER_LIST') {
-    // Host me enviou a lista de peers já presentes
-    var lista = msg.peers;
-    lista.forEach(function(pid) {
-      if (pid === myPeerId) return;
-      criarVboxRemoto(pid, pid === msg.hostId ? 'Host' : 'Participante');
-      ligarPara(pid);
-      // Abre canal de dados p2p com cada peer
-      var dc = peer.connect(pid);
-      if (!peers[pid]) peers[pid] = { call: null, dataConn: dc, stream: null, muted: false };
-      else peers[pid].dataConn = dc;
+    // Recebe a lista do host e cria o vbox do host
+    criarVboxRemoto(hostId, msg.hostNome || 'Host', msg.hostCor || '#007BFF');
+    if (peers[hostId]) { peers[hostId].nome = msg.hostNome; peers[hostId].cor = msg.hostCor; }
+    msg.peers.forEach(function(p) {
+      if (p.id === myPeerId) return;
+      criarVboxRemoto(p.id, p.nome, p.cor);
+      ligarPara(p.id);
+      var dc = peer.connect(p.id);
+      if (!peers[p.id]) peers[p.id] = { call: null, dataConn: dc, stream: null, muted: false, nome: p.nome, cor: p.cor };
+      else peers[p.id].dataConn = dc;
+      dc.on('data', function(m){ processarMensagemGuest(m); });
     });
-    if (lista.length > 0) {
-      setStatus('Conectado! ' + (lista.length + 1) + ' participante(s)', 'connected');
-    } else {
-      setStatus('Sala entrou! Aguardando mais participantes...', 'waiting');
-    }
+    setStatus(msg.peers.length > 0 ? 'Conectado! ' + (msg.peers.length+1) + ' participante(s)' : 'Na sala! Aguardando mais...', 'connected');
   } else if (msg.type === 'NEW_PEER') {
-    var pid = msg.peerId;
-    if (pid === myPeerId) return;
-    criarVboxRemoto(pid, 'Participante');
-    ligarPara(pid);
-    var dc2 = peer.connect(pid);
-    if (!peers[pid]) peers[pid] = { call: null, dataConn: dc2, stream: null, muted: false };
-    else peers[pid].dataConn = dc2;
+    if (msg.peerId === myPeerId) return;
+    criarVboxRemoto(msg.peerId, msg.nome, msg.cor);
+    ligarPara(msg.peerId);
+    var dc2 = peer.connect(msg.peerId);
+    if (!peers[msg.peerId]) peers[msg.peerId] = { call: null, dataConn: dc2, stream: null, muted: false, nome: msg.nome, cor: msg.cor };
+    else peers[msg.peerId].dataConn = dc2;
     dc2.on('data', function(m){ processarMensagemGuest(m); });
     showToast('Novo participante entrou!');
   } else if (msg.type === 'PEER_LEFT') {
     removerVboxRemoto(msg.peerId);
   } else if (msg.type === 'MUTE') {
-    if (localStream) {
-      localStream.getAudioTracks().forEach(function(t){ t.enabled = false; });
-      micOn = false;
-      document.getElementById('icoMic').className = 'bi bi-mic-mute-fill';
-      document.getElementById('btnMic').classList.add('off');
-      showToast('O host mutou seu microfone', '#fd7e14');
-    }
+    if (localStream) { localStream.getAudioTracks().forEach(function(t){ t.enabled=false; }); micOn=false; document.getElementById('icoMic').className='bi bi-mic-mute-fill'; document.getElementById('btnMic').classList.add('off'); showToast('O host mutou seu microfone','#fd7e14'); }
   } else if (msg.type === 'UNMUTE') {
-    if (localStream) {
-      localStream.getAudioTracks().forEach(function(t){ t.enabled = true; });
-      micOn = true;
-      document.getElementById('icoMic').className = 'bi bi-mic-fill';
-      document.getElementById('btnMic').classList.remove('off');
-      showToast('Microfone reativado pelo host', '#28A745');
-    }
+    if (localStream) { localStream.getAudioTracks().forEach(function(t){ t.enabled=true; }); micOn=true; document.getElementById('icoMic').className='bi bi-mic-fill'; document.getElementById('btnMic').classList.remove('off'); showToast('Microfone reativado','#28A745'); }
   } else if (msg.type === 'KICK') {
-    showToast('Você foi removido pelo host', '#dc3545');
+    showToast('Você foi removido pelo host','#dc3545');
     setTimeout(function(){ sair(); }, 1800);
   }
 }
@@ -608,15 +666,10 @@ function ligarPara(pid) {
   if (!call) return;
   if (!peers[pid]) peers[pid] = { call: null, dataConn: null, stream: null, muted: false };
   peers[pid].call = call;
-  call.on('stream', function(s) {
-    peers[pid].stream = s;
-    mostrarStreamRemoto(pid, s);
-  });
+  call.on('stream', function(s) { peers[pid].stream = s; mostrarStreamRemoto(pid, s); });
   call.on('close', function() { removerVboxRemoto(pid); });
   call.on('error', function(e){ console.error('call err', e); });
 }
-
-// ─── HOST: CONTROLES SOBRE GUESTS ────────────────────────────
 
 function enviarParaGuest(pid, msg) {
   var p = peers[pid];
@@ -624,145 +677,85 @@ function enviarParaGuest(pid, msg) {
 }
 
 function toggleMuteGuest(pid) {
-  var p = peers[pid];
-  if (!p) return;
+  var p = peers[pid]; if (!p) return;
   p.muted = !p.muted;
   enviarParaGuest(pid, { type: p.muted ? 'MUTE' : 'UNMUTE' });
   var badge = document.getElementById('bm-' + pid);
   var btn = document.querySelector('#hc-' + pid + ' .hbtn-mute');
   if (badge) badge.classList.toggle('show', p.muted);
-  if (btn) btn.innerHTML = p.muted
-    ? '<i class="bi bi-mic-fill"></i> Desmutar'
-    : '<i class="bi bi-mic-mute-fill"></i> Mutar';
+  if (btn) btn.innerHTML = p.muted ? '<i class="bi bi-mic-fill"></i> Desmutar' : '<i class="bi bi-mic-mute-fill"></i> Mutar';
   showToast(p.muted ? 'Participante mutado' : 'Participante desmutado', p.muted ? '#fd7e14' : '#28A745');
 }
 
 function kickGuest(pid) {
   if (!confirm('Remover este participante?')) return;
   enviarParaGuest(pid, { type: 'KICK' });
-  setTimeout(function() {
-    var p = peers[pid];
-    if (p && p.call) p.call.close();
-    removerVboxRemoto(pid);
-  }, 500);
+  setTimeout(function() { var p=peers[pid]; if(p&&p.call) p.call.close(); removerVboxRemoto(pid); }, 500);
 }
-
-// ─── COMPARTILHAR TELA (host) ─────────────────────────────────
 
 async function toggleTela() {
   if (!compartilhandoTela) {
     try {
-      screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      screenStream = await navigator.mediaDevices.getDisplayMedia({ video:true, audio:true });
       compartilhandoTela = true;
       document.getElementById('btnTela').classList.add('active-screen');
       document.getElementById('icoTela').className = 'bi bi-display-fill';
       showToast('Compartilhando tela');
-
-      // Substitui a faixa de vídeo em todas as chamadas ativas
-      var videoTrack = screenStream.getVideoTracks()[0];
+      var vt = screenStream.getVideoTracks()[0];
       Object.values(peers).forEach(function(p) {
-        if (!p || !p.call) return;
-        var pc = p.call.peerConnection;
-        if (!pc) return;
-        var sender = pc.getSenders().find(function(s){ return s.track && s.track.kind === 'video'; });
-        if (sender) sender.replaceTrack(videoTrack);
+        if (!p||!p.call) return;
+        var pc=p.call.peerConnection; if(!pc) return;
+        var s=pc.getSenders().find(function(s){return s.track&&s.track.kind==='video';}); if(s) s.replaceTrack(vt);
       });
-
       screenStream.getVideoTracks()[0].onended = function(){ pararTela(); };
-
-      // Preview flutuante
-      var prev = document.getElementById('screenPreview');
       document.getElementById('screenPreviewVideo').srcObject = screenStream;
-      prev.style.display = 'block';
-      ativarDrag(prev);
-    } catch(e) {
-      showToast('Compartilhamento cancelado', '#fd7e14');
-    }
-  } else {
-    pararTela();
-  }
+      document.getElementById('screenPreview').style.display = 'block';
+      ativarDrag(document.getElementById('screenPreview'));
+    } catch(e) { showToast('Compartilhamento cancelado','#fd7e14'); }
+  } else { pararTela(); }
 }
 
 function pararTela() {
-  compartilhandoTela = false;
+  compartilhandoTela=false;
   document.getElementById('btnTela').classList.remove('active-screen');
-  document.getElementById('icoTela').className = 'bi bi-display';
-  document.getElementById('screenPreview').style.display = 'none';
-  document.getElementById('screenPreviewVideo').srcObject = null;
-
-  // Restaura câmera em todas as chamadas
-  if (localStream) {
-    var camTrack = localStream.getVideoTracks()[0];
-    Object.values(peers).forEach(function(p) {
-      if (!p || !p.call) return;
-      var pc = p.call.peerConnection;
-      if (!pc) return;
-      var sender = pc.getSenders().find(function(s){ return s.track && s.track.kind === 'video'; });
-      if (sender && camTrack) sender.replaceTrack(camTrack);
-    });
-  }
-  if (screenStream) { screenStream.getTracks().forEach(function(t){ t.stop(); }); screenStream = null; }
-  showToast('Compartilhamento encerrado', '#fd7e14');
+  document.getElementById('icoTela').className='bi bi-display';
+  document.getElementById('screenPreview').style.display='none';
+  document.getElementById('screenPreviewVideo').srcObject=null;
+  if(localStream){ var ct=localStream.getVideoTracks()[0]; Object.values(peers).forEach(function(p){ if(!p||!p.call) return; var pc=p.call.peerConnection; if(!pc) return; var s=pc.getSenders().find(function(s){return s.track&&s.track.kind==='video';}); if(s&&ct) s.replaceTrack(ct); }); }
+  if(screenStream){ screenStream.getTracks().forEach(function(t){t.stop();}); screenStream=null; }
+  showToast('Compartilhamento encerrado','#fd7e14');
 }
 
 function ativarDrag(el) {
   var dx=0,dy=0,ox=0,oy=0;
-  el.onmousedown = function(e) {
-    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'VIDEO') return;
-    e.preventDefault(); ox = e.clientX; oy = e.clientY;
-    document.onmousemove = function(e) {
-      dx = ox - e.clientX; dy = oy - e.clientY; ox = e.clientX; oy = e.clientY;
-      el.style.top = (el.offsetTop - dy) + 'px'; el.style.left = (el.offsetLeft - dx) + 'px';
-      el.style.bottom = 'auto'; el.style.right = 'auto';
-    };
-    document.onmouseup = function(){ document.onmousemove = null; document.onmouseup = null; };
-  };
+  el.onmousedown=function(e){ if(e.target.tagName==='BUTTON'||e.target.tagName==='VIDEO') return; e.preventDefault(); ox=e.clientX; oy=e.clientY; document.onmousemove=function(e){ dx=ox-e.clientX; dy=oy-e.clientY; ox=e.clientX; oy=e.clientY; el.style.top=(el.offsetTop-dy)+'px'; el.style.left=(el.offsetLeft-dx)+'px'; el.style.bottom='auto'; el.style.right='auto'; }; document.onmouseup=function(){ document.onmousemove=null; document.onmouseup=null; }; };
 }
-
-// ─── CÂMERA / MIC ─────────────────────────────────────────────
 
 async function ativarCamera() {
   try {
-    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    var vl = document.getElementById('videoLocal');
-    if (vl) { vl.srcObject = localStream; }
-    var ph = document.getElementById('placeholderLocal');
-    if (ph) ph.style.display = 'none';
-    document.getElementById('btnAtiv').style.display = 'none';
-    // Adiciona tracks nas chamadas já abertas
-    Object.entries(peers).forEach(function(entry) {
-      var p = entry[1];
-      if (!p || !p.call || !p.call.peerConnection) return;
-      var pc = p.call.peerConnection;
-      var senders = pc.getSenders();
-      localStream.getTracks().forEach(function(track) {
-        var s = senders.find(function(x){ return x.track && x.track.kind === track.kind; });
-        if (s) s.replaceTrack(track);
-        else pc.addTrack(track, localStream);
-      });
-    });
-    // Se for guest e ainda não chamou o host
-    if (!souHost && (!peers[hostId] || !peers[hostId].call)) ligarPara(hostId);
+    localStream = await navigator.mediaDevices.getUserMedia({ video:true, audio:true });
+    var vl=document.getElementById('videoLocal'); if(vl) vl.srcObject=localStream;
+    var ph=document.getElementById('placeholderLocal'); if(ph) ph.style.display='none';
+    document.getElementById('btnAtiv').style.display='none';
+    Object.entries(peers).forEach(function(entry){ var p=entry[1]; if(!p||!p.call||!p.call.peerConnection) return; var pc=p.call.peerConnection; var senders=pc.getSenders(); localStream.getTracks().forEach(function(track){ var s=senders.find(function(x){return x.track&&x.track.kind===track.kind;}); if(s) s.replaceTrack(track); else pc.addTrack(track,localStream); }); });
+    if(!souHost&&(!peers[hostId]||!peers[hostId].call)) ligarPara(hostId);
     showToast('Câmera ativada!');
-  } catch(e) { showToast('Erro câmera: ' + e.message, '#dc3545'); }
+  } catch(e) { showToast('Erro câmera: '+e.message,'#dc3545'); }
 }
 
 function toggleMic() {
-  if (!localStream) return;
-  micOn = !micOn;
-  localStream.getAudioTracks().forEach(function(t){ t.enabled = micOn; });
-  document.getElementById('icoMic').className = micOn ? 'bi bi-mic-fill' : 'bi bi-mic-mute-fill';
-  document.getElementById('btnMic').classList.toggle('off', !micOn);
+  if(!localStream) return; micOn=!micOn;
+  localStream.getAudioTracks().forEach(function(t){t.enabled=micOn;});
+  document.getElementById('icoMic').className=micOn?'bi bi-mic-fill':'bi bi-mic-mute-fill';
+  document.getElementById('btnMic').classList.toggle('off',!micOn);
 }
 
 function toggleCam() {
-  if (!localStream) return;
-  camOn = !camOn;
-  localStream.getVideoTracks().forEach(function(t){ t.enabled = camOn; });
-  document.getElementById('icoCam').className = camOn ? 'bi bi-camera-video-fill' : 'bi bi-camera-video-off-fill';
-  document.getElementById('btnCam').classList.toggle('off', !camOn);
-  var ph = document.getElementById('placeholderLocal');
-  if (ph) ph.style.display = camOn ? 'none' : 'flex';
+  if(!localStream) return; camOn=!camOn;
+  localStream.getVideoTracks().forEach(function(t){t.enabled=camOn;});
+  document.getElementById('icoCam').className=camOn?'bi bi-camera-video-fill':'bi bi-camera-video-off-fill';
+  document.getElementById('btnCam').classList.toggle('off',!camOn);
+  var ph=document.getElementById('placeholderLocal'); if(ph) ph.style.display=camOn?'none':'flex';
 }
 
 function copiarLink() {
@@ -770,25 +763,46 @@ function copiarLink() {
 }
 
 function sair() {
-  if (compartilhandoTela) pararTela();
-  Object.values(peers).forEach(function(p) {
-    if (!p) return;
-    if (p.call) p.call.close();
-    if (p.dataConn) p.dataConn.close();
-  });
-  if (localStream) localStream.getTracks().forEach(function(t){ t.stop(); });
-  if (peer) peer.destroy();
-  localStream = null; peer = null; peers = {}; myPeerId = null;
-  history.replaceState(null, '', window.location.pathname);
-  document.getElementById('videosArea').innerHTML = '';
+  if(compartilhandoTela) pararTela();
+  Object.values(peers).forEach(function(p){ if(!p) return; if(p.call) p.call.close(); if(p.dataConn) p.dataConn.close(); });
+  if(localStream) localStream.getTracks().forEach(function(t){t.stop();});
+  if(peer) peer.destroy();
+  localStream=null; peer=null; peers={}; myPeerId=null;
+  history.replaceState(null,'',window.location.pathname);
+  document.getElementById('videosArea').innerHTML='';
   showPage('home');
 }
 
-// ─── INICIALIZAÇÃO ────────────────────────────────────────────
+// ─── ENTER nos campos ────────────────────────────────────────
+
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  var active = document.querySelector('.page.active');
+  if (!active) return;
+  if (active.id === 'page-login') fazerLogin();
+  else if (active.id === 'page-cadastro') fazerCadastro();
+});
+
+// ─── INIT ─────────────────────────────────────────────────────
 
 window.addEventListener('DOMContentLoaded', function() {
+  renderNav();
   if (new URLSearchParams(window.location.search).get('room')) criarSala();
 });
 </script>
+<!-- Direitos Reservados -->
+ <footer>
+    <p>© 2026 NexMeet. Todos os direitos reservados.</p>
+  </footer>
+  <style>
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #f8f9fa;
+  color: #666;
+  font-size: 0.9em;
+  border-top: 2px solid #007BFF;
+}
+  </style>
 </body>
 </html>
