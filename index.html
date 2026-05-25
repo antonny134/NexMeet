@@ -17,6 +17,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .btn-blue{background:#007BFF;color:#fff;}
 .btn-green{background:#28A745;color:#fff;}
 .btn-red{background:#dc3545;color:#fff;}
+.btn-orange{background:#fd7e14;color:#fff;}
 .btn-ghost{background:transparent;border:2px solid #007BFF;color:#007BFF;}
 .btn-ghost:hover{background:#007BFF;color:#fff;}
 .page{display:none;min-height:calc(100vh - 57px);}
@@ -31,33 +32,106 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .fcard .btn{width:100%;justify-content:center;}
 .fcard .sw{text-align:center;margin-top:12px;color:#aaa;font-size:.85em;}
 .fcard .sw a{color:#007BFF;cursor:pointer;text-decoration:underline;}
+
+/* MEET */
 #page-meet{flex-direction:column;align-items:stretch;}
 .meet-top{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:#18181f;border-bottom:1px solid #2a2a3a;flex-wrap:wrap;gap:10px;}
 .linkbox{display:flex;align-items:center;gap:6px;background:#0f0f13;border:1px solid #2a2a3a;border-radius:8px;padding:7px 12px;}
-.linkbox input{background:transparent;border:none;color:#aaa;font-size:.8em;outline:none;width:220px;}
+.linkbox input{background:transparent;border:none;color:#aaa;font-size:.8em;outline:none;width:200px;}
 .linkbox button{background:none;border:none;color:#007BFF;cursor:pointer;font-size:1em;}
 .statusbar{text-align:center;padding:8px;font-size:.85em;background:#0f0f13;}
 .statusbar.waiting{color:#f0ad4e;}
 .statusbar.connected{color:#28A745;}
 .statusbar.error{color:#dc3545;}
+
+/* ÁREA DE VÍDEOS */
 .videos{flex:1;display:flex;align-items:center;justify-content:center;gap:16px;padding:24px;background:#0f0f13;flex-wrap:wrap;min-height:360px;}
 .vbox{position:relative;background:#1a1a22;border-radius:14px;overflow:hidden;border:2px solid #2a2a3a;}
 .vbox video{display:block;width:100%;height:100%;object-fit:cover;}
-.vbox .lbl{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.6);padding:3px 10px;border-radius:6px;font-size:.8em;}
+.vbox .lbl{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.65);padding:3px 10px;border-radius:6px;font-size:.8em;display:flex;align-items:center;gap:5px;}
 .vbox .placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#555;font-size:.85em;}
-.vbox .placeholder i{font-size:2.8em;color:#333;}
 .vbox.remote{width:480px;height:340px;}
 .vbox.local{width:280px;height:200px;}
-@media(max-width:680px){.vbox.remote{width:100%;height:220px;}.vbox.local{width:130px;height:100px;}.videos{padding:12px;}}
-.controls{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;background:#18181f;border-top:1px solid #2a2a3a;flex-wrap:wrap;}
+
+/* BADGE MUTADO */
+.badge-muted{background:#dc3545;color:#fff;font-size:.7em;padding:2px 7px;border-radius:6px;display:none;}
+.badge-muted.show{display:inline-block;}
+
+/* CONTROLES DO HOST sobre o participante */
+.host-controls{
+  position:absolute;top:8px;right:8px;
+  display:none;
+  flex-direction:column;gap:5px;
+  z-index:10;
+}
+.vbox:hover .host-controls{display:flex;}
+.hbtn{
+  padding:5px 10px;border:none;border-radius:7px;
+  font-size:.75em;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+  opacity:.92;transition:opacity .2s;
+}
+.hbtn:hover{opacity:1;}
+.hbtn-mute{background:#fd7e14;color:#fff;}
+.hbtn-kick{background:#dc3545;color:#fff;}
+
+@media(max-width:680px){
+  .vbox.remote{width:100%;height:220px;}
+  .vbox.local{width:130px;height:100px;}
+  .videos{padding:12px;}
+}
+
+/* CONTROLES INFERIORES */
+.controls{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 20px;background:#18181f;border-top:1px solid #2a2a3a;flex-wrap:wrap;}
 .cicon{width:44px;height:44px;border-radius:50%;background:#2a2a3a;border:none;color:#ccc;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .cicon:hover{background:#3a3a4a;}
 .cicon.off{background:#dc3545;color:#fff;}
+.cicon.active-screen{background:#007BFF;color:#fff;}
+
 .spinner{width:28px;height:28px;border:3px solid #333;border-top-color:#007BFF;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.pulse{animation:pulse 1.5s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
-.toast-el{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#28A745;color:#fff;padding:10px 22px;border-radius:10px;font-size:.9em;z-index:999;}
+
+/* PREVIEW DA TELA COMPARTILHADA */
+#screenPreview{
+  display:none;
+  position:fixed;
+  bottom:100px;
+  right:20px;
+  width:240px;
+  height:140px;
+  background:#0a0a10;
+  border-radius:10px;
+  border:2px solid #007BFF;
+  overflow:hidden;
+  z-index:500;
+  box-shadow:0 4px 20px rgba(0,123,255,.35);
+  cursor:move;
+  user-select:none;
+}
+#screenPreview video{width:100%;height:100%;object-fit:contain;background:#000;}
+#screenPreview .prev-label{
+  position:absolute;top:6px;left:8px;
+  background:rgba(0,123,255,.85);
+  color:#fff;font-size:.7em;font-weight:600;
+  padding:2px 8px;border-radius:5px;
+  pointer-events:none;
+}
+#screenPreview .prev-close{
+  position:absolute;top:5px;right:6px;
+  background:rgba(220,53,69,.85);color:#fff;
+  border:none;border-radius:5px;
+  font-size:.75em;padding:2px 7px;cursor:pointer;
+  font-weight:600;
+}
+#screenPreview .prev-resize{
+  position:absolute;bottom:4px;right:6px;
+  color:rgba(255,255,255,.35);font-size:.8em;
+  pointer-events:none;
+}
+.toast-el{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#28A745;color:#fff;padding:10px 22px;border-radius:10px;font-size:.9em;z-index:999;white-space:nowrap;}
+
+/* AVISO HOST */
+.host-badge{background:#007BFF;color:#fff;font-size:.7em;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle;}
 </style>
 </head>
 <body>
@@ -71,6 +145,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
   </div>
 </nav>
 
+<!-- HOME -->
 <div class="page active" id="page-home">
   <h1><span style="color:#007BFF">Nex</span><span style="color:#28A745">Meet</span></h1>
   <p>Reuniões de vídeo simples e rápidas.</p>
@@ -81,6 +156,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
   </div>
 </div>
 
+<!-- LOGIN -->
 <div class="page" id="page-login">
   <div class="fcard">
     <h2>Login</h2>
@@ -91,6 +167,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
   </div>
 </div>
 
+<!-- CADASTRO -->
 <div class="page" id="page-cadastro">
   <div class="fcard">
     <h2>Cadastro</h2>
@@ -102,9 +179,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
   </div>
 </div>
 
+<!-- MEET -->
 <div class="page" id="page-meet" style="min-height:calc(100vh - 57px);flex-direction:column;">
   <div class="meet-top">
-    <div class="logo"><span class="a">Nex</span><span class="b">Meet</span></div>
+    <div class="logo">
+      <span class="a">Nex</span><span class="b">Meet</span>
+      <span class="host-badge" id="hostBadge" style="display:none">HOST</span>
+    </div>
     <div class="linkbox">
       <i class="bi bi-link-45deg" style="color:#007BFF"></i>
       <input id="linkInput" type="text" readonly>
@@ -117,29 +198,58 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
     <span id="statusTxt">A conectar...</span>
   </div>
 
-  <div class="videos">
-    <div class="vbox remote">
+  <div class="videos" id="videosArea">
+
+    <!-- VÍDEO REMOTO -->
+    <div class="vbox remote" id="boxRemoto">
       <video id="videoRemoto" autoplay playsinline></video>
+
       <div class="placeholder" id="placeholderRemoto">
         <div class="spinner" id="spinnerRemoto" style="display:none"></div>
         <i class="bi bi-person-circle" id="icoRemoto" style="font-size:3em;color:#333"></i>
         <span id="txtRemoto">Aguardando participante...</span>
       </div>
-      <div class="lbl">Participante</div>
+
+      <div class="lbl">
+        <span>Participante</span>
+        <span class="badge-muted" id="badgeMuted"><i class="bi bi-mic-mute-fill"></i> Mutado</span>
+      </div>
+
+      <!-- Botões visíveis só para o HOST ao passar o mouse -->
+      <div class="host-controls" id="hostControls">
+        <button class="hbtn hbtn-mute" id="btnMuteGuest" onclick="toggleMuteGuest()">
+          <i class="bi bi-mic-mute-fill"></i> Mutar
+        </button>
+        <button class="hbtn hbtn-kick" onclick="kickGuest()">
+          <i class="bi bi-person-x-fill"></i> Remover
+        </button>
+      </div>
     </div>
+
+    <!-- VÍDEO LOCAL -->
     <div class="vbox local">
       <video id="videoLocal" autoplay playsinline muted></video>
       <div class="placeholder" id="placeholderLocal">
         <i class="bi bi-camera-video-off" style="font-size:2.5em;color:#333"></i>
         <span>Câmera off</span>
       </div>
-      <div class="lbl">Você</div>
+      <div class="lbl"><span>Você</span></div>
     </div>
+
   </div>
 
+  <!-- BARRA DE CONTROLES -->
   <div class="controls">
-    <button class="cicon" id="btnMic" onclick="toggleMic()" title="Microfone"><i class="bi bi-mic-fill" id="icoMic"></i></button>
-    <button class="cicon" id="btnCam" onclick="toggleCam()" title="Câmera"><i class="bi bi-camera-video-fill" id="icoCam"></i></button>
+    <button class="cicon" id="btnMic" onclick="toggleMic()" title="Microfone">
+      <i class="bi bi-mic-fill" id="icoMic"></i>
+    </button>
+    <button class="cicon" id="btnCam" onclick="toggleCam()" title="Câmera">
+      <i class="bi bi-camera-video-fill" id="icoCam"></i>
+    </button>
+    <!-- Compartilhar tela: só aparece para o HOST -->
+    <button class="cicon" id="btnTela" onclick="toggleTela()" title="Compartilhar tela" style="display:none">
+      <i class="bi bi-display" id="icoTela"></i>
+    </button>
     <button class="btn btn-blue" id="btnAtiv" onclick="ativarCamera()">
       <i class="bi bi-camera-video-fill"></i> Ativar câmera
     </button>
@@ -148,11 +258,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 
 <div class="toast-el" id="toastEl"></div>
 
-<script>
-var peer=null, localStream=null, currentCall=null;
-var micOn=true, camOn=true, souHost=false, roomId=null;
-var hostId=null;
+<!-- PREVIEW FLUTUANTE DO PARTICIPANTE (durante compartilhamento de tela) -->
+<div id="screenPreview">
+  <video id="screenPreviewVideo" autoplay playsinline></video>
+  <div class="prev-label"><i class="bi bi-person-fill"></i> Participante</div>
+  <button class="prev-close" onclick="pararTela()" title="Parar compartilhamento">✕ Parar</button>
+  <div class="prev-resize">⤡</div>
+</div>
 
+<script>
+var peer=null, localStream=null, screenStream=null, currentCall=null, dataConn=null;
+var micOn=true, camOn=true, souHost=false, roomId=null, hostId=null;
+var guestMutado=false, compartilhandoTela=false;
+
+// ─── UI ───────────────────────────────────────────────────────
 function showPage(n){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+n).classList.add('active');
@@ -161,14 +280,18 @@ function showToast(msg,color){
   var t=document.getElementById('toastEl');
   t.textContent=msg; t.style.background=color||'#28A745';
   t.style.display='block';
-  clearTimeout(t._t); t._t=setTimeout(function(){t.style.display='none';},2800);
+  clearTimeout(t._t); t._t=setTimeout(function(){t.style.display='none';},3000);
 }
 function setStatus(msg,cls){
   document.getElementById('statusTxt').textContent=msg;
   document.getElementById('statusBar').className='statusbar '+cls;
 }
+function showSpinner(show){
+  document.getElementById('spinnerRemoto').style.display=show?'block':'none';
+  document.getElementById('icoRemoto').style.display=show?'none':'';
+}
 
-// ─── ENTRAR NA SALA ───────────────────────────────────────────
+// ─── CRIAR / ENTRAR ───────────────────────────────────────────
 function criarSala(){
   var params=new URLSearchParams(window.location.search);
   roomId=params.get('room');
@@ -179,88 +302,89 @@ function criarSala(){
   hostId='nexmeet-'+roomId+'-host';
   document.getElementById('linkInput').value=window.location.href;
   showPage('meet');
-
-  // Pede câmera imediatamente ao entrar
   pedirCameraEConectar();
 }
 
-// ─── CÂMERA + CONEXÃO SIMULTÂNEOS ────────────────────────────
-// Captura câmera e inicia peer ao mesmo tempo (Promise.all)
-// Assim a câmera já está pronta quando a conexão fechar
 function pedirCameraEConectar(){
   setStatus('A conectar...','waiting');
 
-  // Câmera e peer em paralelo
-  var pCamera = navigator.mediaDevices.getUserMedia({video:true,audio:true})
+  var pCamera=navigator.mediaDevices.getUserMedia({video:true,audio:true})
     .then(function(stream){
       localStream=stream;
       document.getElementById('videoLocal').srcObject=stream;
       document.getElementById('placeholderLocal').style.display='none';
       document.getElementById('btnAtiv').style.display='none';
     })
-    .catch(function(e){
-      console.warn('Câmera negada:',e.message);
-      // continua sem câmera
-    });
+    .catch(function(e){ console.warn('Câmera negada:',e.message); });
 
-  // Peer em paralelo com câmera
-  var pPeer = new Promise(function(resolve){
+  var pPeer=new Promise(function(resolve){
     if(peer){peer.destroy();peer=null;}
     peer=new Peer(hostId);
-
     peer.on('open',function(id){
       souHost=true;
-      console.log('HOST:',id);
-      setStatus('Sala criada! Aguardando participante...','waiting');
       resolve('host');
     });
-
     peer.on('error',function(err){
       if(err.type==='unavailable-id'){
-        peer.destroy();
-        resolve('guest'); // sinaliza que somos guest
+        peer.destroy(); resolve('guest');
       } else {
-        console.error('Peer error:',err.type);
-        setStatus('Erro: '+err.type,'error');
-        resolve('error');
+        setStatus('Erro: '+err.type,'error'); resolve('error');
       }
     });
   });
 
-  // Quando os dois terminarem, conectamos
-  Promise.all([pCamera,pPeer]).then(function(results){
-    var role=results[1];
-    if(role==='host'){
-      escutarChamada();
-    } else if(role==='guest'){
-      entrarComoGuest();
-    }
+  Promise.all([pCamera,pPeer]).then(function(r){
+    if(r[1]==='host')      { ativarModoHost(); escutarChamada(); }
+    else if(r[1]==='guest'){ entrarComoGuest(); }
   });
 }
 
-// ─── HOST: escuta chamada do guest ───────────────────────────
+// ─── MODO HOST ────────────────────────────────────────────────
+function ativarModoHost(){
+  document.getElementById('hostBadge').style.display='inline-block';
+  document.getElementById('hostControls').style.display='flex'; // sempre visível ao hover
+  document.getElementById('btnTela').style.display='flex';
+  setStatus('Sala criada! Aguardando participante...','waiting');
+}
+
 function escutarChamada(){
+  // Escuta chamadas de vídeo
   peer.on('call',function(call){
-    console.log('HOST: guest chamando');
     showSpinner(true);
-    // Responde imediatamente com o stream já disponível
     call.answer(localStream||new MediaStream());
     currentCall=call;
     call.on('stream',function(s){mostrarRemoto(s);});
     call.on('close',function(){remotoDesconectou();});
     call.on('error',function(e){console.error(e);});
   });
+
+  // Escuta conexão de dados (para comandos host→guest)
+  peer.on('connection',function(conn){
+    dataConn=conn;
+    conn.on('data',function(msg){
+      // guest recebe comandos — mas host não deve processar seus próprios comandos
+      processarComandoRecebido(msg);
+    });
+  });
 }
 
-// ─── GUEST: entra e chama imediatamente ──────────────────────
+// ─── GUEST ────────────────────────────────────────────────────
 function entrarComoGuest(){
-  peer=new Peer(); // ID aleatório
+  peer=new Peer();
   peer.on('open',function(myId){
     souHost=false;
-    console.log('GUEST:',myId,'-> chamando',hostId);
     setStatus('Conectando...','waiting');
     showSpinner(true);
-    // Chama o host imediatamente com stream já capturado
+
+    // Abre canal de dados ANTES da chamada
+    dataConn=peer.connect(hostId);
+    dataConn.on('open',function(){
+      console.log('Canal de dados aberto');
+    });
+    dataConn.on('data',function(msg){
+      processarComandoRecebido(msg);
+    });
+
     chamarHost();
   });
   peer.on('error',function(err){
@@ -276,7 +400,169 @@ function chamarHost(){
   currentCall=call;
   call.on('stream',function(s){mostrarRemoto(s);});
   call.on('close',function(){remotoDesconectou();});
-  call.on('error',function(e){console.error(e);setStatus('Erro na chamada','error');});
+  call.on('error',function(e){console.error(e);});
+}
+
+// ─── COMANDOS HOST → GUEST via DataChannel ───────────────────
+function enviarComando(cmd){
+  if(dataConn&&dataConn.open){
+    dataConn.send(cmd);
+  }
+}
+
+function processarComandoRecebido(msg){
+  if(msg==='MUTE'){
+    // Muta o próprio microfone
+    if(localStream){
+      localStream.getAudioTracks().forEach(function(t){t.enabled=false;});
+      micOn=false;
+      document.getElementById('icoMic').className='bi bi-mic-mute-fill';
+      document.getElementById('btnMic').classList.add('off');
+      showToast('O host mutou seu microfone','#fd7e14');
+    }
+  } else if(msg==='UNMUTE'){
+    if(localStream){
+      localStream.getAudioTracks().forEach(function(t){t.enabled=true;});
+      micOn=true;
+      document.getElementById('icoMic').className='bi bi-mic-fill';
+      document.getElementById('btnMic').classList.remove('off');
+      showToast('Microfone reativado pelo host','#28A745');
+    }
+  } else if(msg==='KICK'){
+    showToast('Você foi removido da sala pelo host','#dc3545');
+    setTimeout(function(){sair();},1800);
+  }
+}
+
+// ─── HOST: MUTAR PARTICIPANTE ─────────────────────────────────
+function toggleMuteGuest(){
+  if(!currentCall){showToast('Nenhum participante conectado','#fd7e14');return;}
+  guestMutado=!guestMutado;
+  enviarComando(guestMutado?'MUTE':'UNMUTE');
+
+  var badge=document.getElementById('badgeMuted');
+  var btn=document.getElementById('btnMuteGuest');
+  if(guestMutado){
+    badge.classList.add('show');
+    btn.innerHTML='<i class="bi bi-mic-fill"></i> Desmutar';
+    showToast('Participante mutado');
+  } else {
+    badge.classList.remove('show');
+    btn.innerHTML='<i class="bi bi-mic-mute-fill"></i> Mutar';
+    showToast('Participante desmutado','#28A745');
+  }
+}
+
+// ─── HOST: REMOVER PARTICIPANTE ───────────────────────────────
+function kickGuest(){
+  if(!currentCall){showToast('Nenhum participante conectado','#fd7e14');return;}
+  if(!confirm('Remover este participante da sala?'))return;
+  enviarComando('KICK');
+  setTimeout(function(){
+    if(currentCall){currentCall.close();}
+    remotoDesconectou();
+  },500);
+}
+
+// ─── HOST: COMPARTILHAR TELA ──────────────────────────────────
+async function toggleTela(){
+  if(!compartilhandoTela){
+    try{
+      screenStream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});
+      compartilhandoTela=true;
+      document.getElementById('btnTela').classList.add('active-screen');
+      document.getElementById('icoTela').className='bi bi-display-fill';
+      showToast('Compartilhando tela');
+
+      // Durante compartilhamento: vídeo remoto grande mostra a tela, preview mostra o participante
+      var remoto=document.getElementById('videoRemoto');
+      var local=document.getElementById('videoLocal');
+
+      // Guarda o stream remoto original para restaurar depois
+      window._remotoStreamBkp=remoto.srcObject;
+
+      // Vídeo remoto (grande) passa a mostrar a tela compartilhada
+      remoto.srcObject=screenStream;
+      remoto.muted=true;
+      document.getElementById('placeholderRemoto').style.display='none';
+
+      // Preview flutuante mostra o participante remoto
+      var prev=document.getElementById('screenPreview');
+      var pvid=document.getElementById('screenPreviewVideo');
+      pvid.srcObject=window._remotoStreamBkp||null;
+      prev.style.display='block';
+      ativarDrag(prev);
+
+      // Substitui a faixa de vídeo na chamada
+      if(currentCall&&currentCall.peerConnection){
+        var sender=currentCall.peerConnection.getSenders().find(function(s){
+          return s.track&&s.track.kind==='video';
+        });
+        if(sender) sender.replaceTrack(screenStream.getVideoTracks()[0]);
+      }
+
+      // Quando o usuário parar de compartilhar pelo botão do navegador
+      screenStream.getVideoTracks()[0].onended=function(){ pararTela(); };
+    }catch(e){
+      showToast('Compartilhamento cancelado','#fd7e14');
+    }
+  } else {
+    pararTela();
+  }
+}
+
+function pararTela(){
+  compartilhandoTela=false;
+  document.getElementById('btnTela').classList.remove('active-screen');
+  document.getElementById('icoTela').className='bi bi-display';
+
+  // Esconde o preview e restaura vídeo remoto
+  var prev=document.getElementById('screenPreview');
+  prev.style.display='none';
+  document.getElementById('screenPreviewVideo').srcObject=null;
+
+  // Restaura o stream do participante no vídeo grande
+  var remoto=document.getElementById('videoRemoto');
+  if(window._remotoStreamBkp){
+    remoto.srcObject=window._remotoStreamBkp;
+    remoto.muted=false;
+    window._remotoStreamBkp=null;
+  }
+
+  // Volta para a câmera
+  if(localStream&&currentCall&&currentCall.peerConnection){
+    var sender=currentCall.peerConnection.getSenders().find(function(s){
+      return s.track&&s.track.kind==='video';
+    });
+    if(sender&&localStream.getVideoTracks()[0]){
+      sender.replaceTrack(localStream.getVideoTracks()[0]);
+    }
+  }
+  if(screenStream){
+    screenStream.getTracks().forEach(function(t){t.stop();});
+    screenStream=null;
+  }
+  showToast('Compartilhamento encerrado','#fd7e14');
+}
+
+// Drag para mover o preview
+function ativarDrag(el){
+  var dx=0,dy=0,ox=0,oy=0;
+  el.onmousedown=function(e){
+    if(e.target.tagName==='BUTTON'||e.target.tagName==='VIDEO') return;
+    e.preventDefault();
+    ox=e.clientX; oy=e.clientY;
+    document.onmousemove=function(e){
+      dx=ox-e.clientX; dy=oy-e.clientY;
+      ox=e.clientX; oy=e.clientY;
+      el.style.top=(el.offsetTop-dy)+'px';
+      el.style.left=(el.offsetLeft-dx)+'px';
+      el.style.bottom='auto'; el.style.right='auto';
+    };
+    document.onmouseup=function(){
+      document.onmousemove=null; document.onmouseup=null;
+    };
+  };
 }
 
 // ─── VÍDEO REMOTO ─────────────────────────────────────────────
@@ -293,25 +579,21 @@ function remotoDesconectou(){
   document.getElementById('placeholderRemoto').style.display='flex';
   document.getElementById('icoRemoto').style.display='';
   document.getElementById('txtRemoto').textContent='Participante saiu';
+  document.getElementById('badgeMuted').classList.remove('show');
   showSpinner(false);
   setStatus('Aguardando participante...','waiting');
-  currentCall=null;
+  currentCall=null; guestMutado=false;
+  document.getElementById('btnMuteGuest').innerHTML='<i class="bi bi-mic-mute-fill"></i> Mutar';
   showToast('Participante desconectou.','#f0ad4e');
 }
-function showSpinner(show){
-  document.getElementById('spinnerRemoto').style.display=show?'block':'none';
-  document.getElementById('icoRemoto').style.display=show?'none':'';
-}
 
-// ─── CÂMERA MANUAL (caso tenha negado antes) ─────────────────
+// ─── CÂMERA MANUAL ────────────────────────────────────────────
 async function ativarCamera(){
   try{
     localStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
     document.getElementById('videoLocal').srcObject=localStream;
     document.getElementById('placeholderLocal').style.display='none';
     document.getElementById('btnAtiv').style.display='none';
-
-    // Injeta stream na chamada ativa
     if(currentCall&&currentCall.peerConnection){
       var senders=currentCall.peerConnection.getSenders();
       localStream.getTracks().forEach(function(track){
@@ -320,7 +602,6 @@ async function ativarCamera(){
         else currentCall.peerConnection.addTrack(track,localStream);
       });
     }
-    // Guest ainda não chamou
     if(!souHost&&!currentCall) chamarHost();
     showToast('Câmera ativada!');
   }catch(e){showToast('Erro câmera: '+e.message,'#dc3545');}
@@ -346,10 +627,12 @@ function copiarLink(){
     .then(function(){showToast('Link copiado!');});
 }
 function sair(){
-  if(currentCall)currentCall.close();
-  if(localStream)localStream.getTracks().forEach(function(t){t.stop();});
-  if(peer)peer.destroy();
-  localStream=null;peer=null;currentCall=null;
+  if(compartilhandoTela) pararTela();
+  if(currentCall) currentCall.close();
+  if(dataConn) dataConn.close();
+  if(localStream) localStream.getTracks().forEach(function(t){t.stop();});
+  if(peer) peer.destroy();
+  localStream=null;peer=null;currentCall=null;dataConn=null;
   history.replaceState(null,'',window.location.pathname);
   showPage('home');
 }
