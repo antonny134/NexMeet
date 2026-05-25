@@ -53,8 +53,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .cicon{width:44px;height:44px;border-radius:50%;background:#2a2a3a;border:none;color:#ccc;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .cicon:hover{background:#3a3a4a;}
 .cicon.off{background:#dc3545;color:#fff;}
-.spinner{width:24px;height:24px;border:3px solid #333;border-top-color:#007BFF;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 6px;}
+.spinner{width:28px;height:28px;border:3px solid #333;border-top-color:#007BFF;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.pulse{animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
 .toast-el{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#28A745;color:#fff;padding:10px 22px;border-radius:10px;font-size:.9em;z-index:999;}
 </style>
 </head>
@@ -120,7 +122,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
       <video id="videoRemoto" autoplay playsinline></video>
       <div class="placeholder" id="placeholderRemoto">
         <div class="spinner" id="spinnerRemoto" style="display:none"></div>
-        <i class="bi bi-person-circle" id="icoRemoto"></i>
+        <i class="bi bi-person-circle" id="icoRemoto" style="font-size:3em;color:#333"></i>
         <span id="txtRemoto">Aguardando participante...</span>
       </div>
       <div class="lbl">Participante</div>
@@ -128,7 +130,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
     <div class="vbox local">
       <video id="videoLocal" autoplay playsinline muted></video>
       <div class="placeholder" id="placeholderLocal">
-        <i class="bi bi-camera-video-off"></i>
+        <i class="bi bi-camera-video-off" style="font-size:2.5em;color:#333"></i>
         <span>Câmera off</span>
       </div>
       <div class="lbl">Você</div>
@@ -149,24 +151,24 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 <script>
 var peer=null, localStream=null, currentCall=null;
 var micOn=true, camOn=true, souHost=false, roomId=null;
+var hostId=null;
 
 function showPage(n){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+n).classList.add('active');
 }
-
 function showToast(msg,color){
   var t=document.getElementById('toastEl');
   t.textContent=msg; t.style.background=color||'#28A745';
   t.style.display='block';
   clearTimeout(t._t); t._t=setTimeout(function(){t.style.display='none';},2800);
 }
-
 function setStatus(msg,cls){
   document.getElementById('statusTxt').textContent=msg;
   document.getElementById('statusBar').className='statusbar '+cls;
 }
 
+// ─── ENTRAR NA SALA ───────────────────────────────────────────
 function criarSala(){
   var params=new URLSearchParams(window.location.search);
   roomId=params.get('room');
@@ -174,56 +176,92 @@ function criarSala(){
     roomId=Math.random().toString(36).substring(2,9).toUpperCase();
     history.replaceState(null,'','?room='+roomId);
   }
+  hostId='nexmeet-'+roomId+'-host';
   document.getElementById('linkInput').value=window.location.href;
   showPage('meet');
-  conectar();
+
+  // Pede câmera imediatamente ao entrar
+  pedirCameraEConectar();
 }
 
-// Estratégia: HOST registra Peer ID fixo = "nexmeet-SALA-host"
-// GUEST detecta erro "unavailable-id" e chama o host pelo ID fixo
-function conectar(){
-  if(peer){peer.destroy();peer=null;}
-  var hostId='nexmeet-'+roomId+'-host';
+// ─── CÂMERA + CONEXÃO SIMULTÂNEOS ────────────────────────────
+// Captura câmera e inicia peer ao mesmo tempo (Promise.all)
+// Assim a câmera já está pronta quando a conexão fechar
+function pedirCameraEConectar(){
   setStatus('A conectar...','waiting');
 
-  peer=new Peer(hostId);
+  // Câmera e peer em paralelo
+  var pCamera = navigator.mediaDevices.getUserMedia({video:true,audio:true})
+    .then(function(stream){
+      localStream=stream;
+      document.getElementById('videoLocal').srcObject=stream;
+      document.getElementById('placeholderLocal').style.display='none';
+      document.getElementById('btnAtiv').style.display='none';
+    })
+    .catch(function(e){
+      console.warn('Câmera negada:',e.message);
+      // continua sem câmera
+    });
 
-  peer.on('open',function(id){
-    souHost=true;
-    console.log('HOST aberto:',id);
-    setStatus('Sala criada! Compartilhe o link e aguarde o participante...','waiting');
+  // Peer em paralelo com câmera
+  var pPeer = new Promise(function(resolve){
+    if(peer){peer.destroy();peer=null;}
+    peer=new Peer(hostId);
 
-    peer.on('call',function(call){
-      console.log('HOST: recebendo chamada do guest');
-      showSpinner(true);
-      call.answer(localStream||new MediaStream());
-      currentCall=call;
-      call.on('stream',function(s){mostrarRemoto(s);});
-      call.on('close',function(){remotoDesconectou();});
-      call.on('error',function(e){console.error('call error',e);});
+    peer.on('open',function(id){
+      souHost=true;
+      console.log('HOST:',id);
+      setStatus('Sala criada! Aguardando participante...','waiting');
+      resolve('host');
+    });
+
+    peer.on('error',function(err){
+      if(err.type==='unavailable-id'){
+        peer.destroy();
+        resolve('guest'); // sinaliza que somos guest
+      } else {
+        console.error('Peer error:',err.type);
+        setStatus('Erro: '+err.type,'error');
+        resolve('error');
+      }
     });
   });
 
-  peer.on('error',function(err){
-    if(err.type==='unavailable-id'){
-      console.log('GUEST: host existe, entrando como guest');
-      peer.destroy();
-      entrarComoGuest(hostId);
-    } else {
-      console.error('Peer error:',err.type,err);
-      setStatus('Erro de rede: '+err.type,'error');
+  // Quando os dois terminarem, conectamos
+  Promise.all([pCamera,pPeer]).then(function(results){
+    var role=results[1];
+    if(role==='host'){
+      escutarChamada();
+    } else if(role==='guest'){
+      entrarComoGuest();
     }
   });
 }
 
-function entrarComoGuest(hostId){
-  peer=new Peer();
+// ─── HOST: escuta chamada do guest ───────────────────────────
+function escutarChamada(){
+  peer.on('call',function(call){
+    console.log('HOST: guest chamando');
+    showSpinner(true);
+    // Responde imediatamente com o stream já disponível
+    call.answer(localStream||new MediaStream());
+    currentCall=call;
+    call.on('stream',function(s){mostrarRemoto(s);});
+    call.on('close',function(){remotoDesconectou();});
+    call.on('error',function(e){console.error(e);});
+  });
+}
+
+// ─── GUEST: entra e chama imediatamente ──────────────────────
+function entrarComoGuest(){
+  peer=new Peer(); // ID aleatório
   peer.on('open',function(myId){
     souHost=false;
-    console.log('GUEST id:',myId,'| host:',hostId);
-    setStatus('Conectando ao host...','waiting');
+    console.log('GUEST:',myId,'-> chamando',hostId);
+    setStatus('Conectando...','waiting');
     showSpinner(true);
-    chamarHost(hostId);
+    // Chama o host imediatamente com stream já capturado
+    chamarHost();
   });
   peer.on('error',function(err){
     console.error('Guest error:',err.type);
@@ -231,16 +269,17 @@ function entrarComoGuest(hostId){
   });
 }
 
-function chamarHost(hostId){
+function chamarHost(){
   var stream=localStream||new MediaStream();
   var call=peer.call(hostId,stream);
-  if(!call){setStatus('Não foi possível chamar o host','error');return;}
+  if(!call){setStatus('Não foi possível chamar','error');return;}
   currentCall=call;
-  call.on('stream',function(s){console.log('GUEST: stream recebido');mostrarRemoto(s);});
+  call.on('stream',function(s){mostrarRemoto(s);});
   call.on('close',function(){remotoDesconectou();});
   call.on('error',function(e){console.error(e);setStatus('Erro na chamada','error');});
 }
 
+// ─── VÍDEO REMOTO ─────────────────────────────────────────────
 function mostrarRemoto(stream){
   var v=document.getElementById('videoRemoto');
   v.srcObject=stream;
@@ -249,7 +288,6 @@ function mostrarRemoto(stream){
   setStatus('Participante conectado','connected');
   showToast('Participante entrou!');
 }
-
 function remotoDesconectou(){
   document.getElementById('videoRemoto').srcObject=null;
   document.getElementById('placeholderRemoto').style.display='flex';
@@ -260,12 +298,12 @@ function remotoDesconectou(){
   currentCall=null;
   showToast('Participante desconectou.','#f0ad4e');
 }
-
 function showSpinner(show){
   document.getElementById('spinnerRemoto').style.display=show?'block':'none';
   document.getElementById('icoRemoto').style.display=show?'none':'';
 }
 
+// ─── CÂMERA MANUAL (caso tenha negado antes) ─────────────────
 async function ativarCamera(){
   try{
     localStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
@@ -273,24 +311,19 @@ async function ativarCamera(){
     document.getElementById('placeholderLocal').style.display='none';
     document.getElementById('btnAtiv').style.display='none';
 
-    // Substituir tracks na chamada ativa
+    // Injeta stream na chamada ativa
     if(currentCall&&currentCall.peerConnection){
       var senders=currentCall.peerConnection.getSenders();
       localStream.getTracks().forEach(function(track){
         var s=senders.find(function(x){return x.track&&x.track.kind===track.kind;});
-        if(s) s.replaceTrack(track); else currentCall.peerConnection.addTrack(track,localStream);
+        if(s) s.replaceTrack(track);
+        else currentCall.peerConnection.addTrack(track,localStream);
       });
     }
-
-    // Guest ativa câmera e ainda não chamou
-    if(!souHost&&!currentCall){
-      chamarHost('nexmeet-'+roomId+'-host');
-    }
-
+    // Guest ainda não chamou
+    if(!souHost&&!currentCall) chamarHost();
     showToast('Câmera ativada!');
-  }catch(e){
-    showToast('Erro câmera: '+e.message,'#dc3545');
-  }
+  }catch(e){showToast('Erro câmera: '+e.message,'#dc3545');}
 }
 
 function toggleMic(){
@@ -300,7 +333,6 @@ function toggleMic(){
   document.getElementById('icoMic').className=micOn?'bi bi-mic-fill':'bi bi-mic-mute-fill';
   document.getElementById('btnMic').classList.toggle('off',!micOn);
 }
-
 function toggleCam(){
   if(!localStream)return;
   camOn=!camOn;
@@ -309,12 +341,10 @@ function toggleCam(){
   document.getElementById('btnCam').classList.toggle('off',!camOn);
   document.getElementById('placeholderLocal').style.display=camOn?'none':'flex';
 }
-
 function copiarLink(){
   navigator.clipboard.writeText(window.location.href)
-    .then(function(){showToast('Link copiado! Compartilhe para convidar.');});
+    .then(function(){showToast('Link copiado!');});
 }
-
 function sair(){
   if(currentCall)currentCall.close();
   if(localStream)localStream.getTracks().forEach(function(t){t.stop();});
@@ -325,9 +355,7 @@ function sair(){
 }
 
 window.addEventListener('DOMContentLoaded',function(){
-  if(new URLSearchParams(window.location.search).get('room')){
-    criarSala();
-  }
+  if(new URLSearchParams(window.location.search).get('room')) criarSala();
 });
 </script>
 </body>
