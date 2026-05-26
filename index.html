@@ -9,7 +9,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:Arial,sans-serif;background:#0f0f13;color:#fff;min-height:100vh;}
-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#18181f;border-bottom:1px solid #2a2a3a;flex-wrap:wrap;gap:10px;}
+nav{display:flex; align-items:center;justify-content:space-between;padding:14px 24px;background:#18181f;border-bottom:1px solid #2a2a3a;flex-wrap:wrap;gap:10px;}
 .logo .a{color:#007BFF;font-size:1.5em;font-weight:bold;}
 .logo .b{color:#28A745;font-size:1.5em;font-weight:bold;}
 .btn{padding:10px 20px;border:none;border-radius:8px;font-size:.9em;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:opacity .2s;}
@@ -40,8 +40,33 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 2
 .fcard .sw{text-align:center;margin-top:14px;color:#aaa;font-size:.85em;}
 .fcard .sw a{color:#007BFF;cursor:pointer;text-decoration:underline;}
 
+/* MODAL PERFIL */
+.profile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:flex-start;justify-content:flex-end;padding:62px 18px 0;}
+.profile-overlay.open{display:flex;}
+.profile-panel{background:#18181f;border:1px solid #2a2a3a;border-radius:16px;width:320px;max-width:calc(100vw - 32px);box-shadow:0 8px 40px rgba(0,0,0,.6);overflow:hidden;}
+.profile-header{background:#1e1e2a;padding:20px 20px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2a2a3a;}
+.profile-big-av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4em;font-weight:700;color:#fff;flex-shrink:0;border:2px solid #007BFF;}
+.profile-info{flex:1;overflow:hidden;}
+.profile-info .pname{font-weight:700;font-size:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.profile-info .pemail{color:#666;font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.profile-close{background:none;border:none;color:#666;font-size:1.2em;cursor:pointer;padding:2px 6px;border-radius:6px;}
+.profile-close:hover{color:#fff;background:#2a2a3a;}
+.profile-section{padding:14px 18px;}
+.profile-section h4{font-size:.75em;color:#666;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.wp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:10px;}
+.wp-swatch{width:100%;aspect-ratio:1;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .15s;}
+.wp-swatch:hover{transform:scale(1.08);}
+.wp-swatch.selected{border-color:#007BFF;}
+.wp-custom-row{display:flex;gap:8px;align-items:center;margin-top:4px;}
+.wp-custom-row input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;background:none;padding:0;}
+.wp-custom-row input[type=text]{flex:1;padding:8px 10px;background:#0f0f13;border:1px solid #2a2a3a;border-radius:8px;color:#fff;font-size:.82em;outline:none;}
+.wp-custom-row input[type=text]:focus{border-color:#007BFF;}
+.wp-apply-btn{width:100%;padding:10px;background:#007BFF;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:.9em;margin-top:6px;transition:opacity .2s;}
+.wp-apply-btn:hover{opacity:.85;}
 /* AVATAR NO NAV */
 nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
+.nav-user{cursor:pointer!important;transition:background .2s;}
+.nav-user:hover{background:#3a3a4a!important;}
 .nav-user{display:flex;align-items:center;gap:8px;background:#2a2a3a;border-radius:30px;padding:6px 14px 6px 8px;font-size:.85em;cursor:default;}
 .nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;color:#fff;flex-shrink:0;}
 .nav-user-name{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -181,6 +206,29 @@ nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
   </div>
 </div>
 
+<!-- MODAL PERFIL -->
+<div class="profile-overlay" id="profileOverlay" onclick="fecharPerfil(event)">
+  <div class="profile-panel" id="profilePanel">
+    <div class="profile-header">
+      <div class="profile-big-av" id="profileAvatar"></div>
+      <div class="profile-info">
+        <div class="pname" id="profileName"></div>
+        <div class="pemail" id="profileEmail"></div>
+      </div>
+      <button class="profile-close" onclick="fecharPerfilForce()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="profile-section">
+      <h4><i class="bi bi-image"></i> Papel de parede</h4>
+      <div class="wp-grid" id="wpGrid"></div>
+      <div class="wp-custom-row">
+        <input type="color" id="wpColorPicker" title="Cor sólida" onchange="previewWp('color',this.value)">
+        <input type="text" id="wpUrlInput" placeholder="URL de imagem ou gradiente CSS..." oninput="previewWp('url',this.value)">
+      </div>
+      <button class="wp-apply-btn" onclick="aplicarWp()"><i class="bi bi-check-lg"></i> Aplicar papel de parede</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-el" id="toastEl"></div>
 <div id="screenPreview">
   <video id="screenPreviewVideo" autoplay playsinline></video>
@@ -194,6 +242,96 @@ nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
 //  Estrutura: nexmeet_users = [ { nome, email, senha, cor } ]
 //             nexmeet_session = { email, nome, cor }
 // ═══════════════════════════════════════════════════════════════
+
+// ─── PAPEL DE PAREDE ────────────────────────────────────────────
+var WP_KEY = 'nexmeet_wallpaper';
+var wpPendente = null;
+
+var WP_PRESETS = [
+  { type:'gradient', value:'linear-gradient(135deg,#0f0f13 0%,#1a1a2e 100%)', label:'Padrão' },
+  { type:'gradient', value:'linear-gradient(135deg,#0d1117 0%,#0d2137 50%,#0a3d2e 100%)', label:'Noite' },
+  { type:'gradient', value:'linear-gradient(135deg,#1a0533 0%,#2d1b69 50%,#11998e 100%)', label:'Aurora' },
+  { type:'gradient', value:'linear-gradient(135deg,#1c1c1c 0%,#2d2d2d 100%)', label:'Cinza' },
+  { type:'gradient', value:'linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)', label:'Oceano' },
+  { type:'gradient', value:'linear-gradient(135deg,#1a0000 0%,#3d0000 50%,#1a0000 100%)', label:'Rubi' },
+  { type:'gradient', value:'linear-gradient(135deg,#0a0a0a 0%,#001f0a 50%,#003300 100%)', label:'Matrix' },
+  { type:'gradient', value:'linear-gradient(135deg,#2c003e 0%,#1a0533 50%,#0d0221 100%)', label:'Violeta' },
+  { type:'gradient', value:'linear-gradient(135deg,#001f3f 0%,#003d7a 50%,#001f3f 100%)', label:'Safira' },
+  { type:'color', value:'#0f0f13', label:'Preto' },
+];
+
+function getSavedWp() {
+  try { return JSON.parse(localStorage.getItem(WP_KEY)); } catch(e){ return null; }
+}
+function aplicarWpSalvo() {
+  var wp = getSavedWp();
+  if (wp) aplicarWpNoDOM(wp);
+}
+function aplicarWpNoDOM(wp) {
+  if (!wp) return;
+  if (wp.type === 'color') {
+    document.body.style.background = wp.value;
+    document.body.style.backgroundImage = 'none';
+  } else if (wp.type === 'gradient') {
+    document.body.style.background = wp.value;
+  } else if (wp.type === 'image') {
+    document.body.style.background = 'url(' + wp.value + ') center/cover no-repeat fixed';
+  } else if (wp.type === 'css') {
+    document.body.style.background = wp.value;
+  }
+}
+function previewWp(type, value) {
+  if (!value) return;
+  wpPendente = { type: type === 'url' ? (value.startsWith('http') ? 'image' : 'css') : type, value: value };
+  aplicarWpNoDOM(wpPendente);
+}
+function aplicarWp() {
+  if (!wpPendente) return;
+  localStorage.setItem(WP_KEY, JSON.stringify(wpPendente));
+  fecharPerfilForce();
+  showToast('Papel de parede aplicado!', '#28A745');
+}
+function selecionarPreset(idx) {
+  wpPendente = { type: WP_PRESETS[idx].type, value: WP_PRESETS[idx].value };
+  aplicarWpNoDOM(wpPendente);
+  document.querySelectorAll('.wp-swatch').forEach(function(el,i){ el.classList.toggle('selected', i===idx); });
+}
+function construirWpGrid() {
+  var grid = document.getElementById('wpGrid'); if(!grid) return;
+  grid.innerHTML = '';
+  WP_PRESETS.forEach(function(wp, i){
+    var el = document.createElement('div');
+    el.className = 'wp-swatch';
+    el.title = wp.label;
+    el.style.background = wp.value;
+    el.onclick = function(){ selecionarPreset(i); };
+    var saved = getSavedWp();
+    if (saved && saved.value === wp.value) el.classList.add('selected');
+    grid.appendChild(el);
+  });
+}
+
+// ─── PERFIL MODAL ────────────────────────────────────────────
+function abrirPerfil() {
+  var user = currentUser(); if (!user) return;
+  document.getElementById('profileAvatar').style.background = user.cor || '#007BFF';
+  document.getElementById('profileAvatar').textContent = inicialNome(user.nome);
+  document.getElementById('profileName').textContent = user.nome;
+  document.getElementById('profileEmail').textContent = user.email;
+  construirWpGrid();
+  wpPendente = getSavedWp();
+  document.getElementById('wpColorPicker').value = '#0f0f13';
+  document.getElementById('wpUrlInput').value = '';
+  document.getElementById('profileOverlay').classList.add('open');
+}
+function fecharPerfil(e) {
+  if (e.target === document.getElementById('profileOverlay')) fecharPerfilForce();
+}
+function fecharPerfilForce() {
+  document.getElementById('profileOverlay').classList.remove('open');
+  wpPendente = null;
+  aplicarWpSalvo();
+}
 
 var USERS_KEY = 'nexmeet_users';
 var SESSION_KEY = 'nexmeet_session';
@@ -337,9 +475,10 @@ function renderNav() {
   if (user) {
     // Logado: mostra avatar + nome + botão sair
     nav.innerHTML =
-      '<div class="nav-user">' +
+      '<div class="nav-user" onclick="abrirPerfil()" title="Meu perfil">' +
         '<div class="nav-avatar" style="background:' + (user.cor||'#007BFF') + '">' + inicialNome(user.nome) + '</div>' +
         '<span class="nav-user-name">' + user.nome.split(' ')[0] + '</span>' +
+        '<i class="bi bi-chevron-down" style="font-size:.7em;color:#888;margin-left:2px"></i>' +
       '</div>' +
       '<button class="btn btn-gray" onclick="fazerLogout()"><i class="bi bi-box-arrow-right"></i> Sair</button>' +
       '<button class="btn btn-blue" onclick="criarSala()"><i class="bi bi-camera-video"></i> Nova reunião</button>';
@@ -787,6 +926,7 @@ document.addEventListener('keydown', function(e) {
 
 window.addEventListener('DOMContentLoaded', function() {
   renderNav();
+  aplicarWpSalvo();
   if (new URLSearchParams(window.location.search).get('room')) criarSala();
 });
 </script>
