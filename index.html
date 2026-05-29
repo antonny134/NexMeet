@@ -45,16 +45,20 @@ nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
 .nav-user-name{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
 /* MODAL LINK PERSONALIZADO */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+@media(min-width:600px){.modal-overlay{align-items:center;}}
 .modal-overlay.open{display:flex;}
-.modal-box{background:#18181f;border:1px solid #2a2a3a;border-radius:16px;padding:32px;width:420px;max-width:calc(100vw - 32px);animation:slideUp .25s ease;}
-@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-box{background:#18181f;border:1px solid #2a2a3a;border-radius:16px 16px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:slideUp .25s ease;}
+@media(min-width:600px){.modal-box{border-radius:16px;padding:32px;width:420px;}}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .modal-box h3{font-size:1.15em;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .modal-box .msub{color:#666;font-size:.85em;margin-bottom:22px;}
-.link-input-group{display:flex;align-items:center;gap:0;background:#0f0f13;border:1px solid #2a2a3a;border-radius:10px;overflow:hidden;margin-bottom:6px;}
-.link-prefix{padding:12px 10px 12px 14px;color:#555;font-size:.82em;white-space:nowrap;border-right:1px solid #2a2a3a;background:#0f0f13;}
-.link-input-group input{flex:1;background:transparent;border:none;color:#fff;padding:12px 10px;outline:none;font-size:.92em;min-width:0;}
-.link-input-group input:focus{outline:none;}
+.link-input-group{display:flex;flex-direction:column;gap:0;background:#0f0f13;border:1px solid #2a2a3a;border-radius:10px;overflow:hidden;margin-bottom:6px;}
+@media(min-width:480px){.link-input-group{flex-direction:row;align-items:center;}}
+.link-prefix{padding:10px 14px 4px;color:#555;font-size:.75em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#0f0f13;border-bottom:1px solid #1e1e2e;font-family:monospace;max-width:100%;}
+@media(min-width:480px){.link-prefix{padding:12px 10px 12px 14px;border-bottom:none;border-right:1px solid #2a2a3a;font-size:.82em;max-width:180px;}}
+.link-input-group input{flex:1;background:transparent;border:none;color:#fff;padding:12px 14px;outline:none;font-size:1em;min-width:0;-webkit-appearance:none;border-radius:0;}
+@media(min-width:480px){.link-input-group input{font-size:.92em;padding:12px 10px;}}
 .link-hint{font-size:.76em;color:#555;margin-bottom:18px;}
 .link-hint.ok{color:#28A745;}
 .link-hint.bad{color:#dc3545;}
@@ -301,6 +305,10 @@ nav:hover{border-bottom: 2px solid #007BFF; transition:all .3s;}
 #miniPlayer.active-call{
   border-color:#28A745;
   animation:pulse-border 2.5s ease infinite;
+}
+
+@media(max-width:599px){
+  .modal-box input{font-size:16px!important;}
 }
 </style>
 </head>
@@ -674,7 +682,8 @@ function setStatus(msg,cls){
 
 function abrirModalCriarSala(){
   var user=currentUser();
-  var prefixo=window.location.origin+window.location.pathname+'?room=';
+  // Mostra só o domínio + ?room= para não estourar no mobile
+  var prefixo=window.location.hostname+(window.location.port?':'+window.location.port:'')+'/?room=';
   document.getElementById('linkPrefixo').textContent=prefixo;
   document.getElementById('inputLinkCustom').value='';
   document.getElementById('hintLinkCustom').textContent='Deixe em branco para gerar automaticamente. Use letras, números e hífen.';
@@ -688,6 +697,11 @@ function abrirModalCriarSala(){
     document.getElementById('blocoVisitante').style.display='block';
   }
   document.getElementById('modalCriarSala').classList.add('open');
+  // Foca o input após a animação no mobile
+  setTimeout(function(){
+    var inp=document.getElementById('inputLinkCustom');
+    if(inp&&window.innerWidth>400)inp.focus();
+  },300);
 }
 
 function fecharModal(){
