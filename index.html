@@ -10,7 +10,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:Arial,sans-serif;background:#0f0f13;color:#fff;min-height:100vh;}
-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#18181f;border-bottom:1px solid #2a2a3a;flex-wrap:wrap;gap:10px;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#18181f;border-bottom:1px solid #2a2a3a;flex-wrap:wrap;gap:10px;position:relative;}
 .logo .a{color:#007BFF;font-size:1.5em;font-weight:bold;}
 .logo .b{color:#28A745;font-size:1.5em;font-weight:bold;}
 .btn{padding:10px 20px;border:none;border-radius:8px;font-size:.9em;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:opacity .2s;}
@@ -44,6 +44,45 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .nav-user{display:flex;align-items:center;gap:8px;background:#2a2a3a;border-radius:30px;padding:6px 14px 6px 8px;font-size:.85em;cursor:default;}
 .nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;color:#fff;flex-shrink:0;}
 .nav-user-name{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── NOTIFICAÇÕES ─────────────────────────────────────────── */
+.notif-btn-wrap{position:relative;display:inline-flex;}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:#dc3545;color:#fff;font-size:.62em;font-weight:700;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center;border:2px solid #18181f;z-index:10;pointer-events:none;animation:popIn .25s cubic-bezier(.34,1.56,.64,1);}
+.notif-badge.show{display:flex;}
+@keyframes popIn{from{transform:scale(0);}to{transform:scale(1);}}
+
+.notif-panel{position:fixed;top:62px;right:16px;width:340px;max-width:calc(100vw - 32px);background:#18181f;border:1px solid #2a2a3a;border-radius:14px;z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,.7);overflow:hidden;display:none;animation:slideDown .2s ease;}
+.notif-panel.open{display:block;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid #2a2a3a;}
+.notif-header-left{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.92em;}
+.notif-header-left i{color:#007BFF;}
+.notif-clear{background:none;border:none;color:#555;font-size:.75em;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .2s,color .2s;}
+.notif-clear:hover{background:#2a2a3a;color:#aaa;}
+.notif-list{max-height:340px;overflow-y:auto;padding:8px;}
+.notif-empty{text-align:center;padding:32px 16px;color:#444;font-size:.85em;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.notif-empty i{font-size:2em;color:#333;}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 10px;border-radius:10px;transition:background .15s;position:relative;margin-bottom:2px;}
+.notif-item:hover{background:#1e1e28;}
+.notif-item.unread::before{content:'';position:absolute;left:6px;top:14px;width:6px;height:6px;border-radius:50%;background:#007BFF;}
+.notif-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;color:#fff;flex-shrink:0;}
+.notif-body{flex:1;min-width:0;}
+.notif-title{font-size:.82em;font-weight:600;color:#e0e0e0;line-height:1.3;margin-bottom:2px;}
+.notif-sub{font-size:.75em;color:#555;line-height:1.3;}
+.notif-time{font-size:.7em;color:#444;white-space:nowrap;margin-top:2px;}
+.notif-type-join .notif-avatar-ring{box-shadow:0 0 0 2px #28A745;}
+.notif-type-left .notif-avatar-ring{box-shadow:0 0 0 2px #dc3545;}
+.notif-type-mute .notif-avatar-ring{box-shadow:0 0 0 2px #fd7e14;}
+
+/* ── TOAST DE NOTIFICAÇÃO APRIMORADO ─────────────────────── */
+.notif-toast{position:fixed;top:72px;right:16px;width:300px;background:#1c1c26;border:1px solid #2a2a3a;border-radius:12px;padding:12px 14px;z-index:3000;box-shadow:0 8px 28px rgba(0,0,0,.7);display:flex;align-items:center;gap:12px;transform:translateX(120%);transition:transform .3s cubic-bezier(.34,1.1,.64,1);pointer-events:none;}
+.notif-toast.show{transform:translateX(0);pointer-events:auto;}
+.notif-toast-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;color:#fff;flex-shrink:0;}
+.notif-toast-body{flex:1;min-width:0;}
+.notif-toast-title{font-size:.82em;font-weight:700;color:#fff;margin-bottom:2px;}
+.notif-toast-sub{font-size:.75em;color:#888;}
+.notif-toast-icon{font-size:1.1em;flex-shrink:0;}
+.notif-toast-bar{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 12px 12px;transition:width linear;}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
@@ -158,7 +197,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .color-dot.selected{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.25);}
 .color-dot.selected::after{content:'✓';color:#fff;font-size:.85em;font-weight:700;}
 
-/* ── QR CODE LOGIN ───────────────────────────────────────── */
+/* QR */
 .qr-card{display:flex;flex-direction:column;align-items:center;gap:20px;padding:4px 0;}
 @media(min-width:520px){.qr-card{flex-direction:row;align-items:flex-start;}}
 .qr-box{background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;position:relative;width:176px;height:176px;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,.4);}
@@ -185,7 +224,6 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .qr-num{background:#2a2a3a;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:700;flex-shrink:0;margin-top:1px;}
 .qr-actions{display:flex;gap:8px;flex-wrap:wrap;}
 
-/* ── LOGIN POR QR (página no celular) ──────────────────── */
 #page-qrlogin{flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;}
 .qrl-card{background:#18181f;border:1px solid #2a2a3a;border-radius:18px;padding:28px 24px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px;animation:slideUp .3s ease;}
 .qrl-card h2{font-size:1.15em;margin:0;display:flex;align-items:center;gap:8px;}
@@ -205,7 +243,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .qrl-loading{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 0;color:#666;font-size:.88em;}
 .qrl-spinner{width:32px;height:32px;border:3px solid #2a2a3a;border-top-color:#007BFF;border-radius:50%;animation:spin .8s linear infinite;}
 
-/* MINI PLAYER FLUTUANTE */
+/* MINI PLAYER */
 #miniPlayer{display:none;position:fixed;bottom:28px;right:28px;width:300px;height:175px;background:#0a0a10;border-radius:14px;border:2px solid #007BFF;box-shadow:0 8px 32px rgba(0,123,255,.35),0 2px 12px rgba(0,0,0,.7);z-index:900;overflow:hidden;user-select:none;transition:box-shadow .2s;min-width:180px;min-height:110px;max-width:90vw;max-height:80vh;}
 #miniPlayer:hover{box-shadow:0 12px 40px rgba(0,123,255,.5),0 2px 16px rgba(0,0,0,.8);}
 #miniPlayer video{width:100%;height:100%;object-fit:cover;display:block;background:#000;pointer-events:none;}
@@ -251,6 +289,31 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   <div class="logo"><span class="a">Nex</span><span class="b">Meet</span></div>
   <div id="navBtns" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"></div>
 </nav>
+
+<!-- ── PAINEL DE NOTIFICAÇÕES ─────────────────────────────── -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-header">
+    <div class="notif-header-left"><i class="bi bi-bell-fill"></i> Notificações <span id="notifCount" style="background:#007BFF;color:#fff;font-size:.7em;padding:1px 7px;border-radius:10px;display:none"></span></div>
+    <button class="notif-clear" onclick="limparNotificacoes()"><i class="bi bi-trash3"></i> Limpar</button>
+  </div>
+  <div class="notif-list" id="notifList">
+    <div class="notif-empty" id="notifEmpty">
+      <i class="bi bi-bell-slash"></i>
+      <span>Nenhuma notificação ainda</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST DE NOTIFICAÇÃO ───────────────────────────────── -->
+<div class="notif-toast" id="notifToast">
+  <div class="notif-toast-avatar" id="ntAvatar"></div>
+  <div class="notif-toast-body">
+    <div class="notif-toast-title" id="ntTitle"></div>
+    <div class="notif-toast-sub" id="ntSub"></div>
+  </div>
+  <div class="notif-toast-icon" id="ntIcon"></div>
+  <div class="notif-toast-bar" id="ntBar"></div>
+</div>
 
 <!-- HOME -->
 <div class="page active" id="page-home">
@@ -322,8 +385,6 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
     <input type="file" id="perfilBgUpload" accept="image/*" style="display:none" onchange="uploadFundoGaleria(event)">
   </div>
   <div class="perfil-body">
-
-    <!-- Informações -->
     <div class="perfil-section">
       <h3><i class="bi bi-person-fill" style="color:#007BFF"></i> Informações da conta</h3>
       <div class="perfil-row">
@@ -349,21 +410,14 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <button class="btn btn-gray" onclick="showPage('home')"><i class="bi bi-x"></i> Cancelar</button>
       </div>
     </div>
-
-    <!-- Cor do avatar -->
     <div class="perfil-section">
       <h3><i class="bi bi-palette-fill" style="color:#e91e63"></i> Cor do avatar</h3>
       <div class="color-grid" id="colorGrid"></div>
     </div>
-
-    <!-- QR Code Login -->
     <div class="perfil-section">
       <h3><i class="bi bi-qr-code" style="color:#007BFF"></i> Login rápido por QR Code</h3>
-      <p style="color:#666;font-size:.82em;margin-bottom:20px;">
-        Escaneie com o celular para entrar na sua conta sem digitar email e senha. O código expira em <strong style="color:#aaa">5 minutos</strong> e só pode ser usado <strong style="color:#aaa">uma vez</strong>.
-      </p>
+      <p style="color:#666;font-size:.82em;margin-bottom:20px;">Escaneie com o celular para entrar na sua conta sem digitar email e senha. O código expira em <strong style="color:#aaa">5 minutos</strong> e só pode ser usado <strong style="color:#aaa">uma vez</strong>.</p>
       <div class="qr-card">
-        <!-- QR box -->
         <div class="qr-box" id="qrBox">
           <div id="qrCanvas"></div>
           <div class="qr-expired-overlay" id="qrExpiredOverlay" style="display:none;" onclick="gerarQRToken()">
@@ -371,22 +425,18 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
             <span>Expirado<br>Toque para renovar</span>
           </div>
         </div>
-        <!-- Info lateral -->
         <div class="qr-info">
-          <!-- Timer -->
           <div class="qr-timer-row">
             <div class="qr-timer-label"><i class="bi bi-clock-fill"></i> Expira em</div>
             <div class="qr-timer-num ok" id="qrTimerNum">5:00</div>
             <div class="qr-bar-wrap"><div class="qr-bar-fill ok" id="qrBarFill" style="width:100%"></div></div>
           </div>
-          <!-- Passos -->
           <ol class="qr-steps">
             <li><span class="qr-num">1</span><span>Abra a câmera do celular</span></li>
             <li><span class="qr-num">2</span><span>Aponte para o QR Code ao lado</span></li>
             <li><span class="qr-num">3</span><span>Digite sua senha no celular para confirmar</span></li>
             <li><span class="qr-num">4</span><span>Pronto! Você estará logado no celular</span></li>
           </ol>
-          <!-- Ações -->
           <div class="qr-actions">
             <button class="btn btn-gray" onclick="gerarQRToken()" style="font-size:.82em;padding:8px 14px;">
               <i class="bi bi-arrow-clockwise"></i> Novo código
@@ -395,29 +445,22 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         </div>
       </div>
     </div>
-
-    <!-- Papel de parede -->
     <div class="perfil-section">
       <h3><i class="bi bi-image-fill" style="color:#28A745"></i> Papel de parede da home</h3>
       <p style="color:#666;font-size:.82em;margin-bottom:14px;">Escolha um fundo para personalizar a sua tela inicial.</p>
       <div class="bg-gallery" id="bgGallery"></div>
     </div>
-
   </div>
 </div>
 
-<!-- LOGIN POR QR CODE (abre no celular ao escanear) -->
+<!-- LOGIN POR QR -->
 <div class="page" id="page-qrlogin">
   <div class="qrl-card">
     <h2><i class="bi bi-qr-code-scan" style="color:#007BFF"></i> Login por QR Code</h2>
-
-    <!-- Loading -->
     <div class="qrl-loading" id="qrlLoading">
       <div class="qrl-spinner"></div>
       <span>Verificando código...</span>
     </div>
-
-    <!-- Bloco do usuário + senha (mostrado após validação) -->
     <div id="qrlUserBlock" style="display:none;flex-direction:column;gap:16px;">
       <div class="qrl-user-block">
         <div class="qrl-avatar" id="qrlAvatar"></div>
@@ -434,10 +477,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <i class="bi bi-box-arrow-in-right"></i> Entrar
       </button>
     </div>
-
-    <!-- Status (erro / sucesso / expirado) -->
     <div id="qrlStatus" style="display:none;"></div>
-
     <div class="qrl-sep"></div>
     <button class="btn btn-gray" style="width:100%;justify-content:center;font-size:.85em;" onclick="showPage('home')">
       <i class="bi bi-house"></i> Ir para a home
@@ -475,7 +515,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   </div>
 </div>
 
-<!-- MODAL: CRIAR SALA -->
+<!-- MODAL CRIAR SALA -->
 <div class="modal-overlay" id="modalCriarSala">
   <div class="modal-box">
     <h3><i class="bi bi-camera-video-fill" style="color:#007BFF"></i> Criar nova reunião</h3>
@@ -522,7 +562,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   </div>
 </div>
 
-<!-- MINI PLAYER FLUTUANTE -->
+<!-- MINI PLAYER -->
 <div id="miniPlayer">
   <video id="miniVideo" autoplay playsinline muted></video>
   <div id="miniPlaceholder">
@@ -565,24 +605,21 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   <div class="prev-label"><i class="bi bi-display-fill"></i> Sua tela</div>
   <button class="prev-close" onclick="pararTela()">✕ Parar</button>
 </div>
-
 <video id="pipVideo" autoplay playsinline muted style="display:none;width:1px;height:1px;position:fixed;top:-9999px;"></video>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 //  AUTH
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 var USERS_KEY='nexmeet_users';
 var SESSION_KEY='nexmeet_session';
 var AVATAR_COLORS=['#007BFF','#28A745','#e91e63','#9c27b0','#ff5722','#009688','#f44336','#3f51b5'];
-
 function getUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||[];}catch(e){return[];}}
 function saveUsers(arr){localStorage.setItem(USERS_KEY,JSON.stringify(arr));}
 function getSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY));}catch(e){return null;}}
 function saveSession(user){localStorage.setItem(SESSION_KEY,JSON.stringify(user));}
 function clearSession(){localStorage.removeItem(SESSION_KEY);}
 function currentUser(){return getSession();}
-
 function validarEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
 function clearErrors(){document.querySelectorAll('.field-err').forEach(function(el){el.textContent='';});document.querySelectorAll('.fcard input').forEach(function(el){el.classList.remove('err');});}
 function setErr(id,msg,inputId){var el=document.getElementById(id);if(el)el.textContent=msg;if(inputId){var inp=document.getElementById(inputId);if(inp)inp.classList.add('err');}}
@@ -632,8 +669,7 @@ function fazerLogin(){
     return;
   }
   saveSession({nome:user.nome,email:user.email,cor:user.cor});
-  document.getElementById('loginEmail').value='';
-  document.getElementById('loginSenha').value='';
+  document.getElementById('loginEmail').value='';document.getElementById('loginSenha').value='';
   showToast('Bem-vindo de volta, '+user.nome.split(' ')[0]+'!');
   renderNav();showPage('home');
 }
@@ -656,6 +692,12 @@ function renderNav(){
         '<span class="nav-user-name">'+user.nome.split(' ')[0]+'</span>'+
         '<i class="bi bi-chevron-down" style="font-size:.7em;color:#666;margin-left:2px;"></i>'+
       '</div>'+
+      '<div class="notif-btn-wrap">'+
+        '<button class="btn btn-gray" id="btnNotif" onclick="toggleNotifPanel(event)" title="Notificações" style="padding:10px 14px;">'+
+          '<i class="bi bi-bell-fill"></i>'+
+        '</button>'+
+        '<span class="notif-badge" id="notifBadge"></span>'+
+      '</div>'+
       '<button class="btn btn-gray" onclick="fazerLogout()"><i class="bi bi-box-arrow-right"></i> Sair</button>'+
       '<button class="btn btn-blue" onclick="abrirModalCriarSala()"><i class="bi bi-camera-video"></i> Nova reunião</button>';
   }else{
@@ -673,6 +715,7 @@ function showPage(n){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+n).classList.add('active');
   if(n==='home')aplicarFundoHome();
+  fecharNotifPanel();
 }
 
 function showToast(msg,color){
@@ -686,9 +729,227 @@ function setStatus(msg,cls){
   document.getElementById('statusBar').className='statusbar '+cls;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+//  SISTEMA DE NOTIFICAÇÕES
+// ═══════════════════════════════════════════════════════
+var notificacoes=[];
+var notifNaoLidas=0;
+var notifToastTimer=null;
+var notifBarTimer=null;
+var audioCtx=null;
+
+function getAudioCtx(){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function tocarSomEntrada(){
+  try{
+    var ctx=getAudioCtx();
+    var g=ctx.createGain();g.gain.setValueAtTime(0.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+    g.connect(ctx.destination);
+    [880,1100,1320].forEach(function(freq,i){
+      var o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,ctx.currentTime+i*0.1);
+      o.connect(g);o.start(ctx.currentTime+i*0.1);o.stop(ctx.currentTime+i*0.1+0.25);
+    });
+  }catch(e){}
+}
+
+function tocarSomSaida(){
+  try{
+    var ctx=getAudioCtx();
+    var g=ctx.createGain();g.gain.setValueAtTime(0.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+    g.connect(ctx.destination);
+    [660,550,440].forEach(function(freq,i){
+      var o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,ctx.currentTime+i*0.12);
+      o.connect(g);o.start(ctx.currentTime+i*0.12);o.stop(ctx.currentTime+i*0.12+0.2);
+    });
+  }catch(e){}
+}
+
+function adicionarNotificacao(tipo, nome, cor, msg){
+  var id='notif_'+Date.now();
+  var agora=new Date();
+  var hora=agora.getHours().toString().padStart(2,'0')+':'+agora.getMinutes().toString().padStart(2,'0');
+  notificacoes.unshift({id:id,tipo:tipo,nome:nome,cor:cor||'#007BFF',msg:msg,hora:hora,lida:false});
+  notifNaoLidas++;
+  renderNotifBadge();
+  renderNotifPanel();
+  mostrarNotifToast(tipo,nome,cor,msg);
+  if(tipo==='join')tocarSomEntrada();
+  else if(tipo==='left')tocarSomSaida();
+  notificarNativo(tipo,nome,msg);
+}
+
+function notificarNativo(tipo,nome,msg){
+  if(!('Notification' in window))return;
+  if(Notification.permission==='granted'){
+    try{
+      var icone=tipo==='join'?'🟢':tipo==='left'?'🔴':'🔔';
+      new Notification('NexMeet — '+icone+' '+nome,{body:msg,icon:''});
+    }catch(e){}
+  }else if(Notification.permission!=='denied'){
+    Notification.requestPermission();
+  }
+}
+
+function renderNotifBadge(){
+  var badge=document.getElementById('notifBadge');
+  if(!badge)return;
+  if(notifNaoLidas>0){
+    badge.textContent=notifNaoLidas>9?'9+':notifNaoLidas;
+    badge.classList.add('show');
+  }else{
+    badge.classList.remove('show');
+  }
+}
+
+function renderNotifPanel(){
+  var list=document.getElementById('notifList');
+  var empty=document.getElementById('notifEmpty');
+  var countEl=document.getElementById('notifCount');
+  if(!list)return;
+  var antigas=list.querySelectorAll('.notif-item');
+  antiga.forEach(function(el){el.remove();});
+  if(notificacoes.length===0){if(empty)empty.style.display='flex';}
+  else{
+    if(empty)empty.style.display='none';
+    if(countEl){
+      if(notifNaoLidas>0){countEl.textContent=notifNaoLidas;countEl.style.display='inline-block';}
+      else countEl.style.display='none';
+    }
+    notificacoes.forEach(function(n){
+      var div=document.createElement('div');
+      div.className='notif-item notif-type-'+n.tipo+(n.lida?'':' unread');
+      div.id='ni-'+n.id;
+      var iconeEvento=n.tipo==='join'?'<i class="bi bi-person-fill-add" style="color:#28A745"></i>':n.tipo==='left'?'<i class="bi bi-person-fill-dash" style="color:#dc3545"></i>':'<i class="bi bi-info-circle-fill" style="color:#007BFF"></i>';
+      div.innerHTML=
+        '<div class="notif-avatar notif-avatar-ring" style="background:'+(n.cor||'#007BFF')+'">'+inicialNome(n.nome)+'</div>'+
+        '<div class="notif-body">'+
+          '<div class="notif-title">'+iconeEvento+' '+n.nome+'</div>'+
+          '<div class="notif-sub">'+n.msg+'</div>'+
+          '<div class="notif-time">'+n.hora+'</div>'+
+        '</div>';
+      div.onclick=function(){n.lida=true;div.classList.remove('unread');recalcularNaoLidas();};
+      list.appendChild(div);
+    });
+  }
+}
+
+// Fix: usar querySelector
+function renderNotifPanel(){
+  var list=document.getElementById('notifList');
+  var empty=document.getElementById('notifEmpty');
+  var countEl=document.getElementById('notifCount');
+  if(!list)return;
+  list.querySelectorAll('.notif-item').forEach(function(el){el.remove();});
+  if(notificacoes.length===0){if(empty)empty.style.display='flex';}
+  else{
+    if(empty)empty.style.display='none';
+    if(countEl){
+      if(notifNaoLidas>0){countEl.textContent=notifNaoLidas;countEl.style.display='inline-block';}
+      else countEl.style.display='none';
+    }
+    notificacoes.forEach(function(n){
+      var div=document.createElement('div');
+      div.className='notif-item notif-type-'+n.tipo+(n.lida?'':' unread');
+      div.id='ni-'+n.id;
+      var iconeEvento=n.tipo==='join'?'<i class="bi bi-person-fill-add" style="color:#28A745;margin-right:4px;"></i>':n.tipo==='left'?'<i class="bi bi-person-fill-dash" style="color:#dc3545;margin-right:4px;"></i>':'<i class="bi bi-info-circle-fill" style="color:#007BFF;margin-right:4px;"></i>';
+      div.innerHTML=
+        '<div class="notif-avatar notif-avatar-ring" style="background:'+(n.cor||'#007BFF')+'">'+inicialNome(n.nome)+'</div>'+
+        '<div class="notif-body">'+
+          '<div class="notif-title">'+iconeEvento+n.nome+'</div>'+
+          '<div class="notif-sub">'+n.msg+'</div>'+
+          '<div class="notif-time">Hoje às '+n.hora+'</div>'+
+        '</div>';
+      div.onclick=function(){n.lida=true;div.classList.remove('unread');recalcularNaoLidas();};
+      list.appendChild(div);
+    });
+  }
+}
+
+function recalcularNaoLidas(){
+  notifNaoLidas=notificacoes.filter(function(n){return!n.lida;}).length;
+  renderNotifBadge();
+  var countEl=document.getElementById('notifCount');
+  if(countEl){
+    if(notifNaoLidas>0){countEl.textContent=notifNaoLidas;countEl.style.display='inline-block';}
+    else countEl.style.display='none';
+  }
+}
+
+function limparNotificacoes(){
+  notificacoes=[];notifNaoLidas=0;
+  renderNotifPanel();renderNotifBadge();
+}
+
+function toggleNotifPanel(e){
+  e.stopPropagation();
+  var panel=document.getElementById('notifPanel');
+  var isOpen=panel.classList.contains('open');
+  if(isOpen){fecharNotifPanel();}
+  else{
+    panel.classList.add('open');
+    notificacoes.forEach(function(n){n.lida=true;});
+    notifNaoLidas=0;
+    renderNotifBadge();
+    renderNotifPanel();
+  }
+}
+
+function fecharNotifPanel(){
+  var panel=document.getElementById('notifPanel');
+  if(panel)panel.classList.remove('open');
+}
+
+document.addEventListener('click',function(e){
+  var panel=document.getElementById('notifPanel');
+  var btn=document.getElementById('btnNotif');
+  if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&(!btn||!btn.contains(e.target))){
+    fecharNotifPanel();
+  }
+});
+
+function mostrarNotifToast(tipo,nome,cor,msg){
+  var toast=document.getElementById('notifToast');
+  var av=document.getElementById('ntAvatar');
+  var title=document.getElementById('ntTitle');
+  var sub=document.getElementById('ntSub');
+  var ico=document.getElementById('ntIcon');
+  var bar=document.getElementById('ntBar');
+  if(!toast)return;
+  clearTimeout(notifToastTimer);
+  clearInterval(notifBarTimer);
+  av.textContent=inicialNome(nome);
+  av.style.background=cor||'#007BFF';
+  title.textContent=nome;
+  sub.textContent=msg;
+  var borderColor='#007BFF';
+  if(tipo==='join'){ico.innerHTML='<i class="bi bi-person-fill-add" style="color:#28A745"></i>';borderColor='#28A745';}
+  else if(tipo==='left'){ico.innerHTML='<i class="bi bi-person-fill-dash" style="color:#dc3545"></i>';borderColor='#dc3545';}
+  else{ico.innerHTML='<i class="bi bi-info-circle-fill" style="color:#007BFF"></i>';}
+  toast.style.borderColor=borderColor;
+  bar.style.background=borderColor;
+  bar.style.width='100%';
+  bar.style.transition='none';
+  toast.classList.add('show');
+  var DURACAO=4000;
+  setTimeout(function(){
+    bar.style.transition='width '+DURACAO+'ms linear';
+    bar.style.width='0%';
+  },50);
+  notifToastTimer=setTimeout(function(){
+    toast.classList.remove('show');
+  },DURACAO+100);
+  toast.onclick=function(){
+    toast.classList.remove('show');
+    clearTimeout(notifToastTimer);
+  };
+}
+
+// ═══════════════════════════════════════════════════════
 //  MODAL
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 function abrirModalCriarSala(){
   var user=currentUser();
   var prefixo=window.location.hostname+(window.location.port?':'+window.location.port:'')+'/?room=';
@@ -721,11 +982,11 @@ function confirmarCriarSalaCustom(){
 function confirmarCriarSalaAleatorio(){fecharModal();criarSalaComId(gerarIdAleatorio());}
 function gerarIdAleatorio(){return Math.random().toString(36).substring(2,9).toUpperCase();}
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 //  QR CODE LOGIN
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 var QR_TOKENS_KEY='nexmeet_qr_tokens';
-var QR_TTL=300; // 5 minutos em segundos
+var QR_TTL=300;
 var qrTimerInterval=null;
 var qrTokenAtivo=null;
 
@@ -733,212 +994,78 @@ function getQRTokens(){try{return JSON.parse(localStorage.getItem(QR_TOKENS_KEY)
 function saveQRTokens(obj){localStorage.setItem(QR_TOKENS_KEY,JSON.stringify(obj));}
 
 function limparTokensExpirados(){
-  var tokens=getQRTokens();
-  var agora=Date.now();
-  var mudou=false;
-  Object.keys(tokens).forEach(function(tk){
-    if(tokens[tk].exp<agora){delete tokens[tk];mudou=true;}
-  });
-  if(mudou)saveQRTokens(tokens);
-  return tokens;
+  var tokens=getQRTokens();var agora=Date.now();var mudou=false;
+  Object.keys(tokens).forEach(function(tk){if(tokens[tk].exp<agora){delete tokens[tk];mudou=true;}});
+  if(mudou)saveQRTokens(tokens);return tokens;
 }
 
 function gerarQRToken(){
-  var user=currentUser();
-  if(!user)return;
-
-  // Para timer anterior
-  clearInterval(qrTimerInterval);
-
-  // Limpa tokens velhos
-  limparTokensExpirados();
-
-  // Gera token novo (32 chars hex-like)
-  var token='';
-  for(var i=0;i<4;i++)token+=Math.random().toString(36).substring(2,10);
-
-  var agora=Date.now();
-  var exp=agora+QR_TTL*1000;
-
-  var tokens=getQRTokens();
-  tokens[token]={email:user.email,exp:exp,usado:false};
-  saveQRTokens(tokens);
-  qrTokenAtivo=token;
-
-  // URL que o celular vai abrir
+  var user=currentUser();if(!user)return;
+  clearInterval(qrTimerInterval);limparTokensExpirados();
+  var token='';for(var i=0;i<4;i++)token+=Math.random().toString(36).substring(2,10);
+  var agora=Date.now();var exp=agora+QR_TTL*1000;
+  var tokens=getQRTokens();tokens[token]={email:user.email,exp:exp,usado:false};saveQRTokens(tokens);qrTokenAtivo=token;
   var url=window.location.origin+window.location.pathname+'?qrtoken='+token;
-
-  // Limpa QR anterior
-  var canvas=document.getElementById('qrCanvas');
-  canvas.innerHTML='';
+  var canvas=document.getElementById('qrCanvas');canvas.innerHTML='';
   document.getElementById('qrExpiredOverlay').style.display='none';
-
-  // Gera QR code
-  try{
-    new QRCode(canvas,{
-      text:url,
-      width:148,
-      height:148,
-      colorDark:'#000000',
-      colorLight:'#ffffff',
-      correctLevel:QRCode.CorrectLevel.M
-    });
-  }catch(e){
-    // fallback se lib não carregar
-    canvas.innerHTML='<div style="color:#555;font-size:.75em;text-align:center;padding:10px;">QR indisponível<br><a href="'+url+'" style="color:#007BFF;word-break:break-all">'+url+'</a></div>';
-  }
-
-  // Inicia timer regressivo
+  try{new QRCode(canvas,{text:url,width:148,height:148,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+  catch(e){canvas.innerHTML='<div style="color:#555;font-size:.75em;text-align:center;padding:10px;">QR indisponível</div>';}
   var endTime=exp;
   function tick(){
     var remaining=Math.max(0,Math.round((endTime-Date.now())/1000));
-    var mins=Math.floor(remaining/60);
-    var secs=remaining%60;
-    var txt=mins+':'+(secs<10?'0':'')+secs;
-    var pct=(remaining/QR_TTL)*100;
-
-    var numEl=document.getElementById('qrTimerNum');
-    var barEl=document.getElementById('qrBarFill');
+    var mins=Math.floor(remaining/60);var secs=remaining%60;
+    var txt=mins+':'+(secs<10?'0':'')+secs;var pct=(remaining/QR_TTL)*100;
+    var numEl=document.getElementById('qrTimerNum');var barEl=document.getElementById('qrBarFill');
     if(!numEl||!barEl)return;
-
-    numEl.textContent=txt;
-    barEl.style.width=pct+'%';
-
+    numEl.textContent=txt;barEl.style.width=pct+'%';
     var cls=pct>40?'ok':pct>20?'warn':'danger';
-    numEl.className='qr-timer-num '+cls;
-    barEl.className='qr-bar-fill '+cls;
-
-    if(remaining<=0){
-      clearInterval(qrTimerInterval);
-      numEl.textContent='Expirado';
-      numEl.className='qr-timer-num danger';
-      barEl.style.width='0%';
-      document.getElementById('qrExpiredOverlay').style.display='flex';
-    }
+    numEl.className='qr-timer-num '+cls;barEl.className='qr-bar-fill '+cls;
+    if(remaining<=0){clearInterval(qrTimerInterval);numEl.textContent='Expirado';numEl.className='qr-timer-num danger';barEl.style.width='0%';document.getElementById('qrExpiredOverlay').style.display='flex';}
   }
-  tick();
-  qrTimerInterval=setInterval(tick,1000);
+  tick();qrTimerInterval=setInterval(tick,1000);
 }
 
-// ── Página de login por QR (roda no celular) ─────────────────
 function processarQRToken(token){
-  // Mostra a página primeiro
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-qrlogin').classList.add('active');
-
   document.getElementById('qrlLoading').style.display='flex';
   document.getElementById('qrlUserBlock').style.display='none';
   document.getElementById('qrlStatus').style.display='none';
-
-  // Pequeno delay para parecer verificação real
   setTimeout(function(){
     document.getElementById('qrlLoading').style.display='none';
-
-    var tokens=getQRTokens();
-    var entry=tokens[token];
-
-    // Token inválido ou expirado
+    var tokens=getQRTokens();var entry=tokens[token];
     if(!entry||entry.exp<Date.now()||entry.usado){
-      var st=document.getElementById('qrlStatus');
-      st.className='qrl-status exp';
-      st.innerHTML='<i class="bi bi-clock-history"></i> Este QR Code já expirou ou foi usado.<br><span style="font-size:.85em;opacity:.7">Peça um novo código na página de perfil.</span>';
-      st.style.display='block';
-      return;
+      var st=document.getElementById('qrlStatus');st.className='qrl-status exp';
+      st.innerHTML='<i class="bi bi-clock-history"></i> Este QR Code já expirou ou foi usado.';st.style.display='block';return;
     }
-
-    // Acha o usuário
-    var users=getUsers();
-    var user=users.find(function(u){return u.email===entry.email;});
-    if(!user){
-      var st2=document.getElementById('qrlStatus');
-      st2.className='qrl-status err';
-      st2.textContent='Usuário não encontrado.';
-      st2.style.display='block';
-      return;
-    }
-
-    // Preenche UI com dados do usuário
-    var av=document.getElementById('qrlAvatar');
-    av.textContent=inicialNome(user.nome);
-    av.style.background=user.cor||'#007BFF';
-    document.getElementById('qrlNome').textContent=user.nome;
-    document.getElementById('qrlEmail').textContent=user.email;
-
-    var ub=document.getElementById('qrlUserBlock');
-    ub.style.display='flex';
-
-    // Guarda referências no input
-    var inp=document.getElementById('qrlSenha');
-    inp.value='';
-    inp._token=token;
-    inp._email=entry.email;
-
-    // Foca automaticamente no campo de senha
+    var users=getUsers();var user=users.find(function(u){return u.email===entry.email;});
+    if(!user){var st2=document.getElementById('qrlStatus');st2.className='qrl-status err';st2.textContent='Usuário não encontrado.';st2.style.display='block';return;}
+    var av=document.getElementById('qrlAvatar');av.textContent=inicialNome(user.nome);av.style.background=user.cor||'#007BFF';
+    document.getElementById('qrlNome').textContent=user.nome;document.getElementById('qrlEmail').textContent=user.email;
+    var ub=document.getElementById('qrlUserBlock');ub.style.display='flex';
+    var inp=document.getElementById('qrlSenha');inp.value='';inp._token=token;inp._email=entry.email;
     setTimeout(function(){inp.focus();},300);
   },600);
 }
 
 function qrlConfirmar(){
-  var inp=document.getElementById('qrlSenha');
-  var token=inp._token;
-  var email=inp._email;
-  var senha=inp.value;
+  var inp=document.getElementById('qrlSenha');var token=inp._token;var email=inp._email;var senha=inp.value;
   var st=document.getElementById('qrlStatus');
-
-  if(!senha){
-    st.className='qrl-status err';
-    st.textContent='Por favor, digite sua senha.';
-    st.style.display='block';
-    return;
-  }
-
-  // Valida token ainda antes de checar senha
-  var tokens=getQRTokens();
-  var entry=tokens[token];
-  if(!entry||entry.exp<Date.now()||entry.usado){
-    st.className='qrl-status exp';
-    st.innerHTML='<i class="bi bi-clock-history"></i> Este código expirou. Peça um novo QR Code.';
-    st.style.display='block';
-    document.getElementById('qrlUserBlock').style.display='none';
-    return;
-  }
-
-  // Confere senha
-  var users=getUsers();
-  var user=users.find(function(u){return u.email===email&&u.senha===senha;});
-  if(!user){
-    st.className='qrl-status err';
-    st.textContent='Senha incorreta. Tente novamente.';
-    st.style.display='block';
-    inp.value='';
-    inp.focus();
-    return;
-  }
-
-  // ✅ Invalida token (uso único)
-  tokens[token].usado=true;
-  saveQRTokens(tokens);
-
-  // Faz o login
+  if(!senha){st.className='qrl-status err';st.textContent='Por favor, digite sua senha.';st.style.display='block';return;}
+  var tokens=getQRTokens();var entry=tokens[token];
+  if(!entry||entry.exp<Date.now()||entry.usado){st.className='qrl-status exp';st.innerHTML='<i class="bi bi-clock-history"></i> Este código expirou.';st.style.display='block';document.getElementById('qrlUserBlock').style.display='none';return;}
+  var users=getUsers();var user=users.find(function(u){return u.email===email&&u.senha===senha;});
+  if(!user){st.className='qrl-status err';st.textContent='Senha incorreta. Tente novamente.';st.style.display='block';inp.value='';inp.focus();return;}
+  tokens[token].usado=true;saveQRTokens(tokens);
   saveSession({nome:user.nome,email:user.email,cor:user.cor});
-
-  // UI de sucesso
-  st.className='qrl-status ok';
-  st.innerHTML='<i class="bi bi-check-circle-fill"></i> Login realizado! Redirecionando...';
-  st.style.display='block';
+  st.className='qrl-status ok';st.innerHTML='<i class="bi bi-check-circle-fill"></i> Login realizado! Redirecionando...';st.style.display='block';
   document.getElementById('qrlUserBlock').style.display='none';
-
-  setTimeout(function(){
-    renderNav();
-    history.replaceState(null,'',window.location.pathname);
-    showPage('home');
-    showToast('Bem-vindo, '+user.nome.split(' ')[0]+'! 🎉');
-  },1400);
+  setTimeout(function(){renderNav();history.replaceState(null,'',window.location.pathname);showPage('home');showToast('Bem-vindo, '+user.nome.split(' ')[0]+'! 🎉');},1400);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 //  WEBRTC / MEET
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 var peer=null,localStream=null,screenStream=null;
 var myPeerId=null,souHost=false,roomId=null,hostId=null;
 var micOn=true,camOn=true,compartilhandoTela=false;
@@ -1016,6 +1143,8 @@ function criarSalaComId(id){
   hostId='nexmeet-'+roomId+'-host';
   document.getElementById('linkInput').value=window.location.href;
   showPage('meet');pedirCameraEConectar();
+  // Solicita permissão de notificação nativa ao criar sala
+  if('Notification' in window&&Notification.permission==='default'){Notification.requestPermission();}
 }
 
 function criarSala(){
@@ -1068,7 +1197,13 @@ function escutarConexoes(){
     if(!peers[pid])peers[pid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
     call.answer(localStream||new MediaStream());peers[pid].call=call;
     call.on('stream',function(s){peers[pid].stream=s;mostrarStreamRemoto(pid,s);});
-    call.on('close',function(){removerVboxRemoto(pid);showToast('Participante saiu','#f0ad4e');});
+    call.on('close',function(){
+      var nomeP=peers[pid]?peers[pid].nome:'Participante';
+      var corP=peers[pid]?peers[pid].cor:'#555';
+      // Notificação de saída (host)
+      if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
+      removerVboxRemoto(pid);
+    });
     setStatus('Participante(s) conectado(s)','connected');
   });
   peer.on('connection',function(conn){
@@ -1079,11 +1214,28 @@ function escutarConexoes(){
       var lista=Object.keys(peers).filter(function(id){return id!==pid&&id!=='__host_self__'&&peers[id]!==null;}).map(function(id){return{id:id,nome:peers[id].nome||'Participante',cor:peers[id].cor||'#555'};});
       var info=infoLocal();
       conn.send({type:'PEER_LIST',peers:lista,hostId:hostId,hostNome:info.nome,hostCor:info.cor});
-      showToast('Novo participante entrou!');
-      Object.keys(peers).forEach(function(otherId){if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:peers[pid].nome,cor:peers[pid].cor});}});
     });
-    conn.on('data',function(msg){if(msg&&msg.type==='HELLO'){peers[pid].nome=msg.nome||'Participante';peers[pid].cor=msg.cor||'#555';criarVboxRemoto(pid,peers[pid].nome,peers[pid].cor);}});
-    conn.on('close',function(){removerVboxRemoto(pid);showToast('Participante saiu','#f0ad4e');Object.keys(peers).forEach(function(otherId){if(otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'PEER_LEFT',peerId:pid});}});});
+    conn.on('data',function(msg){
+      if(msg&&msg.type==='HELLO'){
+        var nomeNovo=msg.nome||'Participante';var corNova=msg.cor||'#555';
+        peers[pid].nome=nomeNovo;peers[pid].cor=corNova;
+        criarVboxRemoto(pid,nomeNovo,corNova);
+        // ─── NOTIFICAÇÃO DE ENTRADA (host recebe) ───────────
+        if(souHost){
+          adicionarNotificacao('join',nomeNovo,corNova,nomeNovo+' entrou na reunião');
+          setStatus('Participante(s) conectado(s)','connected');
+        }
+        // Notifica os outros guests
+        Object.keys(peers).forEach(function(otherId){if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:nomeNovo,cor:corNova});}});
+      }
+    });
+    conn.on('close',function(){
+      var nomeP=peers[pid]?peers[pid].nome:'Participante';
+      var corP=peers[pid]?peers[pid].cor:'#555';
+      if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
+      removerVboxRemoto(pid);
+      Object.keys(peers).forEach(function(otherId){if(otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'PEER_LEFT',peerId:pid});}});
+    });
   });
 }
 
@@ -1207,9 +1359,9 @@ function toggleMic(){if(!localStream)return;micOn=!micOn;localStream.getAudioTra
 function toggleCam(){if(!localStream)return;camOn=!camOn;localStream.getVideoTracks().forEach(function(t){t.enabled=camOn;});document.getElementById('icoCam').className=camOn?'bi bi-camera-video-fill':'bi bi-camera-video-off-fill';document.getElementById('btnCam').classList.toggle('off',!camOn);var ph=document.getElementById('placeholderLocal');if(ph)ph.style.display=camOn?'none':'flex';}
 function copiarLink(){navigator.clipboard.writeText(window.location.href).then(function(){showToast('Link copiado!');});}
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 //  PiP / MINIMIZAR
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 var pipAtivo=false;var miniAtivo=false;
 
 async function minimizarReuniao(){
@@ -1317,9 +1469,9 @@ function sair(){
 }
 function sairReal(){esconderMiniPlayer();sair();}
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 //  PERFIL
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
 var AVATAR_COLORS_ALL=['#007BFF','#28A745','#e91e63','#9c27b0','#ff5722','#009688','#f44336','#3f51b5','#795548','#607d8b','#ffc107','#00bcd4'];
 var BG_DEFAULTS=[
   {id:'none',label:'Padrão',css:'#0f0f13'},
@@ -1362,7 +1514,6 @@ function abrirPerfil(){
   renderColorGrid(user.cor||'#007BFF');
   renderBgGallery();
   showPage('perfil');
-  // Gera QR code ao abrir o perfil
   setTimeout(gerarQRToken,150);
 }
 
