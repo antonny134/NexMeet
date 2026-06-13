@@ -74,7 +74,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .notif-type-left .notif-avatar-ring{box-shadow:0 0 0 2px #dc3545;}
 .notif-type-mute .notif-avatar-ring{box-shadow:0 0 0 2px #fd7e14;}
 
-/* ── TOAST DE NOTIFICAÇÃO APRIMORADO ─────────────────────── */
+/* ── TOAST DE NOTIFICAÇÃO ─────────────────────────────────── */
 .notif-toast{position:fixed;top:72px;right:16px;width:300px;background:#1c1c26;border:1px solid #2a2a3a;border-radius:12px;padding:12px 14px;z-index:3000;box-shadow:0 8px 28px rgba(0,0,0,.7);display:flex;align-items:center;gap:12px;transform:translateX(120%);transition:transform .3s cubic-bezier(.34,1.1,.64,1);pointer-events:none;}
 .notif-toast.show{transform:translateX(0);pointer-events:auto;}
 .notif-toast-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;color:#fff;flex-shrink:0;}
@@ -83,6 +83,51 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .notif-toast-sub{font-size:.75em;color:#888;}
 .notif-toast-icon{font-size:1.1em;flex-shrink:0;}
 .notif-toast-bar{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 12px 12px;transition:width linear;}
+
+/* ═══════════════════════════════════════════════════════
+   SALA DE ESPERA — CARD PARA O HOST APROVAR
+   ═══════════════════════════════════════════════════════ */
+.admit-queue{position:fixed;top:72px;right:16px;width:320px;max-width:calc(100vw - 32px);z-index:3500;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.admit-card{background:#1a1a28;border:1.5px solid #007BFF;border-radius:14px;padding:14px 16px;box-shadow:0 8px 32px rgba(0,123,255,.28);pointer-events:auto;animation:admitSlideIn .3s cubic-bezier(.34,1.2,.64,1);}
+@keyframes admitSlideIn{from{opacity:0;transform:translateX(60px);}to{opacity:1;transform:translateX(0);}}
+.admit-card.leaving{animation:admitSlideOut .25s ease forwards;}
+@keyframes admitSlideOut{to{opacity:0;transform:translateX(80px);height:0;padding:0;margin:0;border:0;}}
+.admit-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.admit-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1em;color:#fff;flex-shrink:0;border:2px solid rgba(255,255,255,.15);}
+.admit-info{flex:1;min-width:0;}
+.admit-name{font-size:.92em;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.admit-label{font-size:.74em;color:#888;margin-top:1px;display:flex;align-items:center;gap:4px;}
+.admit-label i{color:#f0ad4e;}
+.admit-actions{display:flex;gap:8px;}
+.admit-btn{flex:1;padding:9px 0;border:none;border-radius:9px;font-size:.85em;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity .18s,transform .1s;}
+.admit-btn:hover{opacity:.88;}
+.admit-btn:active{transform:scale(.97);}
+.admit-btn-allow{background:linear-gradient(135deg,#28A745,#1e7e34);color:#fff;}
+.admit-btn-deny{background:linear-gradient(135deg,#dc3545,#b02a37);color:#fff;}
+.admit-timer-bar{height:3px;background:#2a2a3a;border-radius:0 0 10px 10px;margin:-14px -16px 0;overflow:hidden;margin-top:12px;}
+.admit-timer-fill{height:100%;background:linear-gradient(90deg,#007BFF,#28A745);border-radius:2px;transition:width 1s linear;}
+
+/* ── SALA DE ESPERA — TELA DO GUEST ─────────────────────── */
+.waiting-room-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.92);z-index:4000;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.waiting-room-overlay.show{display:flex;}
+.waiting-room-card{background:#18181f;border:1.5px solid #2a2a3a;border-radius:20px;padding:36px 32px;width:380px;max-width:calc(100vw - 32px);text-align:center;animation:slideUp .3s ease;}
+.wr-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#007BFF22,#28A74522);border:2px solid #007BFF44;display:flex;align-items:center;justify-content:center;font-size:2em;margin:0 auto 18px;animation:wrPulse 2.2s ease-in-out infinite;}
+@keyframes wrPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,123,255,.35);}50%{box-shadow:0 0 0 14px rgba(0,123,255,.0);}}
+.wr-title{font-size:1.15em;font-weight:700;margin-bottom:8px;}
+.wr-sub{color:#666;font-size:.85em;line-height:1.5;margin-bottom:24px;}
+.wr-user{display:flex;align-items:center;gap:10px;background:#0f0f13;border:1px solid #2a2a3a;border-radius:10px;padding:12px 14px;margin-bottom:20px;}
+.wr-user-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;color:#fff;flex-shrink:0;}
+.wr-user-info{text-align:left;}
+.wr-user-name{font-size:.9em;font-weight:600;}
+.wr-user-role{font-size:.75em;color:#555;}
+.wr-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px;}
+.wr-dot{width:8px;height:8px;border-radius:50%;background:#2a2a3a;animation:wrDot 1.4s ease-in-out infinite;}
+.wr-dot:nth-child(1){animation-delay:0s;background:#007BFF;}
+.wr-dot:nth-child(2){animation-delay:.2s;}
+.wr-dot:nth-child(3){animation-delay:.4s;}
+@keyframes wrDot{0%,80%,100%{transform:scale(.8);opacity:.5;}40%{transform:scale(1.2);opacity:1;background:#007BFF;}}
+.wr-cancel-btn{background:transparent;border:1px solid #2a2a3a;color:#555;padding:9px 20px;border-radius:8px;font-size:.82em;cursor:pointer;transition:background .2s,color .2s;}
+.wr-cancel-btn:hover{background:#2a2a3a;color:#aaa;}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
@@ -157,6 +202,11 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .host-badge{background:#007BFF;color:#fff;font-size:.7em;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle;}
 .part-count{background:#2a2a3a;border-radius:20px;padding:5px 14px;font-size:.82em;color:#aaa;display:flex;align-items:center;gap:6px;}
 .part-count span{color:#fff;font-weight:700;}
+/* Contador de aguardando */
+.waiting-count{background:#f0ad4e22;border:1px solid #f0ad4e44;border-radius:20px;padding:5px 14px;font-size:.82em;color:#f0ad4e;display:none;align-items:center;gap:6px;cursor:pointer;transition:background .2s;}
+.waiting-count.show{display:flex;}
+.waiting-count:hover{background:#f0ad4e33;}
+.waiting-count span{font-weight:700;}
 @media(max-width:680px){.videos{grid-template-columns:1fr!important;padding:8px;gap:8px;}}
 
 /* PERFIL */
@@ -313,6 +363,37 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   </div>
   <div class="notif-toast-icon" id="ntIcon"></div>
   <div class="notif-toast-bar" id="ntBar"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FILA DE APROVAÇÃO — CARDS DO HOST
+     ═══════════════════════════════════════════════════════ -->
+<div class="admit-queue" id="admitQueue"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SALA DE ESPERA — TELA DO GUEST
+     ═══════════════════════════════════════════════════════ -->
+<div class="waiting-room-overlay" id="waitingRoomOverlay">
+  <div class="waiting-room-card">
+    <div class="wr-icon"><i class="bi bi-hourglass-split"></i></div>
+    <div class="wr-title">Aguardando aprovação</div>
+    <div class="wr-sub">O criador da reunião precisa permitir a sua entrada. Por favor, aguarde.</div>
+    <div class="wr-user" id="wrUserBlock">
+      <div class="wr-user-av" id="wrUserAv"></div>
+      <div class="wr-user-info">
+        <div class="wr-user-name" id="wrUserName"></div>
+        <div class="wr-user-role">Solicitando entrada...</div>
+      </div>
+    </div>
+    <div class="wr-dots">
+      <div class="wr-dot"></div>
+      <div class="wr-dot"></div>
+      <div class="wr-dot"></div>
+    </div>
+    <button class="wr-cancel-btn" onclick="cancelarEntrada()">
+      <i class="bi bi-x-circle"></i> Cancelar
+    </button>
+  </div>
 </div>
 
 <!-- HOME -->
@@ -494,6 +575,10 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <span class="host-badge" id="hostBadge" style="display:none">HOST</span>
       </div>
       <div class="part-count"><i class="bi bi-people-fill"></i> <span id="partCount">1</span> participante(s)</div>
+      <!-- Contador de pessoas aguardando aprovação (visível só pro host) -->
+      <div class="waiting-count" id="waitingCount" onclick="focarFilaAprovacao()" title="Pessoas aguardando aprovação">
+        <i class="bi bi-hourglass-split"></i> <span id="waitingCountNum">0</span> aguardando
+      </div>
     </div>
     <div class="linkbox">
       <i class="bi bi-link-45deg" style="color:#007BFF"></i>
@@ -735,7 +820,6 @@ function setStatus(msg,cls){
 var notificacoes=[];
 var notifNaoLidas=0;
 var notifToastTimer=null;
-var notifBarTimer=null;
 var audioCtx=null;
 
 function getAudioCtx(){
@@ -763,6 +847,18 @@ function tocarSomSaida(){
     [660,550,440].forEach(function(freq,i){
       var o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,ctx.currentTime+i*0.12);
       o.connect(g);o.start(ctx.currentTime+i*0.12);o.stop(ctx.currentTime+i*0.12+0.2);
+    });
+  }catch(e){}
+}
+
+function tocarSomAprovacao(){
+  try{
+    var ctx=getAudioCtx();
+    var g=ctx.createGain();g.gain.setValueAtTime(0.2,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+    g.connect(ctx.destination);
+    [440,550,660,880].forEach(function(freq,i){
+      var o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,ctx.currentTime+i*0.07);
+      o.connect(g);o.start(ctx.currentTime+i*0.07);o.stop(ctx.currentTime+i*0.07+0.18);
     });
   }catch(e){}
 }
@@ -804,39 +900,6 @@ function renderNotifBadge(){
   }
 }
 
-function renderNotifPanel(){
-  var list=document.getElementById('notifList');
-  var empty=document.getElementById('notifEmpty');
-  var countEl=document.getElementById('notifCount');
-  if(!list)return;
-  var antigas=list.querySelectorAll('.notif-item');
-  antiga.forEach(function(el){el.remove();});
-  if(notificacoes.length===0){if(empty)empty.style.display='flex';}
-  else{
-    if(empty)empty.style.display='none';
-    if(countEl){
-      if(notifNaoLidas>0){countEl.textContent=notifNaoLidas;countEl.style.display='inline-block';}
-      else countEl.style.display='none';
-    }
-    notificacoes.forEach(function(n){
-      var div=document.createElement('div');
-      div.className='notif-item notif-type-'+n.tipo+(n.lida?'':' unread');
-      div.id='ni-'+n.id;
-      var iconeEvento=n.tipo==='join'?'<i class="bi bi-person-fill-add" style="color:#28A745"></i>':n.tipo==='left'?'<i class="bi bi-person-fill-dash" style="color:#dc3545"></i>':'<i class="bi bi-info-circle-fill" style="color:#007BFF"></i>';
-      div.innerHTML=
-        '<div class="notif-avatar notif-avatar-ring" style="background:'+(n.cor||'#007BFF')+'">'+inicialNome(n.nome)+'</div>'+
-        '<div class="notif-body">'+
-          '<div class="notif-title">'+iconeEvento+' '+n.nome+'</div>'+
-          '<div class="notif-sub">'+n.msg+'</div>'+
-          '<div class="notif-time">'+n.hora+'</div>'+
-        '</div>';
-      div.onclick=function(){n.lida=true;div.classList.remove('unread');recalcularNaoLidas();};
-      list.appendChild(div);
-    });
-  }
-}
-
-// Fix: usar querySelector
 function renderNotifPanel(){
   var list=document.getElementById('notifList');
   var empty=document.getElementById('notifEmpty');
@@ -919,7 +982,6 @@ function mostrarNotifToast(tipo,nome,cor,msg){
   var bar=document.getElementById('ntBar');
   if(!toast)return;
   clearTimeout(notifToastTimer);
-  clearInterval(notifBarTimer);
   av.textContent=inicialNome(nome);
   av.style.background=cor||'#007BFF';
   title.textContent=nome;
@@ -941,10 +1003,7 @@ function mostrarNotifToast(tipo,nome,cor,msg){
   notifToastTimer=setTimeout(function(){
     toast.classList.remove('show');
   },DURACAO+100);
-  toast.onclick=function(){
-    toast.classList.remove('show');
-    clearTimeout(notifToastTimer);
-  };
+  toast.onclick=function(){toast.classList.remove('show');clearTimeout(notifToastTimer);};
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1064,6 +1123,185 @@ function qrlConfirmar(){
 }
 
 // ═══════════════════════════════════════════════════════
+//  SALA DE ESPERA — SISTEMA DE APROVAÇÃO
+// ═══════════════════════════════════════════════════════
+// Mapa de guests aguardando aprovação: peerId -> {nome, cor, dataConn, timer}
+var filaAprovacao={};
+var ADMIT_TIMEOUT=30; // segundos para auto-rejeitar se host não responder
+
+/**
+ * HOST: Recebe um pedido de entrada e exibe o card de aprovação
+ */
+function receberPedidoEntrada(pid, nome, cor, dataConn){
+  if(filaAprovacao[pid])return; // já está na fila
+
+  filaAprovacao[pid]={nome:nome,cor:cor,dataConn:dataConn,segundosRestantes:ADMIT_TIMEOUT};
+
+  // Som de knock (2 notas graves)
+  try{
+    var ctx=getAudioCtx();
+    var g=ctx.createGain();g.gain.setValueAtTime(0.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+    g.connect(ctx.destination);
+    [330,330].forEach(function(freq,i){
+      var o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,ctx.currentTime+i*0.18);
+      o.connect(g);o.start(ctx.currentTime+i*0.18);o.stop(ctx.currentTime+i*0.18+0.25);
+    });
+  }catch(e){}
+
+  renderAdmitCard(pid);
+  atualizarContadorEspera();
+
+  // Notificação nativa
+  if('Notification' in window&&Notification.permission==='granted'){
+    try{new Notification('NexMeet — 🚪 '+nome+' quer entrar',{body:'Aprovação necessária'});}catch(e){}
+  }
+
+  // Timer de auto-rejeição
+  filaAprovacao[pid].timerInterval=setInterval(function(){
+    if(!filaAprovacao[pid])return;
+    filaAprovacao[pid].segundosRestantes--;
+    // Atualiza barra visual do card
+    var barEl=document.getElementById('admit-bar-'+pid);
+    if(barEl)barEl.style.width=((filaAprovacao[pid].segundosRestantes/ADMIT_TIMEOUT)*100)+'%';
+    if(filaAprovacao[pid].segundosRestantes<=0){
+      // Auto-rejeitar por timeout
+      recusarEntrada(pid,true);
+    }
+  },1000);
+}
+
+function renderAdmitCard(pid){
+  var fila=document.getElementById('admitQueue');
+  if(document.getElementById('admit-'+pid))return;
+  var info=filaAprovacao[pid];
+  var card=document.createElement('div');
+  card.className='admit-card';
+  card.id='admit-'+pid;
+  card.innerHTML=
+    '<div class="admit-header">'+
+      '<div class="admit-avatar" style="background:'+(info.cor||'#007BFF')+'">'+inicialNome(info.nome)+'</div>'+
+      '<div class="admit-info">'+
+        '<div class="admit-name">'+info.nome+'</div>'+
+        '<div class="admit-label"><i class="bi bi-door-open-fill"></i> Quer entrar na reunião</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="admit-actions">'+
+      '<button class="admit-btn admit-btn-allow" onclick="aprovarEntrada(\''+pid+'\')">'+
+        '<i class="bi bi-check-lg"></i> Permitir'+
+      '</button>'+
+      '<button class="admit-btn admit-btn-deny" onclick="recusarEntrada(\''+pid+'\')">'+
+        '<i class="bi bi-x-lg"></i> Recusar'+
+      '</button>'+
+    '</div>'+
+    '<div class="admit-timer-bar"><div class="admit-timer-fill" id="admit-bar-'+pid+'" style="width:100%"></div></div>';
+  fila.appendChild(card);
+}
+
+function removerAdmitCard(pid, animar){
+  var card=document.getElementById('admit-'+pid);
+  if(!card)return;
+  if(animar){
+    card.classList.add('leaving');
+    setTimeout(function(){if(card.parentNode)card.parentNode.removeChild(card);},280);
+  }else{
+    if(card.parentNode)card.parentNode.removeChild(card);
+  }
+}
+
+function aprovarEntrada(pid){
+  var info=filaAprovacao[pid];
+  if(!info)return;
+  clearInterval(info.timerInterval);
+
+  // Manda mensagem de aprovação pro guest via DataConnection já aberta
+  if(info.dataConn&&info.dataConn.open){
+    info.dataConn.send({type:'ADMIT_APPROVED'});
+  }
+
+  // Cria a entrada real do peer na sala
+  if(!peers[pid])peers[pid]={call:null,dataConn:info.dataConn,stream:null,muted:false,nome:info.nome,cor:info.cor};
+  else{peers[pid].dataConn=info.dataConn;peers[pid].nome=info.nome;peers[pid].cor=info.cor;}
+
+  criarVboxRemoto(pid,info.nome,info.cor);
+
+  // Notifica outros guests sobre o novo participante
+  Object.keys(peers).forEach(function(otherId){
+    if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
+      peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:info.nome,cor:info.cor});
+    }
+  });
+
+  // Escuta chamada de vídeo desse peer (ele ligará após aprovação)
+  // (já escutado globalmente no peer.on('call'))
+
+  adicionarNotificacao('join',info.nome,info.cor,info.nome+' entrou na reunião');
+  tocarSomAprovacao();
+  setStatus('Participante(s) conectado(s)','connected');
+
+  delete filaAprovacao[pid];
+  removerAdmitCard(pid,true);
+  atualizarContadorEspera();
+  showToast(info.nome+' foi admitido na reunião','#28A745');
+}
+
+function recusarEntrada(pid, porTimeout){
+  var info=filaAprovacao[pid];
+  if(!info)return;
+  clearInterval(info.timerInterval);
+
+  if(info.dataConn&&info.dataConn.open){
+    info.dataConn.send({type:'ADMIT_DENIED'});
+    setTimeout(function(){try{info.dataConn.close();}catch(e){}},500);
+  }
+
+  delete filaAprovacao[pid];
+  removerAdmitCard(pid,true);
+  atualizarContadorEspera();
+  if(!porTimeout)showToast('Entrada de '+(info.nome||'participante')+' recusada','#dc3545');
+}
+
+function atualizarContadorEspera(){
+  var n=Object.keys(filaAprovacao).length;
+  var el=document.getElementById('waitingCount');
+  var num=document.getElementById('waitingCountNum');
+  if(!el||!num)return;
+  num.textContent=n;
+  if(n>0&&souHost)el.classList.add('show');
+  else el.classList.remove('show');
+}
+
+function focarFilaAprovacao(){
+  // Pisca levemente os cards de aprovação para chamar atenção
+  document.querySelectorAll('.admit-card').forEach(function(c){
+    c.style.transition='transform .1s';
+    c.style.transform='scale(1.03)';
+    setTimeout(function(){c.style.transform='scale(1)';},150);
+  });
+}
+
+/**
+ * GUEST: Exibe a sala de espera até receber ADMIT_APPROVED ou ADMIT_DENIED
+ */
+function mostrarSalaEspera(){
+  var user=currentUser();
+  var nome=user?user.nome.split(' ')[0]:'Você';
+  var cor=user?(user.cor||'#007BFF'):'#007BFF';
+  var av=document.getElementById('wrUserAv');
+  av.textContent=inicialNome(nome);av.style.background=cor;
+  document.getElementById('wrUserName').textContent=nome;
+  document.getElementById('waitingRoomOverlay').classList.add('show');
+}
+
+function esconderSalaEspera(){
+  document.getElementById('waitingRoomOverlay').classList.remove('show');
+}
+
+function cancelarEntrada(){
+  esconderSalaEspera();
+  sair();
+}
+
+// ═══════════════════════════════════════════════════════
 //  WEBRTC / MEET
 // ═══════════════════════════════════════════════════════
 var peer=null,localStream=null,screenStream=null;
@@ -1143,7 +1381,6 @@ function criarSalaComId(id){
   hostId='nexmeet-'+roomId+'-host';
   document.getElementById('linkInput').value=window.location.href;
   showPage('meet');pedirCameraEConectar();
-  // Solicita permissão de notificação nativa ao criar sala
   if('Notification' in window&&Notification.permission==='default'){Notification.requestPermission();}
 }
 
@@ -1192,6 +1429,7 @@ function ativarModoHost(){
 function infoLocal(){var u=currentUser();return{nome:u?u.nome.split(' ')[0]:'Usuário',cor:u?(u.cor||'#007BFF'):'#007BFF'};}
 
 function escutarConexoes(){
+  // Escuta chamadas de vídeo (só chegam após aprovação)
   peer.on('call',function(call){
     var pid=call.peer;
     if(!peers[pid])peers[pid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
@@ -1200,41 +1438,62 @@ function escutarConexoes(){
     call.on('close',function(){
       var nomeP=peers[pid]?peers[pid].nome:'Participante';
       var corP=peers[pid]?peers[pid].cor:'#555';
-      // Notificação de saída (host)
       if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
       removerVboxRemoto(pid);
     });
     setStatus('Participante(s) conectado(s)','connected');
   });
+
+  // Escuta conexões de dados (chegam antes da aprovação — guest bate na porta)
   peer.on('connection',function(conn){
     var pid=conn.peer;
-    if(!peers[pid])peers[pid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
-    peers[pid].dataConn=conn;
     conn.on('open',function(){
-      var lista=Object.keys(peers).filter(function(id){return id!==pid&&id!=='__host_self__'&&peers[id]!==null;}).map(function(id){return{id:id,nome:peers[id].nome||'Participante',cor:peers[id].cor||'#555'};});
-      var info=infoLocal();
-      conn.send({type:'PEER_LIST',peers:lista,hostId:hostId,hostNome:info.nome,hostCor:info.cor});
+      // Não adicionamos ao mapa de peers ainda — fica na fila de aprovação
     });
     conn.on('data',function(msg){
-      if(msg&&msg.type==='HELLO'){
+      if(msg&&msg.type==='KNOCK'){
+        // Guest está pedindo para entrar
+        var nomeNovo=msg.nome||'Participante';
+        var corNova=msg.cor||'#555';
+        // Coloca na fila de aprovação
+        receberPedidoEntrada(pid,nomeNovo,corNova,conn);
+      } else if(msg&&msg.type==='HELLO'){
+        // Mensagem pós-aprovação: registrar e notificar outros
         var nomeNovo=msg.nome||'Participante';var corNova=msg.cor||'#555';
-        peers[pid].nome=nomeNovo;peers[pid].cor=corNova;
-        criarVboxRemoto(pid,nomeNovo,corNova);
-        // ─── NOTIFICAÇÃO DE ENTRADA (host recebe) ───────────
-        if(souHost){
-          adicionarNotificacao('join',nomeNovo,corNova,nomeNovo+' entrou na reunião');
-          setStatus('Participante(s) conectado(s)','connected');
-        }
-        // Notifica os outros guests
-        Object.keys(peers).forEach(function(otherId){if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:nomeNovo,cor:corNova});}});
+        if(!peers[pid])peers[pid]={call:null,dataConn:conn,stream:null,muted:false,nome:nomeNovo,cor:corNova};
+        else{peers[pid].dataConn=conn;peers[pid].nome=nomeNovo;peers[pid].cor=corNova;}
+        // Notifica outros guests
+        Object.keys(peers).forEach(function(otherId){
+          if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
+            peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:nomeNovo,cor:corNova});
+          }
+        });
+      } else if(msg&&msg.type==='HELLO_AFTER_ADMIT'){
+        // Primeiro HELLO depois de ser aprovado — manda lista de peers
+        var lista=Object.keys(peers).filter(function(id){return id!==pid&&id!=='__host_self__'&&peers[id]!==null;})
+          .map(function(id){return{id:id,nome:peers[id].nome||'Participante',cor:peers[id].cor||'#555'};});
+        var info=infoLocal();
+        conn.send({type:'PEER_LIST',peers:lista,hostId:hostId,hostNome:info.nome,hostCor:info.cor});
       }
     });
     conn.on('close',function(){
+      // Remove da fila se ainda estava esperando
+      if(filaAprovacao[pid]){
+        clearInterval(filaAprovacao[pid].timerInterval);
+        delete filaAprovacao[pid];
+        removerAdmitCard(pid,false);
+        atualizarContadorEspera();
+        return;
+      }
       var nomeP=peers[pid]?peers[pid].nome:'Participante';
       var corP=peers[pid]?peers[pid].cor:'#555';
       if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
       removerVboxRemoto(pid);
-      Object.keys(peers).forEach(function(otherId){if(otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){peers[otherId].dataConn.send({type:'PEER_LEFT',peerId:pid});}});
+      Object.keys(peers).forEach(function(otherId){
+        if(otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
+          peers[otherId].dataConn.send({type:'PEER_LEFT',peerId:pid});
+        }
+      });
     });
   });
 }
@@ -1242,15 +1501,68 @@ function escutarConexoes(){
 function entrarComoGuest(){
   peer=new Peer();
   peer.on('open',function(id){
-    myPeerId=id;souHost=false;setStatus('Conectando...','waiting');
+    myPeerId=id;souHost=false;setStatus('Conectando ao host...','waiting');
+    // Primeiro conecta via dados para bater na porta
     var dataConn=peer.connect(hostId);
     if(!peers[hostId])peers[hostId]={call:null,dataConn:null,stream:null,muted:false,nome:'Host',cor:'#007BFF'};
     peers[hostId].dataConn=dataConn;
-    dataConn.on('open',function(){var info=infoLocal();dataConn.send({type:'HELLO',peerId:id,nome:info.nome,cor:info.cor});ligarPara(hostId);});
-    dataConn.on('data',function(msg){processarMensagemGuest(msg);});
-    dataConn.on('close',function(){removerVboxRemoto(hostId);showToast('Host encerrou a sala','#dc3545');});
-    peer.on('call',function(call){var cpid=call.peer;if(!peers[cpid])peers[cpid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};call.answer(localStream||new MediaStream());peers[cpid].call=call;call.on('stream',function(s){peers[cpid].stream=s;mostrarStreamRemoto(cpid,s);});call.on('close',function(){removerVboxRemoto(cpid);});});
-    peer.on('connection',function(conn){var cpid=conn.peer;if(!peers[cpid])peers[cpid]={call:null,dataConn:null,stream:null,muted:false};peers[cpid].dataConn=conn;conn.on('data',function(msg){processarMensagemGuest(msg);});});
+
+    dataConn.on('open',function(){
+      var info=infoLocal();
+      // Bate na porta — manda KNOCK em vez de HELLO direto
+      dataConn.send({type:'KNOCK',peerId:id,nome:info.nome,cor:info.cor});
+      // Mostra sala de espera
+      mostrarSalaEspera();
+      setStatus('Aguardando aprovação do host...','waiting');
+    });
+
+    dataConn.on('data',function(msg){
+      if(msg&&msg.type==='ADMIT_APPROVED'){
+        // Host aprovou! Entrar de verdade
+        esconderSalaEspera();
+        setStatus('Entrada aprovada! Conectando...','waiting');
+        showToast('Você foi admitido na reunião!','#28A745');
+        var info=infoLocal();
+        // Manda HELLO_AFTER_ADMIT para host enviar lista de peers
+        dataConn.send({type:'HELLO_AFTER_ADMIT',peerId:id,nome:info.nome,cor:info.cor});
+        // Liga para o host
+        ligarPara(hostId);
+      } else if(msg&&msg.type==='ADMIT_DENIED'){
+        // Host recusou
+        esconderSalaEspera();
+        setStatus('Entrada recusada','error');
+        showToast('O host não permitiu sua entrada','#dc3545');
+        setTimeout(function(){sair();},2200);
+      } else {
+        processarMensagemGuest(msg);
+      }
+    });
+
+    dataConn.on('close',function(){
+      esconderSalaEspera();
+      // Se ainda estava esperando, host encerrou
+      if(document.getElementById('waitingRoomOverlay').classList.contains('show')){
+        showToast('Host encerrou a sala','#dc3545');sair();return;
+      }
+      removerVboxRemoto(hostId);showToast('Host encerrou a sala','#dc3545');
+    });
+
+    // Escuta chamadas e conexões de outros guests (após aprovação)
+    peer.on('call',function(call){
+      var cpid=call.peer;
+      if(!peers[cpid])peers[cpid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
+      call.answer(localStream||new MediaStream());
+      peers[cpid].call=call;
+      call.on('stream',function(s){peers[cpid].stream=s;mostrarStreamRemoto(cpid,s);});
+      call.on('close',function(){removerVboxRemoto(cpid);});
+    });
+
+    peer.on('connection',function(conn){
+      var cpid=conn.peer;
+      if(!peers[cpid])peers[cpid]={call:null,dataConn:null,stream:null,muted:false};
+      peers[cpid].dataConn=conn;
+      conn.on('data',function(msg){processarMensagemGuest(msg);});
+    });
   });
   peer.on('error',function(err){setStatus('Erro: '+err.type,'error');});
 }
@@ -1260,9 +1572,16 @@ function processarMensagemGuest(msg){
   if(msg.type==='PEER_LIST'){
     criarVboxRemoto(hostId,msg.hostNome||'Host',msg.hostCor||'#007BFF');
     if(peers[hostId]){peers[hostId].nome=msg.hostNome;peers[hostId].cor=msg.hostCor;}
-    msg.peers.forEach(function(p){if(p.id===myPeerId)return;criarVboxRemoto(p.id,p.nome,p.cor);ligarPara(p.id);var dc=peer.connect(p.id);if(!peers[p.id])peers[p.id]={call:null,dataConn:dc,stream:null,muted:false,nome:p.nome,cor:p.cor};else peers[p.id].dataConn=dc;dc.on('data',function(m){processarMensagemGuest(m);});});
+    msg.peers.forEach(function(p){
+      if(p.id===myPeerId)return;
+      criarVboxRemoto(p.id,p.nome,p.cor);ligarPara(p.id);
+      var dc=peer.connect(p.id);
+      if(!peers[p.id])peers[p.id]={call:null,dataConn:dc,stream:null,muted:false,nome:p.nome,cor:p.cor};
+      else peers[p.id].dataConn=dc;
+      dc.on('data',function(m){processarMensagemGuest(m);});
+    });
     setStatus(msg.peers.length>0?'Conectado! '+(msg.peers.length+1)+' participante(s)':'Na sala! Aguardando mais...','connected');
-  }else if(msg.type==='NEW_PEER'){
+  } else if(msg.type==='NEW_PEER'){
     if(msg.peerId===myPeerId)return;
     criarVboxRemoto(msg.peerId,msg.nome,msg.cor);ligarPara(msg.peerId);
     var dc2=peer.connect(msg.peerId);
@@ -1270,13 +1589,13 @@ function processarMensagemGuest(msg){
     else peers[msg.peerId].dataConn=dc2;
     dc2.on('data',function(m){processarMensagemGuest(m);});
     showToast('Novo participante entrou!');
-  }else if(msg.type==='PEER_LEFT'){
+  } else if(msg.type==='PEER_LEFT'){
     removerVboxRemoto(msg.peerId);
-  }else if(msg.type==='MUTE'){
+  } else if(msg.type==='MUTE'){
     if(localStream){localStream.getAudioTracks().forEach(function(t){t.enabled=false;});micOn=false;document.getElementById('icoMic').className='bi bi-mic-mute-fill';document.getElementById('btnMic').classList.add('off');showToast('O host mutou seu microfone','#fd7e14');}
-  }else if(msg.type==='UNMUTE'){
+  } else if(msg.type==='UNMUTE'){
     if(localStream){localStream.getAudioTracks().forEach(function(t){t.enabled=true;});micOn=true;document.getElementById('icoMic').className='bi bi-mic-fill';document.getElementById('btnMic').classList.remove('off');showToast('Microfone reativado','#28A745');}
-  }else if(msg.type==='KICK'){
+  } else if(msg.type==='KICK'){
     showToast('Você foi removido pelo host','#dc3545');
     setTimeout(function(){sair();},1800);
   }
@@ -1460,6 +1779,15 @@ function sair(){
   if(compartilhandoTela)pararTela();
   if(document.pictureInPictureElement)document.exitPictureInPicture().catch(function(){});
   esconderMiniPlayer();document.getElementById('pipBanner').classList.remove('show');pipAtivo=false;
+  esconderSalaEspera();
+  // Limpa fila de aprovação
+  Object.keys(filaAprovacao).forEach(function(pid){
+    clearInterval(filaAprovacao[pid].timerInterval);
+    if(filaAprovacao[pid].dataConn)try{filaAprovacao[pid].dataConn.close();}catch(e){}
+  });
+  filaAprovacao={};
+  document.getElementById('admitQueue').innerHTML='';
+  atualizarContadorEspera();
   Object.values(peers).forEach(function(p){if(!p)return;if(p.call)p.call.close();if(p.dataConn)p.dataConn.close();});
   if(localStream)localStream.getTracks().forEach(function(t){t.stop();});
   if(peer)peer.destroy();
