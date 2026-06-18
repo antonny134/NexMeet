@@ -129,6 +129,29 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .wr-cancel-btn{background:transparent;border:1px solid #2a2a3a;color:#555;padding:9px 20px;border-radius:8px;font-size:.82em;cursor:pointer;transition:background .2s,color .2s;}
 .wr-cancel-btn:hover{background:#2a2a3a;color:#aaa;}
 
+/* ═══════════════════════════════════════════════════════
+   TELA DE SENHA DA SALA — GUEST DIGITA A SENHA
+   ═══════════════════════════════════════════════════════ */
+.room-pass-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,18,.95);z-index:4500;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+.room-pass-overlay.show{display:flex;}
+.room-pass-card{background:#18181f;border:1.5px solid #2a2a3a;border-radius:20px;padding:40px 36px;width:380px;max-width:calc(100vw - 32px);text-align:center;animation:slideUp .35s cubic-bezier(.34,1.1,.64,1);}
+.rp-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#f0ad4e22,#fd7e1422);border:2px solid #f0ad4e55;display:flex;align-items:center;justify-content:center;font-size:2em;margin:0 auto 18px;}
+.rp-title{font-size:1.2em;font-weight:700;margin-bottom:6px;}
+.rp-sub{color:#666;font-size:.85em;line-height:1.5;margin-bottom:24px;}
+.rp-input-wrap{position:relative;margin-bottom:8px;}
+.rp-input-wrap input{width:100%;padding:14px 48px 14px 16px;background:#0f0f13;border:1.5px solid #2a2a3a;border-radius:10px;color:#fff;outline:none;font-size:1.05em;text-align:center;letter-spacing:.12em;transition:border-color .2s;}
+.rp-input-wrap input:focus{border-color:#f0ad4e;}
+.rp-input-wrap input.shake{animation:rpShake .35s ease;}
+@keyframes rpShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(7px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+.rp-eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#555;cursor:pointer;font-size:1em;padding:4px;transition:color .2s;}
+.rp-eye:hover{color:#aaa;}
+.rp-err{color:#dc3545;font-size:.8em;min-height:20px;margin-bottom:10px;display:block;text-align:center;}
+.rp-attempts{font-size:.75em;color:#555;margin-bottom:14px;}
+.rp-attempts.warn{color:#f0ad4e;}
+.rp-attempts.danger{color:#dc3545;}
+.rp-actions{display:flex;gap:10px;}
+.rp-actions .btn{flex:1;justify-content:center;}
+
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 @media(min-width:600px){.modal-overlay{align-items:center;}}
@@ -155,6 +178,34 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .lock-notice i{color:#f0ad4e;font-size:1.1em;margin-top:2px;flex-shrink:0;}
 .lock-notice p{font-size:.82em;color:#aaa;line-height:1.5;}
 .lock-notice a{color:#007BFF;cursor:pointer;text-decoration:underline;}
+
+/* ── TOGGLE DE SENHA NA CRIAÇÃO DA SALA ─── */
+.pass-toggle-row{display:flex;align-items:center;justify-content:space-between;background:#0f0f13;border:1px solid #2a2a3a;border-radius:10px;padding:12px 16px;margin-bottom:10px;cursor:pointer;user-select:none;transition:border-color .2s;}
+.pass-toggle-row:hover{border-color:#f0ad4e66;}
+.pass-toggle-row.active{border-color:#f0ad4e;}
+.pass-toggle-left{display:flex;align-items:center;gap:10px;}
+.pass-toggle-icon{width:34px;height:34px;border-radius:8px;background:#f0ad4e22;display:flex;align-items:center;justify-content:center;font-size:1em;color:#f0ad4e;flex-shrink:0;}
+.pass-toggle-text strong{font-size:.88em;color:#ccc;display:block;margin-bottom:1px;}
+.pass-toggle-text span{font-size:.75em;color:#555;}
+.pass-switch{width:40px;height:22px;background:#2a2a3a;border-radius:11px;position:relative;transition:background .2s;flex-shrink:0;}
+.pass-switch::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;}
+.pass-toggle-row.active .pass-switch{background:#f0ad4e;}
+.pass-toggle-row.active .pass-switch::after{transform:translateX(18px);}
+.pass-field-wrap{display:none;margin-bottom:14px;animation:fadeInDown .2s ease;}
+.pass-field-wrap.show{display:block;}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.pass-input-row{position:relative;}
+.pass-input-row input{width:100%;padding:12px 44px 12px 14px;background:#0f0f13;border:1.5px solid #f0ad4e55;border-radius:10px;color:#fff;outline:none;font-size:.95em;transition:border-color .2s;}
+.pass-input-row input:focus{border-color:#f0ad4e;}
+.pass-input-row .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#555;cursor:pointer;font-size:.95em;padding:4px;transition:color .2s;}
+.pass-input-row .eye-btn:hover{color:#f0ad4e;}
+.pass-strength{margin-top:6px;height:3px;border-radius:2px;background:#2a2a3a;overflow:hidden;}
+.pass-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;}
+.pass-strength-hint{font-size:.72em;margin-top:4px;color:#555;}
+
+/* Indicador de sala com senha no meet */
+.room-locked-badge{display:none;align-items:center;gap:5px;background:#f0ad4e18;border:1px solid #f0ad4e44;border-radius:20px;padding:4px 12px;font-size:.78em;color:#f0ad4e;}
+.room-locked-badge.show{display:flex;}
 
 /* MEET */
 #page-meet{flex-direction:column;align-items:stretch;}
@@ -202,7 +253,6 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
 .host-badge{background:#007BFF;color:#fff;font-size:.7em;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle;}
 .part-count{background:#2a2a3a;border-radius:20px;padding:5px 14px;font-size:.82em;color:#aaa;display:flex;align-items:center;gap:6px;}
 .part-count span{color:#fff;font-weight:700;}
-/* Contador de aguardando */
 .waiting-count{background:#f0ad4e22;border:1px solid #f0ad4e44;border-radius:20px;padding:5px 14px;font-size:.82em;color:#f0ad4e;display:none;align-items:center;gap:6px;cursor:pointer;transition:background .2s;}
 .waiting-count.show{display:flex;}
 .waiting-count:hover{background:#f0ad4e33;}
@@ -396,6 +446,32 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════
+     TELA DE SENHA DA SALA — GUEST DIGITA A SENHA
+     ═══════════════════════════════════════════════════════ -->
+<div class="room-pass-overlay" id="roomPassOverlay">
+  <div class="room-pass-card">
+    <div class="rp-icon"><i class="bi bi-shield-lock-fill" style="color:#f0ad4e"></i></div>
+    <div class="rp-title">Sala protegida por senha</div>
+    <div class="rp-sub">O criador desta reunião definiu uma senha de acesso. Digite abaixo para entrar.</div>
+    <div class="rp-input-wrap">
+      <input type="password" id="rpSenhaInput" placeholder="••••••••" maxlength="50"
+        onkeydown="if(event.key==='Enter')rpConfirmar()">
+      <button class="rp-eye" id="rpEyeBtn" onclick="rpToggleVer()" type="button" title="Mostrar/ocultar">
+        <i class="bi bi-eye" id="rpEyeIco"></i>
+      </button>
+    </div>
+    <span class="rp-err" id="rpErr"></span>
+    <div class="rp-attempts" id="rpAttempts"></div>
+    <div class="rp-actions">
+      <button class="btn btn-gray" onclick="rpCancelar()"><i class="bi bi-x"></i> Cancelar</button>
+      <button class="btn btn-blue" onclick="rpConfirmar()" id="rpConfirmBtn">
+        <i class="bi bi-unlock-fill"></i> Entrar
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- HOME -->
 <div class="page active" id="page-home">
   <h1><span style="color:#007BFF">Nex</span><span style="color:#28A745">Meet</span></h1>
@@ -575,9 +651,12 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <span class="host-badge" id="hostBadge" style="display:none">HOST</span>
       </div>
       <div class="part-count"><i class="bi bi-people-fill"></i> <span id="partCount">1</span> participante(s)</div>
-      <!-- Contador de pessoas aguardando aprovação (visível só pro host) -->
       <div class="waiting-count" id="waitingCount" onclick="focarFilaAprovacao()" title="Pessoas aguardando aprovação">
         <i class="bi bi-hourglass-split"></i> <span id="waitingCountNum">0</span> aguardando
+      </div>
+      <!-- Indicador de sala com senha -->
+      <div class="room-locked-badge" id="roomLockedBadge">
+        <i class="bi bi-shield-lock-fill"></i> Sala com senha
       </div>
     </div>
     <div class="linkbox">
@@ -595,6 +674,10 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
     <button class="cicon" id="btnTela" onclick="toggleTela()" title="Compartilhar tela" style="display:none"><i class="bi bi-display" id="icoTela"></i></button>
     <button class="cicon" id="btnPip" onclick="minimizarReuniao()" title="Janela flutuante">
       <i class="bi bi-pip" id="icoPip"></i>
+    </button>
+    <!-- Botão de gerenciar senha (só para host logado) -->
+    <button class="cicon" id="btnSenha" onclick="abrirGerenciarSenha()" title="Senha da sala" style="display:none">
+      <i class="bi bi-shield-lock" id="icoSenha"></i>
     </button>
     <button class="btn btn-blue" id="btnAtiv" onclick="ativarCamera()"><i class="bi bi-camera-video-fill"></i> Ativar câmera</button>
   </div>
@@ -614,7 +697,31 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <input type="text" id="inputLinkCustom" placeholder="minha-reuniao" maxlength="40" oninput="validarLinkCustom()" autocomplete="off">
       </div>
       <span class="link-hint" id="hintLinkCustom">Deixe em branco para gerar automaticamente. Use letras, números e hífen.</span>
+
+      <!-- ── BLOCO DE SENHA DA SALA ─── -->
       <div style="margin:18px 0 6px;">
+        <div class="pass-toggle-row" id="passToggleRow" onclick="togglePassRow()">
+          <div class="pass-toggle-left">
+            <div class="pass-toggle-icon"><i class="bi bi-shield-lock-fill"></i></div>
+            <div class="pass-toggle-text">
+              <strong>Proteger com senha</strong>
+              <span>Quem entrar precisará digitar a senha</span>
+            </div>
+          </div>
+          <div class="pass-switch" id="passSwitch"></div>
+        </div>
+        <div class="pass-field-wrap" id="passFieldWrap">
+          <div class="pass-input-row">
+            <input type="password" id="inputSenhaSala" placeholder="Digite a senha da sala" maxlength="50"
+              oninput="atualizarForcaSenha(this.value)" autocomplete="new-password">
+            <button class="eye-btn" onclick="toggleVerSenhaSala()" type="button"><i class="bi bi-eye" id="icoEyeSala"></i></button>
+          </div>
+          <div class="pass-strength"><div class="pass-strength-bar" id="passStrengthBar" style="width:0%"></div></div>
+          <div class="pass-strength-hint" id="passStrengthHint"></div>
+        </div>
+      </div>
+
+      <div style="margin:4px 0 6px;">
         <button class="btn btn-blue" style="width:100%;justify-content:center;" onclick="confirmarCriarSalaCustom()">
           <i class="bi bi-camera-video-fill"></i> Entrar na reunião
         </button>
@@ -629,7 +736,7 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
         <i class="bi bi-lock-fill"></i>
         <p>
           <strong style="color:#fff">Link personalizado exclusivo para membros.</strong><br>
-          <a onclick="fecharModalESalvarRota('login')">Faça login</a> ou <a onclick="fecharModalESalvarRota('cadastro')">crie uma conta</a> para usar um link personalizado.
+          <a onclick="fecharModalESalvarRota('login')">Faça login</a> ou <a onclick="fecharModalESalvarRota('cadastro')">crie uma conta</a> para usar um link personalizado e adicionar senha à sala.
         </p>
       </div>
       <button class="btn btn-blue" style="width:100%;justify-content:center;margin-bottom:10px;" onclick="confirmarCriarSalaAleatorio()">
@@ -643,6 +750,70 @@ nav:hover{border-bottom:2px solid #007BFF;transition:all .3s;}
       <button class="btn btn-gray" style="background:transparent;color:#555;font-size:.82em;" onclick="fecharModal()">
         <i class="bi bi-x"></i> Cancelar
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL GERENCIAR SENHA DA SALA (host durante reunião) -->
+<div class="modal-overlay" id="modalGerenciarSenha">
+  <div class="modal-box">
+    <h3><i class="bi bi-shield-lock-fill" style="color:#f0ad4e"></i> Senha da sala</h3>
+    <p class="msub">Gerencie quem pode entrar nesta reunião</p>
+    <div id="gsSemSenha" style="display:none">
+      <div style="background:#1a1a22;border:1px solid #2a2a3a;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <i class="bi bi-shield" style="color:#555;font-size:1.2em;"></i>
+        <span style="color:#666;font-size:.85em;">Esta sala não tem senha. Qualquer pessoa com o link pode entrar (sujeito à sua aprovação).</span>
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:.8em;color:#aaa;display:block;margin-bottom:6px;"><i class="bi bi-plus-circle"></i> Definir nova senha</label>
+        <div class="pass-input-row">
+          <input type="password" id="gsInputNovaSenha" placeholder="Nova senha da sala" maxlength="50"
+            oninput="atualizarForcaSenhaGs(this.value)" autocomplete="new-password"
+            onkeydown="if(event.key==='Enter')gsDefinirSenha()">
+          <button class="eye-btn" onclick="gsToggleEye()" type="button"><i class="bi bi-eye" id="gsEyeIco"></i></button>
+        </div>
+        <div class="pass-strength"><div class="pass-strength-bar" id="gsStrengthBar" style="width:0%"></div></div>
+        <div class="pass-strength-hint" id="gsStrengthHint"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn btn-blue" style="flex:1;justify-content:center;" onclick="gsDefinirSenha()">
+          <i class="bi bi-shield-lock-fill"></i> Definir senha
+        </button>
+        <button class="btn btn-gray" style="flex:1;justify-content:center;" onclick="fecharModalGerenciarSenha()">
+          <i class="bi bi-x"></i> Fechar
+        </button>
+      </div>
+    </div>
+    <div id="gsComSenha" style="display:none">
+      <div style="background:#f0ad4e12;border:1px solid #f0ad4e44;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+        <i class="bi bi-shield-lock-fill" style="color:#f0ad4e;font-size:1.2em;"></i>
+        <div>
+          <div style="font-size:.88em;font-weight:700;color:#f0ad4e;">Sala protegida</div>
+          <div style="font-size:.78em;color:#888;margin-top:2px;">Novos participantes precisam digitar a senha ao entrar.</div>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:.8em;color:#aaa;display:block;margin-bottom:6px;"><i class="bi bi-arrow-repeat"></i> Alterar senha</label>
+        <div class="pass-input-row">
+          <input type="password" id="gsInputAlterarSenha" placeholder="Nova senha (deixe vazio para remover)" maxlength="50"
+            oninput="atualizarForcaSenhaGs2(this.value)" autocomplete="new-password"
+            onkeydown="if(event.key==='Enter')gsAlterarSenha()">
+          <button class="eye-btn" onclick="gsToggleEye2()" type="button"><i class="bi bi-eye" id="gsEyeIco2"></i></button>
+        </div>
+        <div class="pass-strength"><div class="pass-strength-bar" id="gsStrengthBar2" style="width:0%"></div></div>
+        <div class="pass-strength-hint" id="gsStrengthHint2"></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn btn-blue" style="flex:1;justify-content:center;" onclick="gsAlterarSenha()">
+          <i class="bi bi-check-lg"></i> Salvar
+        </button>
+        <button class="btn btn-red" style="flex:1;justify-content:center;" onclick="gsRemoverSenha()">
+          <i class="bi bi-shield-slash"></i> Remover senha
+        </button>
+        <button class="btn btn-gray" style="width:100%;justify-content:center;" onclick="fecharModalGerenciarSenha()">
+          <i class="bi bi-x"></i> Fechar
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -815,6 +986,235 @@ function setStatus(msg,cls){
 }
 
 // ═══════════════════════════════════════════════════════
+//  SISTEMA DE SENHA DA SALA
+// ═══════════════════════════════════════════════════════
+var ROOM_PASS_KEY='nexmeet_room_passwords'; // { roomId: hash }
+var salaAtualSenha=null; // senha em texto simples para a sala atual (apenas na memória, só host sabe)
+var rpAttempts=0;
+var RP_MAX_ATTEMPTS=5;
+var rpCallbackAposVerificacao=null; // função chamada ao verificar senha com sucesso
+
+// Guarda senha na sessão da sala (apenas em memória + localStorage por roomId)
+function getRoomPasswords(){try{return JSON.parse(localStorage.getItem(ROOM_PASS_KEY))||{};}catch(e){return{};}}
+function saveRoomPasswords(obj){localStorage.setItem(ROOM_PASS_KEY,JSON.stringify(obj));}
+
+// Hash simples (não criptográfico, mas evita expor a senha em texto claro no storage)
+function hashSimples(str){
+  var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h=h&h;}
+  return 'nx'+Math.abs(h).toString(36)+'_'+str.length;
+}
+
+function definirSenhaSala(rid,senha){
+  if(!senha){removerSenhaSala(rid);return;}
+  var pws=getRoomPasswords();pws[rid]=hashSimples(senha);saveRoomPasswords(pws);
+  salaAtualSenha=senha;
+  atualizarBadgeSenha(true);
+}
+
+function removerSenhaSala(rid){
+  var pws=getRoomPasswords();delete pws[rid];saveRoomPasswords(pws);
+  salaAtualSenha=null;
+  atualizarBadgeSenha(false);
+}
+
+function salaTemSenha(rid){
+  var pws=getRoomPasswords();return!!pws[rid];
+}
+
+function verificarSenhaSala(rid,tentativa){
+  var pws=getRoomPasswords();var hash=pws[rid];
+  if(!hash)return true; // sem senha = acesso livre
+  return hashSimples(tentativa)===hash;
+}
+
+function atualizarBadgeSenha(temSenha){
+  var badge=document.getElementById('roomLockedBadge');
+  var btnSenha=document.getElementById('btnSenha');
+  var icoSenha=document.getElementById('icoSenha');
+  if(badge){if(temSenha)badge.classList.add('show');else badge.classList.remove('show');}
+  if(btnSenha&&souHost){
+    btnSenha.style.display='flex';
+    if(icoSenha)icoSenha.className=temSenha?'bi bi-shield-lock-fill':'bi bi-shield-lock';
+    if(temSenha)btnSenha.style.color='#f0ad4e';else btnSenha.style.color='';
+  }
+}
+
+// ── Toggle da senha no modal de criar sala ──────────────
+var passAtivadoCriar=false;
+function togglePassRow(){
+  passAtivadoCriar=!passAtivadoCriar;
+  var row=document.getElementById('passToggleRow');
+  var wrap=document.getElementById('passFieldWrap');
+  if(passAtivadoCriar){row.classList.add('active');wrap.classList.add('show');setTimeout(function(){document.getElementById('inputSenhaSala').focus();},150);}
+  else{row.classList.remove('active');wrap.classList.remove('show');document.getElementById('inputSenhaSala').value='';limparForcaSenha('passStrengthBar','passStrengthHint');}
+}
+
+function toggleVerSenhaSala(){
+  var inp=document.getElementById('inputSenhaSala');var ico=document.getElementById('icoEyeSala');
+  if(inp.type==='password'){inp.type='text';ico.className='bi bi-eye-slash';}else{inp.type='password';ico.className='bi bi-eye';}
+}
+
+function calcForca(s){
+  if(!s)return{pct:0,cor:'',txt:''};
+  var pts=0;
+  if(s.length>=6)pts++;if(s.length>=10)pts++;
+  if(/[A-Z]/.test(s))pts++;if(/[0-9]/.test(s))pts++;if(/[^A-Za-z0-9]/.test(s))pts++;
+  var niveis=[
+    {pct:0,cor:'',txt:''},
+    {pct:20,cor:'#dc3545',txt:'Muito fraca'},
+    {pct:40,cor:'#fd7e14',txt:'Fraca'},
+    {pct:60,cor:'#f0ad4e',txt:'Razoável'},
+    {pct:80,cor:'#28A745',txt:'Forte'},
+    {pct:100,cor:'#007BFF',txt:'Muito forte'}
+  ];
+  return niveis[Math.min(pts,5)];
+}
+
+function atualizarForcaSenha(v){
+  var f=calcForca(v);
+  var bar=document.getElementById('passStrengthBar');var hint=document.getElementById('passStrengthHint');
+  if(bar){bar.style.width=f.pct+'%';bar.style.background=f.cor;}
+  if(hint){hint.textContent=f.txt;hint.style.color=f.cor;}
+}
+
+function atualizarForcaSenhaGs(v){
+  var f=calcForca(v);
+  var bar=document.getElementById('gsStrengthBar');var hint=document.getElementById('gsStrengthHint');
+  if(bar){bar.style.width=f.pct+'%';bar.style.background=f.cor;}
+  if(hint){hint.textContent=f.txt;hint.style.color=f.cor;}
+}
+
+function atualizarForcaSenhaGs2(v){
+  var f=calcForca(v);
+  var bar=document.getElementById('gsStrengthBar2');var hint=document.getElementById('gsStrengthHint2');
+  if(bar){bar.style.width=f.pct+'%';bar.style.background=f.cor;}
+  if(hint){hint.textContent=f.txt;hint.style.color=f.cor;}
+}
+
+function limparForcaSenha(barId,hintId){
+  var bar=document.getElementById(barId);var hint=document.getElementById(hintId);
+  if(bar){bar.style.width='0%';bar.style.background='';}
+  if(hint){hint.textContent='';hint.style.color='';}
+}
+
+// ── Gerenciar senha durante a reunião (host) ──────────────
+function abrirGerenciarSenha(){
+  var temSenha=salaTemSenha(roomId);
+  document.getElementById('gsSemSenha').style.display=temSenha?'none':'block';
+  document.getElementById('gsComSenha').style.display=temSenha?'block':'none';
+  document.getElementById('gsInputNovaSenha').value='';
+  document.getElementById('gsInputAlterarSenha').value='';
+  limparForcaSenha('gsStrengthBar','gsStrengthHint');
+  limparForcaSenha('gsStrengthBar2','gsStrengthHint2');
+  document.getElementById('modalGerenciarSenha').classList.add('open');
+  setTimeout(function(){
+    var inp=temSenha?document.getElementById('gsInputAlterarSenha'):document.getElementById('gsInputNovaSenha');
+    if(inp)inp.focus();
+  },250);
+}
+
+function fecharModalGerenciarSenha(){
+  document.getElementById('modalGerenciarSenha').classList.remove('open');
+}
+
+function gsDefinirSenha(){
+  var v=document.getElementById('gsInputNovaSenha').value.trim();
+  if(!v){showToast('Digite uma senha para a sala','#dc3545');document.getElementById('gsInputNovaSenha').focus();return;}
+  if(v.length<4){showToast('Senha precisa ter ao menos 4 caracteres','#dc3545');return;}
+  definirSenhaSala(roomId,v);
+  fecharModalGerenciarSenha();
+  showToast('Senha definida! Novos participantes precisarão digitá-la.','#f0ad4e');
+  // Avisa guests via data channel
+  broadcastParaGuests({type:'ROOM_PASS_CHANGE',temSenha:true});
+}
+
+function gsAlterarSenha(){
+  var v=document.getElementById('gsInputAlterarSenha').value.trim();
+  if(!v){gsRemoverSenha();return;}
+  if(v.length<4){showToast('Senha precisa ter ao menos 4 caracteres','#dc3545');return;}
+  definirSenhaSala(roomId,v);
+  fecharModalGerenciarSenha();
+  showToast('Senha alterada com sucesso!','#f0ad4e');
+  broadcastParaGuests({type:'ROOM_PASS_CHANGE',temSenha:true});
+}
+
+function gsRemoverSenha(){
+  if(!confirm('Remover a senha desta sala? Novos participantes não precisarão mais digitá-la.'))return;
+  removerSenhaSala(roomId);
+  fecharModalGerenciarSenha();
+  showToast('Senha removida. Sala aberta!','#28A745');
+  broadcastParaGuests({type:'ROOM_PASS_CHANGE',temSenha:false});
+}
+
+function gsToggleEye(){
+  var inp=document.getElementById('gsInputNovaSenha');var ico=document.getElementById('gsEyeIco');
+  if(inp.type==='password'){inp.type='text';ico.className='bi bi-eye-slash';}else{inp.type='password';ico.className='bi bi-eye';}
+}
+function gsToggleEye2(){
+  var inp=document.getElementById('gsInputAlterarSenha');var ico=document.getElementById('gsEyeIco2');
+  if(inp.type==='password'){inp.type='text';ico.className='bi bi-eye-slash';}else{inp.type='password';ico.className='bi bi-eye';}
+}
+
+// ── Tela de senha do guest ──────────────────────────────
+function mostrarTelaSenha(callback){
+  rpAttempts=0;
+  rpCallbackAposVerificacao=callback;
+  document.getElementById('rpSenhaInput').value='';
+  document.getElementById('rpErr').textContent='';
+  document.getElementById('rpAttempts').textContent='';
+  document.getElementById('rpConfirmBtn').disabled=false;
+  document.getElementById('roomPassOverlay').classList.add('show');
+  setTimeout(function(){document.getElementById('rpSenhaInput').focus();},200);
+}
+
+function esconderTelaSenha(){
+  document.getElementById('roomPassOverlay').classList.remove('show');
+  rpCallbackAposVerificacao=null;
+}
+
+function rpToggleVer(){
+  var inp=document.getElementById('rpSenhaInput');var ico=document.getElementById('rpEyeIco');
+  if(inp.type==='password'){inp.type='text';ico.className='bi bi-eye-slash';}else{inp.type='password';ico.className='bi bi-eye';}
+}
+
+function rpConfirmar(){
+  var v=document.getElementById('rpSenhaInput').value;
+  var errEl=document.getElementById('rpErr');
+  var attEl=document.getElementById('rpAttempts');
+  if(!v){errEl.textContent='Digite a senha da sala.';return;}
+  if(verificarSenhaSala(roomId,v)){
+    // Senha correta!
+    errEl.textContent='';
+    esconderTelaSenha();
+    if(rpCallbackAposVerificacao)rpCallbackAposVerificacao();
+  }else{
+    rpAttempts++;
+    var restantes=RP_MAX_ATTEMPTS-rpAttempts;
+    // Shake no input
+    var inp=document.getElementById('rpSenhaInput');
+    inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');
+    inp.value='';inp.focus();
+    errEl.textContent='Senha incorreta.';
+    if(restantes<=0){
+      errEl.textContent='Muitas tentativas incorretas. Saindo...';
+      document.getElementById('rpConfirmBtn').disabled=true;
+      attEl.textContent='';
+      setTimeout(function(){esconderTelaSenha();sair();},2000);
+    }else if(restantes<=2){
+      attEl.className='rp-attempts danger';
+      attEl.textContent=restantes+' tentativa(s) restante(s)';
+    }else{
+      attEl.className='rp-attempts warn';
+      attEl.textContent=restantes+' tentativa(s) restante(s)';
+    }
+  }
+}
+
+function rpCancelar(){
+  esconderTelaSenha();sair();
+}
+
+// ═══════════════════════════════════════════════════════
 //  SISTEMA DE NOTIFICAÇÕES
 // ═══════════════════════════════════════════════════════
 var notificacoes=[];
@@ -971,6 +1371,9 @@ document.addEventListener('click',function(e){
   if(panel&&panel.classList.contains('open')&&!panel.contains(e.target)&&(!btn||!btn.contains(e.target))){
     fecharNotifPanel();
   }
+  // Fecha modais ao clicar fora
+  var mgs=document.getElementById('modalGerenciarSenha');
+  if(mgs&&mgs.classList.contains('open')&&e.target===mgs){fecharModalGerenciarSenha();}
 });
 
 function mostrarNotifToast(tipo,nome,cor,msg){
@@ -1007,7 +1410,7 @@ function mostrarNotifToast(tipo,nome,cor,msg){
 }
 
 // ═══════════════════════════════════════════════════════
-//  MODAL
+//  MODAL CRIAR SALA
 // ═══════════════════════════════════════════════════════
 function abrirModalCriarSala(){
   var user=currentUser();
@@ -1016,6 +1419,12 @@ function abrirModalCriarSala(){
   document.getElementById('inputLinkCustom').value='';
   document.getElementById('hintLinkCustom').textContent='Deixe em branco para gerar automaticamente. Use letras, números e hífen.';
   document.getElementById('hintLinkCustom').className='link-hint';
+  // Reset senha
+  passAtivadoCriar=false;
+  document.getElementById('passToggleRow').classList.remove('active');
+  document.getElementById('passFieldWrap').classList.remove('show');
+  document.getElementById('inputSenhaSala').value='';
+  limparForcaSenha('passStrengthBar','passStrengthHint');
   if(user){document.getElementById('blocoLogado').style.display='block';document.getElementById('blocoVisitante').style.display='none';}
   else{document.getElementById('blocoLogado').style.display='none';document.getElementById('blocoVisitante').style.display='block';}
   document.getElementById('modalCriarSala').classList.add('open');
@@ -1033,12 +1442,24 @@ function validarLinkCustom(){
   if(val.length<3){hint.textContent='❌ Mínimo de 3 caracteres.';hint.className='link-hint bad';return false;}
   hint.textContent='✔ Link: ?room='+val;hint.className='link-hint ok';return true;
 }
+
 function confirmarCriarSalaCustom(){
   var val=document.getElementById('inputLinkCustom').value.trim();
   if(val!==''&&!validarLinkCustom())return;
-  fecharModal();criarSalaComId(val===''?gerarIdAleatorio():val);
+  var senhaSala='';
+  if(passAtivadoCriar){
+    senhaSala=document.getElementById('inputSenhaSala').value.trim();
+    if(!senhaSala){showToast('Digite a senha da sala ou desative a proteção','#dc3545');document.getElementById('inputSenhaSala').focus();return;}
+    if(senhaSala.length<4){showToast('Senha da sala precisa ter ao menos 4 caracteres','#dc3545');return;}
+  }
+  fecharModal();
+  criarSalaComId(val===''?gerarIdAleatorio():val, senhaSala||null);
 }
-function confirmarCriarSalaAleatorio(){fecharModal();criarSalaComId(gerarIdAleatorio());}
+
+function confirmarCriarSalaAleatorio(){
+  fecharModal();criarSalaComId(gerarIdAleatorio(),null);
+}
+
 function gerarIdAleatorio(){return Math.random().toString(36).substring(2,9).toUpperCase();}
 
 // ═══════════════════════════════════════════════════════
@@ -1125,19 +1546,12 @@ function qrlConfirmar(){
 // ═══════════════════════════════════════════════════════
 //  SALA DE ESPERA — SISTEMA DE APROVAÇÃO
 // ═══════════════════════════════════════════════════════
-// Mapa de guests aguardando aprovação: peerId -> {nome, cor, dataConn, timer}
 var filaAprovacao={};
-var ADMIT_TIMEOUT=30; // segundos para auto-rejeitar se host não responder
+var ADMIT_TIMEOUT=30;
 
-/**
- * HOST: Recebe um pedido de entrada e exibe o card de aprovação
- */
 function receberPedidoEntrada(pid, nome, cor, dataConn){
-  if(filaAprovacao[pid])return; // já está na fila
-
+  if(filaAprovacao[pid])return;
   filaAprovacao[pid]={nome:nome,cor:cor,dataConn:dataConn,segundosRestantes:ADMIT_TIMEOUT};
-
-  // Som de knock (2 notas graves)
   try{
     var ctx=getAudioCtx();
     var g=ctx.createGain();g.gain.setValueAtTime(0.25,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
@@ -1147,26 +1561,17 @@ function receberPedidoEntrada(pid, nome, cor, dataConn){
       o.connect(g);o.start(ctx.currentTime+i*0.18);o.stop(ctx.currentTime+i*0.18+0.25);
     });
   }catch(e){}
-
   renderAdmitCard(pid);
   atualizarContadorEspera();
-
-  // Notificação nativa
   if('Notification' in window&&Notification.permission==='granted'){
     try{new Notification('NexMeet — 🚪 '+nome+' quer entrar',{body:'Aprovação necessária'});}catch(e){}
   }
-
-  // Timer de auto-rejeição
   filaAprovacao[pid].timerInterval=setInterval(function(){
     if(!filaAprovacao[pid])return;
     filaAprovacao[pid].segundosRestantes--;
-    // Atualiza barra visual do card
     var barEl=document.getElementById('admit-bar-'+pid);
     if(barEl)barEl.style.width=((filaAprovacao[pid].segundosRestantes/ADMIT_TIMEOUT)*100)+'%';
-    if(filaAprovacao[pid].segundosRestantes<=0){
-      // Auto-rejeitar por timeout
-      recusarEntrada(pid,true);
-    }
+    if(filaAprovacao[pid].segundosRestantes<=0){recusarEntrada(pid,true);}
   },1000);
 }
 
@@ -1175,8 +1580,7 @@ function renderAdmitCard(pid){
   if(document.getElementById('admit-'+pid))return;
   var info=filaAprovacao[pid];
   var card=document.createElement('div');
-  card.className='admit-card';
-  card.id='admit-'+pid;
+  card.className='admit-card';card.id='admit-'+pid;
   card.innerHTML=
     '<div class="admit-header">'+
       '<div class="admit-avatar" style="background:'+(info.cor||'#007BFF')+'">'+inicialNome(info.nome)+'</div>'+
@@ -1187,119 +1591,75 @@ function renderAdmitCard(pid){
     '</div>'+
     '<div class="admit-actions">'+
       '<button class="admit-btn admit-btn-allow" onclick="aprovarEntrada(\''+pid+'\')">'+
-        '<i class="bi bi-check-lg"></i> Permitir'+
-      '</button>'+
+        '<i class="bi bi-check-lg"></i> Permitir</button>'+
       '<button class="admit-btn admit-btn-deny" onclick="recusarEntrada(\''+pid+'\')">'+
-        '<i class="bi bi-x-lg"></i> Recusar'+
-      '</button>'+
+        '<i class="bi bi-x-lg"></i> Recusar</button>'+
     '</div>'+
     '<div class="admit-timer-bar"><div class="admit-timer-fill" id="admit-bar-'+pid+'" style="width:100%"></div></div>';
   fila.appendChild(card);
 }
 
-function removerAdmitCard(pid, animar){
-  var card=document.getElementById('admit-'+pid);
-  if(!card)return;
-  if(animar){
-    card.classList.add('leaving');
-    setTimeout(function(){if(card.parentNode)card.parentNode.removeChild(card);},280);
-  }else{
-    if(card.parentNode)card.parentNode.removeChild(card);
-  }
+function removerAdmitCard(pid,animar){
+  var card=document.getElementById('admit-'+pid);if(!card)return;
+  if(animar){card.classList.add('leaving');setTimeout(function(){if(card.parentNode)card.parentNode.removeChild(card);},280);}
+  else{if(card.parentNode)card.parentNode.removeChild(card);}
 }
 
 function aprovarEntrada(pid){
-  var info=filaAprovacao[pid];
-  if(!info)return;
+  var info=filaAprovacao[pid];if(!info)return;
   clearInterval(info.timerInterval);
-
-  // Manda mensagem de aprovação pro guest via DataConnection já aberta
-  if(info.dataConn&&info.dataConn.open){
-    info.dataConn.send({type:'ADMIT_APPROVED'});
-  }
-
-  // Cria a entrada real do peer na sala
+  if(info.dataConn&&info.dataConn.open){info.dataConn.send({type:'ADMIT_APPROVED'});}
   if(!peers[pid])peers[pid]={call:null,dataConn:info.dataConn,stream:null,muted:false,nome:info.nome,cor:info.cor};
   else{peers[pid].dataConn=info.dataConn;peers[pid].nome=info.nome;peers[pid].cor=info.cor;}
-
   criarVboxRemoto(pid,info.nome,info.cor);
-
-  // Notifica outros guests sobre o novo participante
   Object.keys(peers).forEach(function(otherId){
     if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
       peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:info.nome,cor:info.cor});
     }
   });
-
-  // Escuta chamada de vídeo desse peer (ele ligará após aprovação)
-  // (já escutado globalmente no peer.on('call'))
-
   adicionarNotificacao('join',info.nome,info.cor,info.nome+' entrou na reunião');
-  tocarSomAprovacao();
-  setStatus('Participante(s) conectado(s)','connected');
-
-  delete filaAprovacao[pid];
-  removerAdmitCard(pid,true);
-  atualizarContadorEspera();
+  tocarSomAprovacao();setStatus('Participante(s) conectado(s)','connected');
+  delete filaAprovacao[pid];removerAdmitCard(pid,true);atualizarContadorEspera();
   showToast(info.nome+' foi admitido na reunião','#28A745');
 }
 
-function recusarEntrada(pid, porTimeout){
-  var info=filaAprovacao[pid];
-  if(!info)return;
+function recusarEntrada(pid,porTimeout){
+  var info=filaAprovacao[pid];if(!info)return;
   clearInterval(info.timerInterval);
-
   if(info.dataConn&&info.dataConn.open){
     info.dataConn.send({type:'ADMIT_DENIED'});
     setTimeout(function(){try{info.dataConn.close();}catch(e){}},500);
   }
-
-  delete filaAprovacao[pid];
-  removerAdmitCard(pid,true);
-  atualizarContadorEspera();
+  delete filaAprovacao[pid];removerAdmitCard(pid,true);atualizarContadorEspera();
   if(!porTimeout)showToast('Entrada de '+(info.nome||'participante')+' recusada','#dc3545');
 }
 
 function atualizarContadorEspera(){
   var n=Object.keys(filaAprovacao).length;
-  var el=document.getElementById('waitingCount');
-  var num=document.getElementById('waitingCountNum');
+  var el=document.getElementById('waitingCount');var num=document.getElementById('waitingCountNum');
   if(!el||!num)return;
   num.textContent=n;
-  if(n>0&&souHost)el.classList.add('show');
-  else el.classList.remove('show');
+  if(n>0&&souHost)el.classList.add('show');else el.classList.remove('show');
 }
 
 function focarFilaAprovacao(){
-  // Pisca levemente os cards de aprovação para chamar atenção
   document.querySelectorAll('.admit-card').forEach(function(c){
-    c.style.transition='transform .1s';
-    c.style.transform='scale(1.03)';
+    c.style.transition='transform .1s';c.style.transform='scale(1.03)';
     setTimeout(function(){c.style.transform='scale(1)';},150);
   });
 }
 
-/**
- * GUEST: Exibe a sala de espera até receber ADMIT_APPROVED ou ADMIT_DENIED
- */
 function mostrarSalaEspera(){
   var user=currentUser();
-  var nome=user?user.nome.split(' ')[0]:'Você';
-  var cor=user?(user.cor||'#007BFF'):'#007BFF';
-  var av=document.getElementById('wrUserAv');
-  av.textContent=inicialNome(nome);av.style.background=cor;
+  var nome=user?user.nome.split(' ')[0]:'Você';var cor=user?(user.cor||'#007BFF'):'#007BFF';
+  var av=document.getElementById('wrUserAv');av.textContent=inicialNome(nome);av.style.background=cor;
   document.getElementById('wrUserName').textContent=nome;
   document.getElementById('waitingRoomOverlay').classList.add('show');
 }
 
-function esconderSalaEspera(){
-  document.getElementById('waitingRoomOverlay').classList.remove('show');
-}
+function esconderSalaEspera(){document.getElementById('waitingRoomOverlay').classList.remove('show');}
 
-function cancelarEntrada(){
-  esconderSalaEspera();
-  sair();
-}
+function cancelarEntrada(){esconderSalaEspera();sair();}
 
 // ═══════════════════════════════════════════════════════
 //  WEBRTC / MEET
@@ -1315,8 +1675,7 @@ function corLocal(){var u=currentUser();return u?(u.cor||'#007BFF'):'#007BFF';}
 function atualizarContador(){
   var total=Object.keys(peers).filter(function(k){return peers[k]!==null;}).length+1;
   document.getElementById('partCount').textContent=total;
-  var area=document.getElementById('videosArea');
-  area.className='videos';
+  var area=document.getElementById('videosArea');area.className='videos';
   if(total===1)area.classList.add('solo');
   else if(total===2)area.classList.add('duo');
   else if(total<=4)area.classList.add('quad');
@@ -1324,11 +1683,9 @@ function atualizarContador(){
 }
 
 function criarVboxLocal(){
-  var area=document.getElementById('videosArea');
-  if(document.getElementById('vbox-local'))return;
+  var area=document.getElementById('videosArea');if(document.getElementById('vbox-local'))return;
   var ini=inicialNome(nomeLocal());var cor=corLocal();
-  var div=document.createElement('div');
-  div.className='vbox local-box';div.id='vbox-local';
+  var div=document.createElement('div');div.className='vbox local-box';div.id='vbox-local';
   div.innerHTML='<video id="videoLocal" autoplay playsinline muted></video>'+
     '<div class="placeholder" id="placeholderLocal">'+
       '<div class="av-circle" style="background:'+cor+'">'+ini+'</div>'+
@@ -1344,11 +1701,8 @@ function criarVboxLocal(){
 function criarVboxRemoto(pid,nome,cor){
   if(document.getElementById('vbox-'+pid))return;
   var area=document.getElementById('videosArea');
-  var isHost=(pid===hostId);
-  var nomeExib=nome||(isHost?'Host':'Participante');
-  var bgCor=cor||'#555';
-  var ini=inicialNome(nomeExib);
-  var div=document.createElement('div');
+  var isHost=(pid===hostId);var nomeExib=nome||(isHost?'Host':'Participante');var bgCor=cor||'#555';
+  var ini=inicialNome(nomeExib);var div=document.createElement('div');
   div.className='vbox';div.id='vbox-'+pid;
   div.innerHTML='<video autoplay playsinline id="vid-'+pid+'"></video>'+
     '<div class="placeholder" id="ph-'+pid+'">'+
@@ -1376,11 +1730,19 @@ function mostrarStreamRemoto(pid,stream){
   if(v)v.srcObject=stream;if(ph)ph.style.display='none';
 }
 
-function criarSalaComId(id){
+function criarSalaComId(id, senhaDaSala){
   roomId=id;history.replaceState(null,'','?room='+roomId);
   hostId='nexmeet-'+roomId+'-host';
   document.getElementById('linkInput').value=window.location.href;
-  showPage('meet');pedirCameraEConectar();
+  showPage('meet');
+  // Configura senha se fornecida
+  if(senhaDaSala){
+    definirSenhaSala(roomId, senhaDaSala);
+  }else{
+    // Remove senha antiga se existia
+    removerSenhaSala(roomId);
+  }
+  pedirCameraEConectar();
   if('Notification' in window&&Notification.permission==='default'){Notification.requestPermission();}
 }
 
@@ -1422,54 +1784,71 @@ function pedirCameraEConectar(){
 function ativarModoHost(){
   document.getElementById('hostBadge').style.display='inline-block';
   document.getElementById('btnTela').style.display='flex';
+  // Mostra botão de senha só pro host logado
+  var user=currentUser();
+  if(user){
+    document.getElementById('btnSenha').style.display='flex';
+    atualizarBadgeSenha(salaTemSenha(roomId));
+  }
   setStatus('Sala criada! Aguardando participantes...','waiting');
   peers['__host_self__']=null;
 }
 
 function infoLocal(){var u=currentUser();return{nome:u?u.nome.split(' ')[0]:'Usuário',cor:u?(u.cor||'#007BFF'):'#007BFF'};}
 
+function broadcastParaGuests(msg){
+  Object.keys(peers).forEach(function(pid){
+    if(pid!=='__host_self__'&&peers[pid]&&peers[pid].dataConn&&peers[pid].dataConn.open){
+      peers[pid].dataConn.send(msg);
+    }
+  });
+}
+
 function escutarConexoes(){
-  // Escuta chamadas de vídeo (só chegam após aprovação)
   peer.on('call',function(call){
     var pid=call.peer;
     if(!peers[pid])peers[pid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
     call.answer(localStream||new MediaStream());peers[pid].call=call;
     call.on('stream',function(s){peers[pid].stream=s;mostrarStreamRemoto(pid,s);});
     call.on('close',function(){
-      var nomeP=peers[pid]?peers[pid].nome:'Participante';
-      var corP=peers[pid]?peers[pid].cor:'#555';
+      var nomeP=peers[pid]?peers[pid].nome:'Participante';var corP=peers[pid]?peers[pid].cor:'#555';
       if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
       removerVboxRemoto(pid);
     });
     setStatus('Participante(s) conectado(s)','connected');
   });
 
-  // Escuta conexões de dados (chegam antes da aprovação — guest bate na porta)
   peer.on('connection',function(conn){
     var pid=conn.peer;
-    conn.on('open',function(){
-      // Não adicionamos ao mapa de peers ainda — fica na fila de aprovação
-    });
+    conn.on('open',function(){});
     conn.on('data',function(msg){
       if(msg&&msg.type==='KNOCK'){
-        // Guest está pedindo para entrar
-        var nomeNovo=msg.nome||'Participante';
-        var corNova=msg.cor||'#555';
-        // Coloca na fila de aprovação
-        receberPedidoEntrada(pid,nomeNovo,corNova,conn);
-      } else if(msg&&msg.type==='HELLO'){
-        // Mensagem pós-aprovação: registrar e notificar outros
+        // Verifica senha antes de colocar na fila de aprovação
+        if(salaTemSenha(roomId)){
+          // Manda pedido de senha pro guest
+          conn.send({type:'ROOM_NEEDS_PASSWORD'});
+        }else{
+          receberPedidoEntrada(pid,msg.nome||'Participante',msg.cor||'#555',conn);
+        }
+      }else if(msg&&msg.type==='PASSWORD_RESPONSE'){
+        // Guest enviou a senha
+        var senhaCorreta=verificarSenhaSala(roomId,msg.password||'');
+        if(senhaCorreta){
+          conn.send({type:'PASSWORD_OK'});
+          receberPedidoEntrada(pid,msg.nome||'Participante',msg.cor||'#555',conn);
+        }else{
+          conn.send({type:'PASSWORD_WRONG',tentativa:msg.tentativa||1});
+        }
+      }else if(msg&&msg.type==='HELLO'){
         var nomeNovo=msg.nome||'Participante';var corNova=msg.cor||'#555';
         if(!peers[pid])peers[pid]={call:null,dataConn:conn,stream:null,muted:false,nome:nomeNovo,cor:corNova};
         else{peers[pid].dataConn=conn;peers[pid].nome=nomeNovo;peers[pid].cor=corNova;}
-        // Notifica outros guests
         Object.keys(peers).forEach(function(otherId){
           if(otherId!==pid&&otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
             peers[otherId].dataConn.send({type:'NEW_PEER',peerId:pid,nome:nomeNovo,cor:corNova});
           }
         });
-      } else if(msg&&msg.type==='HELLO_AFTER_ADMIT'){
-        // Primeiro HELLO depois de ser aprovado — manda lista de peers
+      }else if(msg&&msg.type==='HELLO_AFTER_ADMIT'){
         var lista=Object.keys(peers).filter(function(id){return id!==pid&&id!=='__host_self__'&&peers[id]!==null;})
           .map(function(id){return{id:id,nome:peers[id].nome||'Participante',cor:peers[id].cor||'#555'};});
         var info=infoLocal();
@@ -1477,82 +1856,116 @@ function escutarConexoes(){
       }
     });
     conn.on('close',function(){
-      // Remove da fila se ainda estava esperando
       if(filaAprovacao[pid]){
-        clearInterval(filaAprovacao[pid].timerInterval);
-        delete filaAprovacao[pid];
-        removerAdmitCard(pid,false);
-        atualizarContadorEspera();
-        return;
+        clearInterval(filaAprovacao[pid].timerInterval);delete filaAprovacao[pid];
+        removerAdmitCard(pid,false);atualizarContadorEspera();return;
       }
-      var nomeP=peers[pid]?peers[pid].nome:'Participante';
-      var corP=peers[pid]?peers[pid].cor:'#555';
+      var nomeP=peers[pid]?peers[pid].nome:'Participante';var corP=peers[pid]?peers[pid].cor:'#555';
       if(souHost){adicionarNotificacao('left',nomeP,corP,nomeP+' saiu da reunião');}
       removerVboxRemoto(pid);
-      Object.keys(peers).forEach(function(otherId){
-        if(otherId!=='__host_self__'&&peers[otherId]&&peers[otherId].dataConn&&peers[otherId].dataConn.open){
-          peers[otherId].dataConn.send({type:'PEER_LEFT',peerId:pid});
-        }
-      });
+      broadcastParaGuests({type:'PEER_LEFT',peerId:pid});
     });
   });
 }
+
+// ── Guest: lida com senha durante a entrada ──────────────
+var guestSenhaAttempts=0;
+var guestDataConnPendente=null;
 
 function entrarComoGuest(){
   peer=new Peer();
   peer.on('open',function(id){
     myPeerId=id;souHost=false;setStatus('Conectando ao host...','waiting');
-    // Primeiro conecta via dados para bater na porta
     var dataConn=peer.connect(hostId);
     if(!peers[hostId])peers[hostId]={call:null,dataConn:null,stream:null,muted:false,nome:'Host',cor:'#007BFF'};
     peers[hostId].dataConn=dataConn;
+    guestSenhaAttempts=0;
 
     dataConn.on('open',function(){
       var info=infoLocal();
-      // Bate na porta — manda KNOCK em vez de HELLO direto
+      guestDataConnPendente=dataConn;
+      // Bate na porta
       dataConn.send({type:'KNOCK',peerId:id,nome:info.nome,cor:info.cor});
-      // Mostra sala de espera
-      mostrarSalaEspera();
-      setStatus('Aguardando aprovação do host...','waiting');
+      setStatus('Aguardando...','waiting');
     });
 
     dataConn.on('data',function(msg){
-      if(msg&&msg.type==='ADMIT_APPROVED'){
-        // Host aprovou! Entrar de verdade
+      if(msg&&msg.type==='ROOM_NEEDS_PASSWORD'){
+        // Sala tem senha — mostra tela de senha
+        setStatus('Sala protegida com senha...','waiting');
+        mostrarTelaSenha(function(){
+          // Callback: quando senha local verificada pelo guest (hash match não funciona aqui pois guest não tem hash)
+          // Na verdade, a verificação é feita pelo HOST. Então usamos outro fluxo:
+        });
+        // Na arquitetura P2P, o guest envia a senha para o host validar
+        // Substituímos o callback para coletar e enviar
+        rpCallbackAposVerificacao=null; // não usar callback local
+        // Override da confirmação
+        document.getElementById('rpConfirmBtn').onclick=function(){
+          guestEnviarSenha(dataConn, id);
+        };
+        document.getElementById('rpSenhaInput').onkeydown=function(e){
+          if(e.key==='Enter')guestEnviarSenha(dataConn,id);
+        };
+      }else if(msg&&msg.type==='PASSWORD_OK'){
+        // Senha aceita pelo host — segue normalmente
+        esconderTelaSenha();
+        showToast('Senha aceita! Aguardando aprovação...','#28A745');
+        // Mostra sala de espera se necessário
+        mostrarSalaEspera();
+        setStatus('Aguardando aprovação do host...','waiting');
+      }else if(msg&&msg.type==='PASSWORD_WRONG'){
+        // Senha errada — feedback na tela
+        guestSenhaAttempts=(msg.tentativa||guestSenhaAttempts)+1;
+        var restantes=RP_MAX_ATTEMPTS-guestSenhaAttempts;
+        var errEl=document.getElementById('rpErr');
+        var attEl=document.getElementById('rpAttempts');
+        var inp=document.getElementById('rpSenhaInput');
+        inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');
+        inp.value='';inp.focus();
+        if(errEl)errEl.textContent='Senha incorreta.';
+        if(restantes<=0){
+          if(errEl)errEl.textContent='Muitas tentativas. Saindo...';
+          document.getElementById('rpConfirmBtn').disabled=true;
+          setTimeout(function(){esconderTelaSenha();sair();},2000);
+        }else{
+          if(attEl){
+            attEl.className='rp-attempts '+(restantes<=2?'danger':'warn');
+            attEl.textContent=restantes+' tentativa(s) restante(s)';
+          }
+        }
+      }else if(msg&&msg.type==='ADMIT_APPROVED'){
         esconderSalaEspera();
         setStatus('Entrada aprovada! Conectando...','waiting');
         showToast('Você foi admitido na reunião!','#28A745');
         var info=infoLocal();
-        // Manda HELLO_AFTER_ADMIT para host enviar lista de peers
         dataConn.send({type:'HELLO_AFTER_ADMIT',peerId:id,nome:info.nome,cor:info.cor});
-        // Liga para o host
         ligarPara(hostId);
-      } else if(msg&&msg.type==='ADMIT_DENIED'){
-        // Host recusou
+      }else if(msg&&msg.type==='ADMIT_DENIED'){
         esconderSalaEspera();
         setStatus('Entrada recusada','error');
         showToast('O host não permitiu sua entrada','#dc3545');
         setTimeout(function(){sair();},2200);
-      } else {
+      }else if(msg&&msg.type==='ROOM_PASS_CHANGE'){
+        // Host mudou/removeu senha durante reunião — atualiza badge
+        atualizarBadgeSenha(msg.temSenha);
+      }else{
         processarMensagemGuest(msg);
       }
     });
 
     dataConn.on('close',function(){
-      esconderSalaEspera();
-      // Se ainda estava esperando, host encerrou
+      esconderSalaEspera();esconderTelaSenha();
       if(document.getElementById('waitingRoomOverlay').classList.contains('show')){
         showToast('Host encerrou a sala','#dc3545');sair();return;
       }
       removerVboxRemoto(hostId);showToast('Host encerrou a sala','#dc3545');
     });
 
-    // Escuta chamadas e conexões de outros guests (após aprovação)
     peer.on('call',function(call){
       var cpid=call.peer;
       if(!peers[cpid])peers[cpid]={call:null,dataConn:null,stream:null,muted:false,nome:'Participante',cor:'#555'};
-      call.answer(localStream||new MediaStream());
-      peers[cpid].call=call;
+      call.answer(localStream||new MediaStream());peers[cpid].call=call;
       call.on('stream',function(s){peers[cpid].stream=s;mostrarStreamRemoto(cpid,s);});
       call.on('close',function(){removerVboxRemoto(cpid);});
     });
@@ -1565,6 +1978,15 @@ function entrarComoGuest(){
     });
   });
   peer.on('error',function(err){setStatus('Erro: '+err.type,'error');});
+}
+
+function guestEnviarSenha(dataConn, peerId){
+  var v=document.getElementById('rpSenhaInput').value;
+  var errEl=document.getElementById('rpErr');
+  if(!v){if(errEl)errEl.textContent='Digite a senha da sala.';return;}
+  var info=infoLocal();
+  dataConn.send({type:'PASSWORD_RESPONSE',password:v,peerId:peerId,nome:info.nome,cor:info.cor,tentativa:guestSenhaAttempts+1});
+  document.getElementById('rpSenhaInput').value='';
 }
 
 function processarMensagemGuest(msg){
@@ -1581,7 +2003,7 @@ function processarMensagemGuest(msg){
       dc.on('data',function(m){processarMensagemGuest(m);});
     });
     setStatus(msg.peers.length>0?'Conectado! '+(msg.peers.length+1)+' participante(s)':'Na sala! Aguardando mais...','connected');
-  } else if(msg.type==='NEW_PEER'){
+  }else if(msg.type==='NEW_PEER'){
     if(msg.peerId===myPeerId)return;
     criarVboxRemoto(msg.peerId,msg.nome,msg.cor);ligarPara(msg.peerId);
     var dc2=peer.connect(msg.peerId);
@@ -1589,15 +2011,16 @@ function processarMensagemGuest(msg){
     else peers[msg.peerId].dataConn=dc2;
     dc2.on('data',function(m){processarMensagemGuest(m);});
     showToast('Novo participante entrou!');
-  } else if(msg.type==='PEER_LEFT'){
+  }else if(msg.type==='PEER_LEFT'){
     removerVboxRemoto(msg.peerId);
-  } else if(msg.type==='MUTE'){
+  }else if(msg.type==='MUTE'){
     if(localStream){localStream.getAudioTracks().forEach(function(t){t.enabled=false;});micOn=false;document.getElementById('icoMic').className='bi bi-mic-mute-fill';document.getElementById('btnMic').classList.add('off');showToast('O host mutou seu microfone','#fd7e14');}
-  } else if(msg.type==='UNMUTE'){
+  }else if(msg.type==='UNMUTE'){
     if(localStream){localStream.getAudioTracks().forEach(function(t){t.enabled=true;});micOn=true;document.getElementById('icoMic').className='bi bi-mic-fill';document.getElementById('btnMic').classList.remove('off');showToast('Microfone reativado','#28A745');}
-  } else if(msg.type==='KICK'){
-    showToast('Você foi removido pelo host','#dc3545');
-    setTimeout(function(){sair();},1800);
+  }else if(msg.type==='KICK'){
+    showToast('Você foi removido pelo host','#dc3545');setTimeout(function(){sair();},1800);
+  }else if(msg.type==='ROOM_PASS_CHANGE'){
+    atualizarBadgeSenha(msg.temSenha);
   }
 }
 
@@ -1633,25 +2056,20 @@ async function toggleTela(){
     try{
       screenStream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});
       compartilhandoTela=true;
-      document.getElementById('btnTela').classList.add('active-screen');
-      document.getElementById('icoTela').className='bi bi-display-fill';
-      showToast('Compartilhando tela');
+      document.getElementById('btnTela').classList.add('active-screen');document.getElementById('icoTela').className='bi bi-display-fill';showToast('Compartilhando tela');
       var vt=screenStream.getVideoTracks()[0];
       Object.values(peers).forEach(function(p){if(!p||!p.call)return;var pc=p.call.peerConnection;if(!pc)return;var s=pc.getSenders().find(function(s){return s.track&&s.track.kind==='video';});if(s)s.replaceTrack(vt);});
       screenStream.getVideoTracks()[0].onended=function(){pararTela();};
       document.getElementById('screenPreviewVideo').srcObject=screenStream;
-      document.getElementById('screenPreview').style.display='block';
-      ativarDrag(document.getElementById('screenPreview'));
+      document.getElementById('screenPreview').style.display='block';ativarDrag(document.getElementById('screenPreview'));
     }catch(e){showToast('Compartilhamento cancelado','#fd7e14');}
   }else{pararTela();}
 }
 
 function pararTela(){
   compartilhandoTela=false;
-  document.getElementById('btnTela').classList.remove('active-screen');
-  document.getElementById('icoTela').className='bi bi-display';
-  document.getElementById('screenPreview').style.display='none';
-  document.getElementById('screenPreviewVideo').srcObject=null;
+  document.getElementById('btnTela').classList.remove('active-screen');document.getElementById('icoTela').className='bi bi-display';
+  document.getElementById('screenPreview').style.display='none';document.getElementById('screenPreviewVideo').srcObject=null;
   if(localStream){var ct=localStream.getVideoTracks()[0];Object.values(peers).forEach(function(p){if(!p||!p.call)return;var pc=p.call.peerConnection;if(!pc)return;var s=pc.getSenders().find(function(s){return s.track&&s.track.kind==='video';});if(s&&ct)s.replaceTrack(ct);});}
   if(screenStream){screenStream.getTracks().forEach(function(t){t.stop();});screenStream=null;}
   showToast('Compartilhamento encerrado','#fd7e14');
@@ -1779,21 +2197,21 @@ function sair(){
   if(compartilhandoTela)pararTela();
   if(document.pictureInPictureElement)document.exitPictureInPicture().catch(function(){});
   esconderMiniPlayer();document.getElementById('pipBanner').classList.remove('show');pipAtivo=false;
-  esconderSalaEspera();
-  // Limpa fila de aprovação
+  esconderSalaEspera();esconderTelaSenha();
   Object.keys(filaAprovacao).forEach(function(pid){
     clearInterval(filaAprovacao[pid].timerInterval);
     if(filaAprovacao[pid].dataConn)try{filaAprovacao[pid].dataConn.close();}catch(e){}
   });
-  filaAprovacao={};
-  document.getElementById('admitQueue').innerHTML='';
-  atualizarContadorEspera();
+  filaAprovacao={};document.getElementById('admitQueue').innerHTML='';atualizarContadorEspera();
   Object.values(peers).forEach(function(p){if(!p)return;if(p.call)p.call.close();if(p.dataConn)p.dataConn.close();});
   if(localStream)localStream.getTracks().forEach(function(t){t.stop();});
   if(peer)peer.destroy();
-  localStream=null;peer=null;peers={};myPeerId=null;
+  localStream=null;peer=null;peers={};myPeerId=null;souHost=false;salaAtualSenha=null;
   history.replaceState(null,'',window.location.pathname);
-  document.getElementById('videosArea').innerHTML='';showPage('home');
+  document.getElementById('videosArea').innerHTML='';
+  document.getElementById('roomLockedBadge').classList.remove('show');
+  document.getElementById('btnSenha').style.display='none';
+  showPage('home');
 }
 function sairReal(){esconderMiniPlayer();sair();}
 
@@ -1839,10 +2257,8 @@ function abrirPerfil(){
   document.getElementById('perfilEmailInput').value=user.email;
   document.getElementById('perfilSenhaInput').value='';
   document.getElementById('perfilSenha2Input').value='';
-  renderColorGrid(user.cor||'#007BFF');
-  renderBgGallery();
-  showPage('perfil');
-  setTimeout(gerarQRToken,150);
+  renderColorGrid(user.cor||'#007BFF');renderBgGallery();
+  showPage('perfil');setTimeout(gerarQRToken,150);
 }
 
 function renderColorGrid(corAtual){
@@ -1865,8 +2281,7 @@ function renderColorGrid(corAtual){
 function renderBgGallery(){
   var gallery=document.getElementById('bgGallery');gallery.innerHTML='';var cfg=getBgConfig();
   var uploadBtn=document.createElement('label');uploadBtn.className='bg-upload-btn';uploadBtn.htmlFor='perfilBgUpload';
-  uploadBtn.innerHTML='<i class="bi bi-cloud-arrow-up-fill"></i><span>Enviar imagem</span>';
-  gallery.appendChild(uploadBtn);
+  uploadBtn.innerHTML='<i class="bi bi-cloud-arrow-up-fill"></i><span>Enviar imagem</span>';gallery.appendChild(uploadBtn);
   var uploads=getUserUploads();
   uploads.forEach(function(up,i){
     var d=document.createElement('div');var isSel=(cfg.type==='upload'&&cfg.id===up.id);
